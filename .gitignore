@@ -3,7 +3,6 @@
 .metals
 .bsp
 .vscode
-project
 .bloo
-\project\*
-\target\*
+project/
+target/
