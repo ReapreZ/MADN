@@ -13,7 +13,7 @@ def cell(Cell: Int = cellnumber, Player: Int = playernumber) =
   ("x" + ("_" * Cell * playernumber)) * Player + eol * eolA
 
 def house(Amount: Int = housenumber, Player: Int = playernumber) =
-  (("h") * Amount + "  ") * Player + eol * eolA
+  (("A") * Amount + "  ") * Player + eol * eolA
 
 def finish(Amount: Int = housenumber, Player: Int = playernumber) =
   (("-") * Amount + "  ") * Player + eol * eolA
