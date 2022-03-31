@@ -11,22 +11,22 @@
 [0m[[0m[0mdebug[0m] [0m[0mInvalidated products: Set()[0m
 [0m[[0m[0mdebug[0m] [0m[0mExternal API changes: API Changes: Set()[0m
 [0m[[0m[0mdebug[0m] [0m[0mModified binary dependencies: Set()[0m
-[0m[[0m[0mdebug[0m] [0m[0mInitial directly invalidated classes: Set(MADN, Main$package)[0m
+[0m[[0m[0mdebug[0m] [0m[0mInitial directly invalidated classes: Set(Main$package, MADN)[0m
 [0m[[0m[0mdebug[0m] [0m[0mSources indirectly invalidated by:[0m
 [0m[[0m[0mdebug[0m] [0m[0m	product: Set()[0m
 [0m[[0m[0mdebug[0m] [0m[0m	binary dep: Set()[0m
 [0m[[0m[0mdebug[0m] [0m[0m	external source: Set()[0m
 [0m[[0m[0mdebug[0m] [0m[0mall 1 sources are invalidated[0m
-[0m[[0m[0mdebug[0m] [0m[0mInitial set of included nodes: MADN, Main$package[0m
+[0m[[0m[0mdebug[0m] [0m[0mInitial set of included nodes: Main$package, MADN[0m
 [0m[[0m[0mdebug[0m] [0m[0mRecompiling all sources: number of invalidated sources > 50.0% of all sources[0m
 [0m[[0m[0mdebug[0m] [0m[0mcompilation cycle 1[0m
-[0m[[0m[0minfo[0m] [0m[0mcompiling 1 Scala source to C:\Software-Engineering\se01\target\scala-3.1.1\classes ...[0m
+[0m[[0m[0minfo[0m] [0m[0mcompiling 1 Scala source to C:\Software-Engineering\MADNnew\MADN\target\scala-3.1.1\classes ...[0m
 [0m[[0m[0mdebug[0m] [0m[0mReturning already retrieved and compiled bridge: C:\Users\Can\AppData\Local\Coursier\Cache\v1\https\repo1.maven.org\maven2\org\scala-lang\scala3-sbt-bridge\3.1.1\scala3-sbt-bridge-3.1.1.jar.[0m
-[0m[[0m[0mdebug[0m] [0m[0m[zinc] Running cached compiler 61d6827d for Scala Compiler version 3.1.1[0m
+[0m[[0m[0mdebug[0m] [0m[0m[zinc] Running cached compiler 2dadc6be for Scala Compiler version 3.1.1[0m
 [0m[[0m[0mdebug[0m] [0m[0m[zinc] The Scala compiler is invoked with:[0m
 [0m[[0m[0mdebug[0m] [0m[0m	-bootclasspath[0m
 [0m[[0m[0mdebug[0m] [0m[0m	C:\Users\Can\AppData\Local\Coursier\cache\arc\https\github.com\AdoptOpenJDK\openjdk8-binaries\releases\download\jdk8u292-b10\OpenJDK8U-jdk_x64_windows_hotspot_8u292b10.zip\jdk8u292-b10\jre\lib\resources.jar;C:\Users\Can\AppData\Local\Coursier\cache\arc\https\github.com\AdoptOpenJDK\openjdk8-binaries\releases\download\jdk8u292-b10\OpenJDK8U-jdk_x64_windows_hotspot_8u292b10.zip\jdk8u292-b10\jre\lib\rt.jar;C:\Users\Can\AppData\Local\Coursier\cache\arc\https\github.com\AdoptOpenJDK\openjdk8-binaries\releases\download\jdk8u292-b10\OpenJDK8U-jdk_x64_windows_hotspot_8u292b10.zip\jdk8u292-b10\jre\lib\sunrsasign.jar;C:\Users\Can\AppData\Local\Coursier\cache\arc\https\github.com\AdoptOpenJDK\openjdk8-binaries\releases\download\jdk8u292-b10\OpenJDK8U-jdk_x64_windows_hotspot_8u292b10.zip\jdk8u292-b10\jre\lib\jsse.jar;C:\Users\Can\AppData\Local\Coursier\cache\arc\https\github.com\AdoptOpenJDK\openjdk8-binaries\releases\download\jdk8u292-b10\OpenJDK8U-jdk_x64_windows_hotspot_8u292b10.zip\jdk8u292-b10\jre\lib\jce.jar;C:\Users\Can\AppData\Local\Coursier\cache\arc\https\github.com\AdoptOpenJDK\openjdk8-binaries\releases\download\jdk8u292-b10\OpenJDK8U-jdk_x64_windows_hotspot_8u292b10.zip\jdk8u292-b10\jre\lib\charsets.jar;C:\Users\Can\AppData\Local\Coursier\cache\arc\https\github.com\AdoptOpenJDK\openjdk8-binaries\releases\download\jdk8u292-b10\OpenJDK8U-jdk_x64_windows_hotspot_8u292b10.zip\jdk8u292-b10\jre\lib\jfr.jar;C:\Users\Can\AppData\Local\Coursier\cache\arc\https\github.com\AdoptOpenJDK\openjdk8-binaries\releases\download\jdk8u292-b10\OpenJDK8U-jdk_x64_windows_hotspot_8u292b10.zip\jdk8u292-b10\jre\classes;C:\Users\Can\AppData\Local\Coursier\Cache\v1\https\repo1.maven.org\maven2\org\scala-lang\scala3-library_3\3.1.1\scala3-library_3-3.1.1.jar;C:\Users\Can\AppData\Local\Coursier\Cache\v1\https\repo1.maven.org\maven2\org\scala-lang\scala-library\2.13.6\scala-library-2.13.6.jar[0m
 [0m[[0m[0mdebug[0m] [0m[0m	-classpath[0m
-[0m[[0m[0mdebug[0m] [0m[0m	C:\Software-Engineering\se01\target\scala-3.1.1\classes[0m
-[0m[[0m[0mdebug[0m] [0m[0mScala compilation took 0.1013296 s[0m
+[0m[[0m[0mdebug[0m] [0m[0m	C:\Software-Engineering\MADNnew\MADN\target\scala-3.1.1\classes[0m
+[0m[[0m[0mdebug[0m] [0m[0mScala compilation took 3.2510539 s[0m
 [0m[[0m[0mdebug[0m] [0m[0mdone compiling[0m

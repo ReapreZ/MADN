@@ -4,4 +4,6 @@
 .bsp
 .vscode
 project
-.bloop
+.bloo
+\project\*
+\target\*
