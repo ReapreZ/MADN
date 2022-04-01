@@ -10,3 +10,6 @@ target/
 project/metals.sbt
 .target/
 project/target/
+src/main/scala/hello.tasty
+*.tasty
+src/main/scala/Main$package.tasty
