@@ -8,7 +8,7 @@ val eolA = 2
 val cellnumber = 2
 val playernumber = 3
 val housenumber = 2
-
+//test
 def cell(Cell: Int = cellnumber, Player: Int = playernumber) =
   ("x" + ("_" * Cell * playernumber)) * Player + eol * eolA
 
