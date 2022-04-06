@@ -1,4 +1,4 @@
-package MADN.model
+package model
 
 import org.scalatest.{Matchers, WordSpec}
 

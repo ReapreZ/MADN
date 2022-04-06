@@ -1,8 +1,7 @@
-package MADN.model
+package model
 
-case class field(value: Int) {
+case class field() {
 
-  // def field(Field: Int = fieldnumber, Player: Int = playernumber) =
+  // def cell(Cell: Int = cellnumber, Player: Int = playernumber) =
   // ("x" + ("_" * Cell * playernumber)) * Player + eol * eolA
-  def isSet: Boolean = value != 0
 }
