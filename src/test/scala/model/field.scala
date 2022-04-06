@@ -4,7 +4,7 @@ import org.scalatest.{Matchers, WordSpec}
 
 class field extends WordSpec with Matchers {
 
-  "Field" when {
+  "A Field" when {
     "not set any value" should {
       val emptyField = Field(0)
       "have value 0" in {
