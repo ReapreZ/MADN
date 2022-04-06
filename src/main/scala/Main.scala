@@ -9,7 +9,7 @@ val cellnumber = 2
 val playernumber = 3
 val housenumber = 2
 //test aaa
-def cell(Cell: Int = cellnumber, Player: Int = playernumber) =
+def field(Cell: Int = cellnumber, Player: Int = playernumber) =
   ("x" + ("_" * Cell * playernumber)) * Player + eol * eolA
 
 def house(Amount: Int = housenumber, Player: Int = playernumber) =
@@ -18,4 +18,4 @@ def house(Amount: Int = housenumber, Player: Int = playernumber) =
 def finish(Amount: Int = housenumber, Player: Int = playernumber) =
   (("-") * Amount + "  ") * Player + eol * eolA
 
-val mesh = cell() + house() + finish()
+val mesh = field() + house() + finish()
