@@ -1,12 +1,13 @@
 package model
+import org.scalatest._
+import matchers.should.Matchers
+import wordspec.AnyWordSpec
 
-import org.scalatest.{WordSpec, Matchers}
-
-class fieldSpec extends WordSpec with Matchers {
+class fieldSpec extends AnyWordSpec with Matchers {
 
   "A Field" when {
     "not set any value" should {
-      val emptyField = Field(0)
+      val emptyField = field(0)
       "have value 0" in {
         emptyField.value should be(0)
       }
@@ -15,7 +16,7 @@ class fieldSpec extends WordSpec with Matchers {
       }
     }
     "set to a specific value" should {
-      val nonEmptyField = Field(2)
+      val nonEmptyField = field(2)
       "return that value" in {
         nonEmptyField.value should be(2)
       }
