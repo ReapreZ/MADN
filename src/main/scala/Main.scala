@@ -9,7 +9,6 @@ val eolA = 2
 val fieldnumber = 2
 val playernumber = 2
 val housenumber = 2
-//test aaa
 def field(Field: Int = fieldnumber, Player: Int = playernumber) =
   ("x" + ("_" * Field * playernumber)) * Player + eol * eolA
 
