@@ -2,7 +2,7 @@ package model
 
 import org.scalatest.{Matchers, WordSpec}
 
-class field extends WordSpec with Matchers {
+class fieldSpec extends WordSpec with Matchers {
 
   "A Field" when {
     "not set any value" should {
