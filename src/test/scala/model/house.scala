@@ -1,3 +1,3 @@
 package model
 
-final case class house()
+case class house()

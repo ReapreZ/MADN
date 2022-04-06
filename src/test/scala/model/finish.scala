@@ -1,3 +1,3 @@
 package model
 
-final case class finish()
+case class finish()

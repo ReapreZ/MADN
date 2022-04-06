@@ -1,3 +1,3 @@
 package model
 
-final case class field()
+case class field()
