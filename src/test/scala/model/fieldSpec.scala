@@ -1,8 +1,6 @@
 package model
 
-import org.scalatest.wordspec.AnyWordSpec
-import org.scalatest.matchers.should.Matchers._
-import model._
+import org.scalatest.{WordSpec, Matchers}
 
 class fieldSpec extends WordSpec with Matchers {
 
