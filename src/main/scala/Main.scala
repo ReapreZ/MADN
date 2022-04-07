@@ -2,17 +2,19 @@ import model._
 
 @main def MADN: Unit =
   println("Welcome to Mensch aergere dich nicht!" + eol)
-  println(mesh)
+  println(mesh1.mesh(fieldnumber, playernumber, housenumber))
 
 val eol = sys.props("line.separator")
-val field2 = new field()
+/*val field2 = new field()
 val house2 = new house()
-val finish2 = new finish()
+val finish2 = new finish()*/
 
 val fieldnumber = 2
 val playernumber = 2
 val housenumber = 2
-val mesh = field2.cell(fieldnumber,playernumber) + house2.housefield(housenumber,playernumber) + finish2.finishfield(housenumber,playernumber)
+val mesh1 = mesh()
+
+//val mesh = field2.cell(fieldnumber,playernumber) + house2.housefield(housenumber,playernumber) + finish2.finishfield(housenumber,playernumber)
 
 /*
 def field(Field: Int = fieldnumber, Player: Int = playernumber) =
