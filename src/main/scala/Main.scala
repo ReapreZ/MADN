@@ -6,8 +6,8 @@
 val eol = sys.props("line.separator")
 
 val eolA = 2
-val fieldnumber = 2
-val playernumber = 2
+val fieldnumber = 0
+val playernumber = 0
 val housenumber = 2
 def field(Field: Int = fieldnumber, Player: Int = playernumber) =
   ("x" + ("_" * Field * playernumber)) * Player + eol * eolA
