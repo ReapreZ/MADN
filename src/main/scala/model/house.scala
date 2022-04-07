@@ -1,6 +1,8 @@
 package model
 
 case class house() {
-  // def house(Amount: Int = housenumber, Player: Int = playernumber) =
-  // (("A") * Amount + "  ") * Player + eol * eolA
+  val eol = sys.props("line.separator")
+  def housefield(Amount: Int, Player: Int) =
+    (("H") * Amount + "  ") * Player + eol
+
 }
