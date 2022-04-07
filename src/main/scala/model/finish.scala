@@ -1,6 +1,7 @@
 package model
 
 case class finish() {
-  // def finish(Amount: Int = housenumber, Player: Int = playernumber) =
-  // (("-") * Amount + "  ") * Player + eol * eolA
+  val eol = sys.props("line.separator") * 2
+  def finishfield(Amount: Int, Player: Int) =
+  (("-") * Amount + "  ") * Player + eol
 }
