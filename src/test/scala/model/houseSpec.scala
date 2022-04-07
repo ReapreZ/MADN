@@ -4,7 +4,7 @@ import org.scalatest._
 import matchers.should.Matchers
 import wordspec.AnyWordSpec
 
-case class houseSpec() extends AnyWordSpec with Matchers {
+class houseSpec() extends AnyWordSpec with Matchers {
     "A House" when {
         val eol = sys.props("line.separator")
         "not set any value" should {

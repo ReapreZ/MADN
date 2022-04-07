@@ -4,7 +4,7 @@ import org.scalatest._
 import matchers.should.Matchers
 import wordspec.AnyWordSpec
 
-case class meshSpec() extends AnyWordSpec with Matchers {
+class meshSpec() extends AnyWordSpec with Matchers {
   "A Mesh" when {
       val eol = sys.props("line.separator")
       "not set any value" should {

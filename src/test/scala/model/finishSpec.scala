@@ -4,7 +4,7 @@ import org.scalatest._
 import matchers.should.Matchers
 import wordspec.AnyWordSpec
 
-case class finishSpec() extends AnyWordSpec with Matchers {
+class finishSpec() extends AnyWordSpec with Matchers {
     "A Finish" when {
         val eol = sys.props("line.separator")
         "not set any value" should {
