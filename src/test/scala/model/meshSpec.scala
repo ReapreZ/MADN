@@ -7,7 +7,7 @@ import wordspec.AnyWordSpec
 class meshSpec() extends AnyWordSpec with Matchers {
   "A Mesh" when {
       val eol = sys.props("line.separator")
-      "not set any value" should {
+      "it is not set to any value" should {
           val mesh0 = new mesh()
           "have an empty mesh" in {
               mesh0.mesh(0,0,0) should be ("" + eol + "" + eol + "" + eol)
