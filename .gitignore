@@ -4,12 +4,13 @@
 .bsp/
 .vscode/
 .bloop/
-project/
 target/
 .DS_Store
 project/metals.sbt
-.target/
+project/boot/
+project/plugins/project/
 project/target/
+project/project/
 src/main/scala/hello.tasty
 *.tasty
 src/main/scala/Main$package.tasty
