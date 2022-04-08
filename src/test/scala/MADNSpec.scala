@@ -1,4 +1,4 @@
-/*package scala
+package scala
 import model.mesh
 import scala._
 import org.scalatest._
@@ -22,4 +22,4 @@ class MADNSpec() extends AnyWordSpec with Matchers {
         }
     }
     
-}*/
+}

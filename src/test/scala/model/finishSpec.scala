@@ -7,7 +7,7 @@ import wordspec.AnyWordSpec
 class finishSpec() extends AnyWordSpec with Matchers {
     "A Finish" when {
         val eol = sys.props("line.separator")
-        "not set any value" should {
+        "it is not set to any value" should {
             val finish0 = new finish()
             "have an empty field" in {
                 finish0.finishfield(0,0) should be ("" + eol)
