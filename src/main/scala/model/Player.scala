@@ -1,5 +1,5 @@
 package model
 
-case class Player(name: String) {
-    override def toString:String = name
+case class Player(name: Char) {
+    def toChar:Char = name
 }

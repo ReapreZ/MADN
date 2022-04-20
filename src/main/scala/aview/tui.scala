@@ -9,5 +9,9 @@ class Tui {
             case "r" => dice1.diceRandom()
 
         }
-    }   
+    }  
+
+    def checkinput(input: String, output: Int) = {
+        if (input == 'r') getout(tui.processInputLine(input,output))
+    } 
 }

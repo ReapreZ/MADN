@@ -9,7 +9,7 @@ import scala.sys.process.processInternal
 object MADN {
     def main(args: Array[String]): Unit = {
         val eol = sys.props("line.separator")
-        val student = Player("Jeff")
+        val student = Player('A')
         var input: String = ""
         val tui = new Tui
         println("Welcome to Mensch aergere dich nicht " + student.name + eol)
@@ -25,7 +25,11 @@ object MADN {
         println("Spieler A ist an der Reihe!")
         while (input != "q")
             input = readLine()
-            println(tui.processInputLine(input))
+            val output = tui.processInputLine(input)
+            tui.checkinput(input, output)
+            println(output)
+
+
             
         
     }
