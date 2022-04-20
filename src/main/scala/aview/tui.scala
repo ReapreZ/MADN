@@ -1,15 +1,14 @@
 package aview
 
-import model.{Mesh, Field, House, Player}
+import model.{Mesh, Field, House, Player, Dice}
 
-class tui {
+class Tui {
 
-  def processInputLine(input: String, mesh: Mesh): Mesh = {
-    input match {
-      case "m" => mesh
-      case "n" => new Mesh(2, 2, 2)
+    /*def processInputStart(input: String) = {
+        input match {
+            case "m" => mesh
+            case "n" => Mesh.mesh(2,2,2)
 
-    }
-  }
-
+        }
+    }   */
 }
