@@ -9,6 +9,6 @@ case class Field() {
         var cArr = (("x" + ("_" * Cell * Player)) * Player).toArray
         //val size = Cell * Player * Player + Player
         
-        cArr.mkString("") + eol
+        cArr.mkString("") + eol + eol
 
 }
