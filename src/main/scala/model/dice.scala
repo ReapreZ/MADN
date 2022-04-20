@@ -1,10 +1,10 @@
 package model
 
-class dice(num: Int=6) {
+class dice {
 
-    val r = scala.util.Random
-    val random = 1 + r.nextInt(num)
+    def dicerandom(num: Int=6) = 
+        val r = scala.util.Random
+        val random = 1 + r.nextInt(num)
 
-    
   
 }
