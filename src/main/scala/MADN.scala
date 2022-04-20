@@ -8,15 +8,15 @@ import scala.sys.process.processInternal
 object MADN {
     def main(args: Array[String]): Unit = {
         val eol = sys.props("line.separator")
-        val student = Player('A')
+        val student = Player('A', 3)
         var input: String = ""
         val tui = new Tui
         val mesh1 = Mesh()
         println("Welcome to Mensch aergere dich nicht Player " + student.name + eol)
-
         println("Amount of Players:")
         input = readLine()
         val playeramount = input
+        tui.startgame(input)
         println("Amount of Houses:")
         val houseamount = readLine()
         println("Amount of Cells per Player:")

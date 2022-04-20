@@ -10,5 +10,4 @@ case class Field() {
         //val size = Cell * Player * Player + Player
         
         cArr.mkString("") + eol + eol
-
 }
