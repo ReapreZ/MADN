@@ -3,5 +3,6 @@ package model
 case class Finish() {
     val eol = sys.props("line.separator")
     def finishfield(Amount: Int, Player: Int) =
-    (("-") * Amount + "  ") * Player + eol
+        val fArr = ((("-") * Amount + "  ") * Player).toArray
+        fArr.mkString("") + eol
 }

@@ -29,6 +29,5 @@ object MADN {
             val output = tui.processInputLine(input)
             tui.checkinput(input, output)
             println(output)
-  
     }
 }

@@ -10,7 +10,7 @@ class Tui {
 
         }
     }  
-
+    
     def checkinput(input: String, output: Int) = {
         if (input == "r") {
             getout(input, output)
@@ -18,7 +18,7 @@ class Tui {
     }
     def getout(input: String, output: Int) = {
         if(output == 6)
-        println("Player A can roll the dice once more")
-        println("Player A can move out one Piece")
+            println("Player A can roll the dice once more")
+            println("Player A can move out one Piece")
     }
 }
