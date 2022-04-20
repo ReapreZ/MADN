@@ -3,12 +3,11 @@ package aview
 import model.{Mesh, Field, House, Player, Dice}
 
 class Tui {
-
-    /*def processInputStart(input: String) = {
+    val dice1 = new Dice
+    def processInputLine(input: String): Int = {
         input match {
-            case "m" => mesh
-            case "n" => Mesh.mesh(2,2,2)
+            case "r" => dice1.diceRandom()
 
         }
-    }   */
+    }   
 }

@@ -1,8 +1,9 @@
 package model
 
 class Dice {
-    val r = scala.util.Random
-    def diceRandom(num: Int=6) = 
+    def diceRandom(num: Int=6): Int = {
+        val r = scala.util.Random
         1 + r.nextInt(num)
+    }
 
 }

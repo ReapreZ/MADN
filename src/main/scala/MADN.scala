@@ -3,6 +3,7 @@ package MADN
 import model._
 import aview._
 import scala.io.StdIn.readLine
+import scala.sys.process.processInternal
 
 
 object MADN {
@@ -21,10 +22,11 @@ object MADN {
         println("Amount of Cells per Player:")
         val cellamount = readLine()
         println(mesh1.mesh(cellamount.toInt,playeramount.toInt,houseamount.toInt))
+        println("Spieler A ist an der Reihe!")
         while (input != "q")
             input = readLine()
-
+            println(tui.processInputLine(input))
+            
         
-        //mesh1 = tui.processInputLine(input, mesh1)
     }
 }
