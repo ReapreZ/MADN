@@ -27,7 +27,7 @@ object MADN {
         while (input != "q")
             input = readLine()
             val output = tui.processInputLine(input)
+            println("You rolled a " + output)
             tui.checkinput(input, output)
-            println(output)
     }
 }
