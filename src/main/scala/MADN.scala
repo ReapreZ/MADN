@@ -11,7 +11,6 @@ object MADN {
         val student = Player('A', 3)
         var input: String = ""
         val tui = new Tui
-        val mesh1 = Mesh()
         println("Welcome to Mensch aergere dich nicht Player " + student.name + eol)
         println("Amount of Players:")
         input = readLine()
@@ -21,13 +20,16 @@ object MADN {
         val houseamount = readLine()
         println("Amount of Cells per Player:")
         val cellamount = readLine()
-
-        println(mesh1.mesh(cellamount.toInt,playeramount.toInt,houseamount.toInt))
-        println("Spieler A ist an der Reihe!")
+        val mesh1 = Mesh(cellamount.toInt, playeramount.toInt, houseamount.toInt)
+        println(mesh1.mesh())
+        println("It is Player A's turn")
         while (input != "q")
             input = readLine()
-            val output = tui.processInputLine(input)
-            println("You rolled a " + output)
+            val output = tui.processInputLine(input, mesh1)
+            if(output == 0)
+                println("Game over!")
+            else
+                println("You rolled a " + output)
             tui.checkinput(input, output)
     }
 }
