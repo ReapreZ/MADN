@@ -1,41 +1,54 @@
 package aview
 
-import model.{Mesh, Field, House, Player, Dice}
+import model.{Mesh, Field, House, Dice}
+import scala.io.StdIn.readLine
 
 class Tui {
     var mesh1 = new Mesh(0,0,0)
     var playernumber = 1
     var playerturn = 1
     val dice1 = new Dice
-    def startgame(input: String) = {
+    var input: String = ""
+
+
+    def startgame() = {
+        println("Amount of Players:")
+        input = readLine()
         input match {
-            case "1" => playeramount(1)
-            case "2" => playeramount(2)
-            case "3" => playeramount(3)
-            case "4" => playeramount(4)
+            case "1" => playernumber = 1
+            case "2" => playernumber = 2
+            case "3" => playernumber = 3
+            case "4" => playernumber = 4
         }
+        println("Amount of Houses:")
+        val houseamount = readLine()
+        println("Amount of Cells per Player:\n")
+        val cellamount = readLine()
+        mesh1 = Mesh(cellamount.toInt, playernumber.toInt, houseamount.toInt)
+        println(mesh1.mesh())
+        println("Press 'r' to roll the dice\n")
     }
 
-    def processInputLine(input: String, mesh: Mesh): Int = {
-        mesh1 = mesh
+    def processInputLine(input: String): Int = {
+
         input match {
             case "r" => dice1.diceRandom()
             case "q" => return 0
         }
     }  
-    def playeramount(playeramount: Int) = {
-        playernumber = playeramount
-    }
+
     def checkinput(input: String, output: Int) = {
         if (input == "r") {
             turn(output)
-            if(playerturn == 1) println("It is Player A's turn")
-            if(playerturn == 2) println("It is Player B's turn")
-            if(playerturn == 3) println("It is Player C's turn")
-            if(playerturn == 4) println("It is Player D's turn")
+            if(playerturn == 1) println("It is Player A's turn\n")
+            if(playerturn == 2) println("It is Player B's turn\n")
+            if(playerturn == 3) println("It is Player C's turn\n")
+            if(playerturn == 4) println("It is Player D's turn\n")
         }
+        println(mesh1.mesh())
     }
     def turn(output: Int) = {
+        move(output)
         if(output == 6) {
             val player2 = mesh1.field1.Player * mesh1.field1.Cell + 1
             //println("Player " + mesh1.house1.houses(playerturn) + " can roll the dice once more\n")
@@ -56,11 +69,20 @@ class Tui {
                 playerturn = 1
             else playerturn += 1
         }
-        println(mesh1.mesh())
-        move(output)
     }
     def move(output: Int) = {
-        println(mesh1.field1.cArr.indexOf('x')
-        )
+        var letterturn = ' '
+        playerturn match {
+            case 1 => letterturn = 'A'
+            case 2 => letterturn = 'B'
+            case 3 => letterturn = 'C'
+            case 4 => letterturn = 'C'
+        }
+        var out = mesh1.field1.cArr.indexOf(letterturn)
+        if(out != -1)
+            mesh1.field1.cArr(out) = ('-')
+            mesh1.field1.cArr(out + output) = (letterturn)
+        //if(out != 0)
+        
     }
 }

@@ -14,7 +14,7 @@ class TuiSpec extends AnyWordSpec with Matchers{
     var input: String = ""
     "it has 1 Player" should {
         val tui = new Tui()
-        ""
+        
     }
   }
 }
