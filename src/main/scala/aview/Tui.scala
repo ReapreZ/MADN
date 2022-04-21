@@ -82,7 +82,6 @@ class Tui {
         if(out != -1)
             mesh1.field1.cArr(out) = ('-')
             mesh1.field1.cArr(out + output) = (letterturn)
-        //if(out != 0)
         
     }
 }
