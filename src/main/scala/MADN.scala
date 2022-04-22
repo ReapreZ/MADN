@@ -9,7 +9,7 @@ object MADN {
     def main(args: Array[String]): Unit = {
         var input: String = ""
         val tui = new Tui
-        tui.startgame()
+        val mesh1: Mesh = (tui.startgame())
         while (input != "q")
             input = readLine()
             val output = tui.processInputLine(input)
@@ -17,6 +17,6 @@ object MADN {
                 println("Game over!")
             else
                 println("\nYou rolled a " + output + "\n")
-            tui.checkinput(input, output)
+            tui.checkinput(input, output, mesh1)
     }
 }
