@@ -3,7 +3,7 @@ package aview
 import model.{Mesh, Field, House, Dice}
 import scala.io.StdIn.readLine
 
-class Tui {
+class TuiVorlage {
     var mesh1 = new Mesh(0,0,0)
     var playernumber = 1
     var playerturn = 1

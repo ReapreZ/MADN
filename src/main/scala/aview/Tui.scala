@@ -8,6 +8,7 @@ class Tui {
     val dice1 = new Dice
     var input: String = ""
     var playerturn = 1
+    var playeramount = 1
 
     def processInputLine(input: String): Int = {
 
@@ -20,7 +21,7 @@ class Tui {
     def startgame(): Mesh = {
         println("Amount of Players:")
         input = readLine()
-        val playeramount = getTurnI(input)
+        playeramount = getTurnI(input)
         println("Amount of Houses:")
         val houseamount = readLine()
         println("Amount of Cells per Player:\n")
@@ -31,7 +32,7 @@ class Tui {
     }
 
     def getOut(rolledDice: Int, mesh: Mesh): Mesh = {
-        //move(output)
+        val mesh1: Mesh = move(rolledDice, mesh)
         if(rolledDice == 6) {
             val nextPlayer = mesh.field1.Player * mesh.field1.Cell + 1
             //println("Player " + mesh1.house1.houses(playerturn) + " can roll the dice once more\n")
@@ -65,16 +66,17 @@ class Tui {
         println(mesh.mesh())
     }
 
-    def move(output: Int):Unit = {
+    def move(output: Int, mesh1: Mesh): Mesh = {
         val playerTurnC = getTurnC(playerturn)
 
         var out = mesh1.field1.cArr.indexOf(playerTurnC)
         if(out != -1)
             mesh1.field1.cArr(out) = ('-')
             mesh1.field1.cArr(out + output) = (playerTurnC)    
+        mesh1
     }
 
-    def getTurnC(playerturn: Int): Char = {
+    def getTurnC(input: Int): Char = {
         playerturn match {
             case 1 => 'A'
             case 2 => 'B'
