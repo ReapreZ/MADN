@@ -1,27 +1,19 @@
-package aview
+package Controller
 
 import model.{Mesh, Field, House, Dice}
 import scala.io.StdIn.readLine
 
-class Tui {
-    
+
+class Controller {
+
     val dice1 = new Dice
     var playerturn = 1
     var playeramount = 1
 
-    def processInputLine(input: String): Int = {
-
-        input match {
-            case "r" => dice1.diceRandom()   
-            case "q" => return 0
-            case _ => return -1
-        }
-    }
-
     def startgame(): Mesh = {
         println("Amount of Players:")
         val input = readLine()
-        playeramount = getTurnI(input)
+        playeramount = input.toInt
         println("Amount of Houses:")
         val houseamount = readLine()
         println("Amount of Cells per Player:")
