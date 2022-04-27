@@ -6,8 +6,8 @@ class Game {
 	var playerturn = 1
 
 
-	def getOut(rolledDice: Int): Mesh = {
-		val mesh1 = move(rolledDice)
+	def getOut(rolledDice: Int,mesh:Mesh): Mesh = {
+		val mesh1 = move(rolledDice,mesh)
 		if(rolledDice == 6) {
 			val nextPlayer = mesh1.field1.Player * mesh1.field1.Cell + 1
 			//println("Player " + mesh1.house1.houses(playerturn) + " can roll the dice once more\n")
@@ -35,12 +35,12 @@ class Game {
 		if (input == "r") {
 			val playerturnC = getTurnC(playerturn)
 			println("It is Player " + playerturnC + "'s turn\n")
-			return getOut(rolledDice)
+			return getOut(rolledDice,mesh)
 		}
 		mesh
 	}
 
-	def move(rolledDice: Int): Mesh = {
+	def move(rolledDice: Int,mesh1:Mesh): Mesh = {
 		val playerTurnC = getTurnC(playerturn)
 		val out = mesh1.field1.cArr.indexOf(playerTurnC)
 		if(out != -1)
