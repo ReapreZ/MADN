@@ -21,7 +21,7 @@ class Tui {
     def startgame(): Mesh = {
         println("Amount of Players:")
         val input = readLine()
-        playeramount = getTurnI(input)
+        playeramount = input.toInt
         println("Amount of Houses:")
         val houseamount = readLine()
         println("Amount of Cells per Player:")

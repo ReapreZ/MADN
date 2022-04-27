@@ -13,7 +13,7 @@ object MADN {
         var input: String = ""
         val tui = new Tui
         val controller = new Controller
-        val mesh1: Mesh= (tui.startgame())
+        val mesh1: Mesh= (controller.startgame())
         while (input != "q")
             input = readLine()
             val output = tui.processInputLine(input)
