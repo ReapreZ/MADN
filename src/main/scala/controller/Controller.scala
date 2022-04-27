@@ -8,21 +8,7 @@ class Controller {
 
     val dice1 = new Dice
     var playerturn = 1
-    var playeramount = 1
 
-    def startgame(): Mesh = {
-        println("Amount of Players:")
-        val input = readLine()
-        playeramount = input.toInt
-        println("Amount of Houses:")
-        val houseamount = readLine()
-        println("Amount of Cells per Player:")
-        val cellamount = readLine()
-        var mesh1 = Mesh(cellamount.toInt, playeramount.toInt, houseamount.toInt)
-        println(mesh1.mesh())
-        println("Press 'r' to roll the dice\n")
-        mesh1
-    }
 
     def getOut(rolledDice: Int, mesh: Mesh): Mesh = {
         val mesh1 = move(rolledDice, mesh)
@@ -42,7 +28,7 @@ class Controller {
                     //mesh1.house1.hArr(12) = 'H'
             }
         } else if(rolledDice != 6) {
-            if(playerturn == playeramount)
+            if(playerturn == mesh1.playeramount)
                 playerturn = 1
             else playerturn += 1
         }
@@ -63,8 +49,8 @@ class Controller {
         val out = mesh1.field1.cArr.indexOf(playerTurnC)
         if(out != -1)
             mesh1.field1.cArr(out) = ('-')
-            mesh1.field1.cArr(out + rolledDice) = (playerTurnC) 
-        mesh1   
+            mesh1.field1.cArr(out + rolledDice) = (playerTurnC)
+        mesh1
     }
 
     def getTurnC(playerturn: Int): Char = {
@@ -75,5 +61,4 @@ class Controller {
             case 4 => 'D'
         }
     }
-
 }
