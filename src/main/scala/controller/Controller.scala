@@ -2,9 +2,9 @@ package Controller
 
 import model.{Mesh, Field, House, Dice}
 import scala.io.StdIn.readLine
+import util.Observable
 
-
-class Controller {
+class Controller extends Observable {
 
     val dice1 = new Dice
     var playerturn = 1
@@ -32,6 +32,7 @@ class Controller {
                 playerturn = 1
             else playerturn += 1
         }
+        notifyObservers
         mesh1
     }
 
@@ -39,8 +40,10 @@ class Controller {
         if (input == "r") {
             val playerturnC = getTurnC(playerturn)
             println("It is Player " + playerturnC + "'s turn\n")
+            notifyObservers
             return getOut(rolledDice, mesh)
         }
+        notifyObservers
         mesh
     }
 
@@ -48,8 +51,9 @@ class Controller {
         val playerTurnC = getTurnC(playerturn)
         val out = mesh1.field1.cArr.indexOf(playerTurnC)
         if(out != -1)
-            mesh1.field1.cArr(out) = ('-')
-            mesh1.field1.cArr(out + rolledDice) = (playerTurnC)
+            mesh1.field1.cArr(out) = ('_')
+            mesh1.field1.cArr(out + rolledDice) = playerTurnC
+        notifyObservers
         mesh1
     }
 
