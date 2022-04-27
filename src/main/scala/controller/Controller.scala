@@ -72,7 +72,7 @@ class Controller {
             case 1 => 'A'
             case 2 => 'B'
             case 3 => 'C'
-            case 4 => 'D' 
+            case 4 => 'D'
         }
     }
 

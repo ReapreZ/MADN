@@ -1,8 +1,8 @@
 package MADN
 
+import Controller._
 import model._
 import aview._
-import controller._
 import scala.io.StdIn.readLine
 import scala.sys.process.processInternal
 
