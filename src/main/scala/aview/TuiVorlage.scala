@@ -1,4 +1,4 @@
-package aview
+/*package aview
 
 import model.{Mesh, Field, House, Dice}
 import scala.io.StdIn.readLine
@@ -85,4 +85,4 @@ class Tui {
             case 4 => 'D' 
         }
     }
-}
+}*/

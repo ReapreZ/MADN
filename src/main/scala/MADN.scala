@@ -17,6 +17,7 @@ object MADN {
                 println("Game over!")
             else
                 println("\nYou rolled a " + output + "\n")
-            tui.checkinput(input, output, mesh1)
+            val mesh = tui.checkinput(input, output, mesh1)
+            println(mesh)
     }
 }

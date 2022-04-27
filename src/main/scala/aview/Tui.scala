@@ -8,6 +8,7 @@ class Tui {
     val dice1 = new Dice
     var input: String = ""
     var playerturn = 1
+    var playeramount = 1
 
     def processInputLine(input: String): Int = {
 
@@ -23,7 +24,7 @@ class Tui {
         val playeramount = getTurnI(input)
         println("Amount of Houses:")
         val houseamount = readLine()
-        println("Amount of Cells per Player:\n")
+        println("Amount of Cells per Player:")
         val cellamount = readLine()
         var mesh1 = Mesh(cellamount.toInt, playeramount.toInt, houseamount.toInt)
         println("Press 'r' to roll the dice\n")
@@ -31,7 +32,7 @@ class Tui {
     }
 
     def getOut(rolledDice: Int, mesh: Mesh): Mesh = {
-        //move(output)
+        //mesh = move(rolledDice, mesh)
         if(rolledDice == 6) {
             val nextPlayer = mesh.field1.Player * mesh.field1.Cell + 1
             //println("Player " + mesh1.house1.houses(playerturn) + " can roll the dice once more\n")
@@ -55,23 +56,22 @@ class Tui {
         mesh
     }
 
-    def checkinput(input: String, rolledDice: Int, mesh: Mesh) = {
+    def checkinput(input: String, rolledDice: Int, mesh: Mesh): Mesh = {
         if (input == "r") {
             val playerturnC = getTurnC(playerturn)
-            val mesh1 =  getOut(rolledDice, mesh)
             println("It is Player" + playerturnC + "'s turn\n")
-
+            return getOut(rolledDice, mesh)
         }
-        println(mesh.mesh())
+        mesh
     }
 
-    def move(output: Int):Unit = {
+    def move(output: Int, mesh1: Mesh): Mesh = {
         val playerTurnC = getTurnC(playerturn)
-
         var out = mesh1.field1.cArr.indexOf(playerTurnC)
         if(out != -1)
             mesh1.field1.cArr(out) = ('-')
-            mesh1.field1.cArr(out + output) = (playerTurnC)    
+            mesh1.field1.cArr(out + output) = (playerTurnC) 
+        mesh1   
     }
 
     def getTurnC(playerturn: Int): Char = {
