@@ -2,9 +2,7 @@ package model
 
 class Game {
 
-	val dice1 = new Dice
 	var playerturn = 1
-
 
 	def getOut(rolledDice: Int,mesh:Mesh): Mesh = {
 		val mesh1 = move(rolledDice,mesh)
@@ -55,6 +53,7 @@ class Game {
 			case 2 => 'B'
 			case 3 => 'C'
 			case 4 => 'D'
+			case _ => ' '
 		}
 	}
 }

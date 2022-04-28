@@ -6,8 +6,6 @@ import aview._
 import scala.io.StdIn.readLine
 import scala.sys.process.processInternal
 
-
-
 object MADN {
     def main(args: Array[String]): Unit = {
         var input: String = ""
