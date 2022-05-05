@@ -29,12 +29,10 @@ class Game {
 		mesh1
 	}
 
-	def checkinput(input: String, rolledDice: Int, mesh: Mesh): Mesh = {
-		if (input == "r") {
-			val playerturnC = getTurnC(playerturn)
-			println("It is Player " + playerturnC + "'s turn\n")
-			return getOut(rolledDice,mesh)
-		}
+	def checkinput(rolledDice: Int, mesh: Mesh): Mesh = {
+		val playerturnC = getTurnC(playerturn)
+		println("It is Player " + playerturnC + "'s turn\n")
+		return getOut(rolledDice,mesh)
 		mesh
 	}
 

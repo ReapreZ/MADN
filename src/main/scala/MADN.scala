@@ -22,7 +22,9 @@ object MADN {
                 println("Wrong input")
             else
                 println("\nYou rolled a " + output + "\n")
-            val mesh = controller.checkinput1(input, output, mesh1)
+            if (input == "r")
+                val mesh = controller.doAndPublish(controller.checkinput1, move)
+                    controller.checkinput1(output, mesh1)
             println(mesh1.mesh())
     }
 }
