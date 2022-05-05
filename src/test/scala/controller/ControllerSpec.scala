@@ -24,7 +24,7 @@ class ControllerSpec extends AnyWordSpec with Matchers {
                 observer.updated should be(true)
             }
             "notify its Observer after the input check" in {
-                controller.checkinput1("r", 1, mesh)
+                controller.checkinput1(1, mesh)
                 observer.updated should be(true)
             }
         }

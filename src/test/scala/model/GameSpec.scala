@@ -23,10 +23,10 @@ class GameSpec extends AnyWordSpec with Matchers {
         }
         "checkInput" should {
             "when input != r" in {
-                game.checkinput("a", 1, mesh) shouldBe (mesh)
+                game.checkinput(1, mesh) shouldBe (mesh)
             }
             "when input = r" in {
-                game.checkinput("r", 1, mesh) shouldBe (mesh)
+                game.checkinput(1, mesh) shouldBe (mesh)
             }
         }
         "move" should {
