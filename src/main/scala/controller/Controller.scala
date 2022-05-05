@@ -8,9 +8,9 @@ class Controller(var mesh:Mesh) extends Observable {
 
     val game = new Game
 
-    def doAndPublish(doThis: Move => Mesh, move: Move) =
-    mesh = doThis(move)
-    notifyObservers
+    //def doAndPublish(doThis: Move => Mesh, move: Move) =
+    //mesh = doThis(move)
+    //notifyObservers
 
     def getOut1(rolledDice:Int,mesh1:Mesh):Unit = {
         mesh = game.getOut(rolledDice,mesh1)
@@ -26,7 +26,5 @@ class Controller(var mesh:Mesh) extends Observable {
         mesh = game.checkinput(rolledDice,mesh1)
         notifyObservers
     }
-
-
 
 }
