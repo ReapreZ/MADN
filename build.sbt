@@ -9,11 +9,12 @@ lazy val root = project
     scalaVersion := scala3Version,
     //libraryDependencies += "org.scalameta" %% "munit" % "0.7.29" % Test,
     libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.11",
-    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.11" % "test"
+    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.11" % "test",
+    jacocoReportSettings := JacocoReportSettings(
+    "Jacoco Coverage Report",
+    None,
+    JacocoThresholds(),
+    Seq(JacocoReportFormats.ScalaHTML, JacocoReportFormats.XML), // note XML formatter
+    "utf-8")
   )
-  jacocoReportSettings := JacocoReportSettings(
-  "Jacoco Coverage Report",
-  None,
-  JacocoThresholds(),
-  Seq(JacocoReportFormats.ScalaHTML, JacocoReportFormats.XML), // note XML formatter
-  "utf-8")
+  
