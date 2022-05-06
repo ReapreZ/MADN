@@ -2,7 +2,7 @@ package model
 
 class Game {
 
-	var playerturn = 1
+	var playerturn = 0
 
 	def getOut(rolledDice: Int,mesh:Mesh): Mesh = {
 		val mesh1 = move(rolledDice,mesh)
@@ -30,10 +30,10 @@ class Game {
 	}
 
 	def checkinput(rolledDice: Int, mesh: Mesh): Mesh = {
+		val mesh1 = getOut(rolledDice,mesh)
 		val playerturnC = getTurnC(playerturn)
 		println("It is Player " + playerturnC + "'s turn\n")
-		return getOut(rolledDice,mesh)
-		mesh
+		mesh1
 	}
 
 	def move(rolledDice: Int,mesh1:Mesh): Mesh = {
