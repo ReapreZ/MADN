@@ -12,6 +12,7 @@ object MADN {
         val tui = new Tui
         val controller = new Controller(new Mesh(0,0,0))
         val mesh1: Mesh = tui.startgame()
+        controller.checkinput1(0, mesh1)
         controller.notifyObservers
         while (input != "q")
             input = readLine()
@@ -22,9 +23,8 @@ object MADN {
                 println("Wrong input")
             else
                 println("\nYou rolled a " + output + "\n")
-            if (input == "r")
                 //val mesh = controller.doAndPublish(controller.checkinput1, controller.move1)
-                    controller.checkinput1(output, mesh1)
-            println(mesh1.mesh())
+                controller.checkinput1(output, mesh1)
+                println(mesh1.mesh()) 
     }
 }
