@@ -1,55 +1,54 @@
 package model
-case class Game( playerturn1:Int, mesh10:Mesh) {
+case class Game( playerturn:Int, mesh10:Mesh) {
 
-	var playerturn = 0
-	def getOut(rolledDice: Int,mesh:Mesh): Mesh = {
-		val mesh1 = move(rolledDice,mesh)
+	//var playerturn = 0
+	def getOut(rolledDice: Int,mesh:Mesh): Game = {
+		val game = move(rolledDice,mesh)
+		println(game.playerturn + "playeramount: " + game.mesh10.playeramount)
 		if(rolledDice == 6) {
-			val nextPlayer = mesh1.field1.Player * mesh1.field1.Cell + 1
+			val nextPlayer = game.mesh10.field1.Player * mesh10.field1.Cell + 1
 			//println("Player " + mesh1.house1.houses(playerturn) + " can roll the dice once more\n")
 			//println("Player A can move out one Piece\n")
 			println("You can roll again\n")
-			playerturn match {
-				case 1 => mesh1.field1.cArr(0) = 'A'
-				
+			game.playerturn match {
+				case 1 => game.mesh10.field1.cArr(0) = 'A'
 				//mesh1.player = mesh1.player :+ ("A", 0)
 					//mesh1.house1.hArr(0) = 'H'
-				case 2 => mesh1.field1.cArr(nextPlayer) = 'B'
+				case 2 => game.mesh10.field1.cArr(nextPlayer) = 'B'
 				//mesh1.player = mesh1.player :+ ("B", nextPlayer)
 					//mesh1.house1.hArr(4) = 'H'
-				case 3 => mesh1.field1.cArr(nextPlayer * 2) = 'C'
+				case 3 => game.mesh10.field1.cArr(nextPlayer * 2) = 'C'
 				//mesh1.player = mesh1.player :+ ("C", nextPlayer*2)
 					//mesh1.house1.hArr(8) = 'H'
-				case 4 => mesh1.field1.cArr(nextPlayer * 3) = 'D'
+				case 4 => game.mesh10.field1.cArr(nextPlayer * 3) = 'D'
 				//mesh1.player = mesh1.player :+ ("D", nextPlayer*3)
 					//mesh1.house1.hArr(12) = 'H'
 			}
 		} else if(rolledDice != 6) {
-			if(playerturn == mesh1.playeramount)
-				playerturn = 1
-				//copy(playerturn = 1)
-			else  playerturn += 1//copy(playerturn + playerturn + 1)
+			if(game.playerturn == game.mesh10.playeramount)
+				copy(playerturn = 1)
+			else 
+				val playerturn1 = game.playerturn + 1
+				copy(playerturn1, game.mesh10)
 		}
 		//checkIfAllOut(mesh1)
-		//mesh1
-		//copy( playerturn = 1, Game.mesh = mesh1)
-		mesh1
+		copy(mesh10 = game.mesh10)
 	}
 
-	def checkinput(rolledDice: Int, mesh: Mesh): Mesh = {
-		val mesh1 = getOut(rolledDice,mesh)
-		val playerturnC = getTurnC(playerturn)
-		println("It is Player " + playerturnC + "'s turn\n")
-		mesh1
+	def checkinput(rolledDice: Int, mesh: Mesh): Game = {
+		val game = getOut(rolledDice,mesh)
+		println("It is Player " + getTurnC(game.playerturn) + "'s turn\n")
+		println(game.mesh10.mesh())
+		copy(mesh10 = game.mesh10)
 	}
 
-	def move(rolledDice: Int,mesh1:Mesh): Mesh = {
+	def move(rolledDice: Int,mesh1:Mesh): Game = {
 		val playerTurnC = getTurnC(playerturn)
 		val out = mesh1.field1.cArr.indexOf(playerTurnC)
 		if(out != -1)
 			mesh1.field1.cArr(out) = ('_')
 			mesh1.field1.cArr(out + rolledDice) = playerTurnC
-		mesh1
+		copy(mesh10 = mesh1)
 	}
 
 	def getTurnC(playerturn: Int): Char = {
