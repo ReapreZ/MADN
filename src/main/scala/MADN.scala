@@ -24,7 +24,6 @@ object MADN {
             else
                 println("\nYou rolled a " + output + "\n")
                 //val mesh = controller.doAndPublish(controller.checkinput1, controller.move1)
-                controller.checkinput1(output, mesh1)
-                println(mesh1.mesh()) 
+                controller.checkinput1(output, mesh1) 
     }
 }

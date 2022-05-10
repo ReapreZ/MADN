@@ -1,9 +1,7 @@
 package model
-
-class Game {
+case class Game( playerturn1:Int, mesh10:Mesh) {
 
 	var playerturn = 0
-
 	def getOut(rolledDice: Int,mesh:Mesh): Mesh = {
 		val mesh1 = move(rolledDice,mesh)
 		if(rolledDice == 6) {
@@ -13,19 +11,28 @@ class Game {
 			println("You can roll again\n")
 			playerturn match {
 				case 1 => mesh1.field1.cArr(0) = 'A'
+				
+				//mesh1.player = mesh1.player :+ ("A", 0)
 					//mesh1.house1.hArr(0) = 'H'
 				case 2 => mesh1.field1.cArr(nextPlayer) = 'B'
+				//mesh1.player = mesh1.player :+ ("B", nextPlayer)
 					//mesh1.house1.hArr(4) = 'H'
 				case 3 => mesh1.field1.cArr(nextPlayer * 2) = 'C'
+				//mesh1.player = mesh1.player :+ ("C", nextPlayer*2)
 					//mesh1.house1.hArr(8) = 'H'
 				case 4 => mesh1.field1.cArr(nextPlayer * 3) = 'D'
+				//mesh1.player = mesh1.player :+ ("D", nextPlayer*3)
 					//mesh1.house1.hArr(12) = 'H'
 			}
 		} else if(rolledDice != 6) {
 			if(playerturn == mesh1.playeramount)
 				playerturn = 1
-			else playerturn += 1
+				//copy(playerturn = 1)
+			else  playerturn += 1//copy(playerturn + playerturn + 1)
 		}
+		//checkIfAllOut(mesh1)
+		//mesh1
+		//copy( playerturn = 1, Game.mesh = mesh1)
 		mesh1
 	}
 
@@ -54,5 +61,17 @@ class Game {
 			case _ => ' '
 		}
 	}
+
+	/*def checkIfAllOut(mesh: Mesh): Mesh = {
+		//val test = mesh.player.groupBy(_.head).mapValues(_.size)
+		playerturn match {
+			case 1 => ""
+				
+		}
+
+
+		mesh
+
+	}*/
 }
 

@@ -16,7 +16,6 @@ class Tui {
         println("Amount of Cells per Player:")
         val cellamount = readLine()
         var mesh1 = Mesh(cellamount.toInt, playeramount.toInt, houseamount.toInt)
-        println(mesh1.mesh())
         println("Press 'r' to roll the dice\n")
         mesh1
     }
