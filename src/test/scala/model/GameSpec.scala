@@ -7,37 +7,37 @@ import model._
 class GameSpec extends AnyWordSpec with Matchers {
   
     "A Game is played" when {
-        val game = new Game(0,new Mesh(0,0,0))
+        val game = new Game(0,new Mesh(7,3,1))
         val mesh = new Mesh(7,3,1)
         "getOut" should {
             "when rolledDice < 6" in {
-                game.getOut(1,mesh) shouldBe (mesh)
+                game.getOut(1,mesh) shouldBe (game.copy(playerturn = game.playerturn+1))
             }
             "when rolledDice = 6" in {
                 val mesh1 = mesh
                 mesh1.field1.cArr(0) = 'A'
                 mesh1.field1.cArr(22) = 'B'
                 mesh1.field1.cArr(44) = 'C'
-                game.getOut(6,mesh) shouldBe (mesh1)
+                game.getOut(6,mesh) shouldBe (game)
             }
         }
         "checkInput" should {
             "when input != r" in {
-                game.checkinput(1, mesh) shouldBe (mesh)
+                game.checkinput(1, mesh) shouldBe (game.copy(playerturn = game.playerturn+1))
             }
             "when input = r" in {
-                game.checkinput(1, mesh) shouldBe (mesh)
+                game.checkinput(1, mesh) shouldBe (game.copy(playerturn = game.playerturn+1))
             }
         }
         "move" should {
             "when a figure is out" in {
-                val mesh1 = mesh
-                mesh1.field1.cArr(0) = '_'
-                mesh1.field1.cArr(1) = 'A'
-                game.move(1, mesh) shouldBe (mesh1)
+                val game1 = new Game(0,new Mesh(7,3,1))
+                game1.mesh10.field1.cArr(0) = '_'
+                game1.mesh10.field1.cArr(1) = 'A'
+                game.move(1, mesh) shouldBe (game1)
             }
             "when no figure is out" in {
-                game.move(1,mesh) shouldBe (mesh)
+                game.move(1,mesh) shouldBe (game)
             }
         }
         "getTurnC" should {
