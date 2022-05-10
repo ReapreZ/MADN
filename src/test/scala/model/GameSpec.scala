@@ -7,7 +7,7 @@ import model._
 class GameSpec extends AnyWordSpec with Matchers {
   
     "A Game is played" when {
-        val game = new Game
+        val game = new Game(0,new Mesh(0,0,0))
         val mesh = new Mesh(7,3,1)
         "getOut" should {
             "when rolledDice < 6" in {

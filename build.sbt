@@ -17,7 +17,7 @@ lazy val root = project
     Seq(JacocoReportFormats.ScalaHTML, JacocoReportFormats.XML), // note XML formatter
     "utf-8"),
 
-    //coverageExcludePackages := "C:/Software-Engineering/MADN/src/main/scala/controller",
-    //coverageExcludeFiles := "C:/Software-Engineering/MADN/src/main/scala/MADN.scala"
+    coverageExcludePackages := "C:/Software-Engineering/MADN/src/main/scala/controller",
+    coverageExcludeFiles := "C:/Software-Engineering/MADN/src/main/scala/MADN.scala"
   )
   
