@@ -13,17 +13,16 @@ class Controller(var mesh:Mesh) extends Observable {
     //notifyObservers
 
     def getOut1(rolledDice:Int,game1:Game):Unit = {
-        game = game.getOut(rolledDice,game1.mesh10)
+        game = game.getOut(rolledDice,game1)
         notifyObservers
     }
-
-    def move1(rolledDice:Int,game1:Game):Unit = {
-        game = game.move(rolledDice,game1.mesh10)
+    def move1(rolledDice:Int,game1:Game):Unit= {
+        game = game.move(rolledDice,game1)
         notifyObservers
     }
 
     def checkinput1(rolledDice:Int,game1:Game):Unit = {
-        game = game.checkinput(rolledDice,game1.mesh10)
+        game = game.checkinput(rolledDice,game1)
         notifyObservers
     }
 

@@ -1,9 +1,9 @@
 package model
-case class Game( playerturn:Int, mesh10:Mesh) {
+case class Game(playerturn:Int, mesh10:Mesh) {
 
 	//var playerturn = 0
-	def getOut(rolledDice: Int,mesh:Mesh): Game = {
-		val game = move(rolledDice,mesh)
+	def getOut(rolledDice: Int,game1:Game): Game = {
+		val game = move(rolledDice,game1)
 		println(game.playerturn + "playeramount: " + game.mesh10.playeramount)
 		if(rolledDice == 6) {
 			val nextPlayer = game.mesh10.field1.Player * mesh10.field1.Cell + 1
@@ -23,32 +23,33 @@ case class Game( playerturn:Int, mesh10:Mesh) {
 				case 4 => game.mesh10.field1.cArr(nextPlayer * 3) = 'D'
 				//mesh1.player = mesh1.player :+ ("D", nextPlayer*3)
 					//mesh1.house1.hArr(12) = 'H'
+				case 0 => println("6 gewurfelt")
 			}
 		} else if(rolledDice != 6) {
 			if(game.playerturn == game.mesh10.playeramount)
-				copy(playerturn = 1)
+				return copy(playerturn = 1)
 			else 
 				val playerturn1 = game.playerturn + 1
-				copy(playerturn1, game.mesh10)
+				return copy(playerturn1, game.mesh10)
 		}
 		//checkIfAllOut(mesh1)
-		copy(mesh10 = game.mesh10)
+		return copy(mesh10 = game.mesh10)
 	}
 
-	def checkinput(rolledDice: Int, mesh: Mesh): Game = {
-		val game = getOut(rolledDice,mesh)
+	def checkinput(rolledDice: Int, game1:Game): Game = {
+		val game = getOut(rolledDice,game1)
 		println("It is Player " + getTurnC(game.playerturn) + "'s turn\n")
 		println(game.mesh10.mesh())
-		copy(mesh10 = game.mesh10)
+		return copy(playerturn = game.playerturn ,mesh10 = game.mesh10)
 	}
 
-	def move(rolledDice: Int,mesh1:Mesh): Game = {
+	def move(rolledDice: Int,game1: Game): Game = {
 		val playerTurnC = getTurnC(playerturn)
-		val out = mesh1.field1.cArr.indexOf(playerTurnC)
+		val out = game1.mesh10.field1.cArr.indexOf(playerTurnC)
 		if(out != -1)
-			mesh1.field1.cArr(out) = ('_')
-			mesh1.field1.cArr(out + rolledDice) = playerTurnC
-		copy(mesh10 = mesh1)
+			game1.mesh10.field1.cArr(out) = ('_')
+			game1.mesh10.field1.cArr(out + rolledDice) = playerTurnC
+		return copy(mesh10 = game1.mesh10)
 	}
 
 	def getTurnC(playerturn: Int): Char = {
