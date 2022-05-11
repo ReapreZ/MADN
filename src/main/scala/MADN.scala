@@ -12,7 +12,7 @@ object MADN {
         val tui = new Tui
         val controller = new Controller(new Mesh(0,0,0))
         val mesh1: Mesh = tui.startgame()
-        val game: Game = new Game(0, mesh1)
+        val game: Game = new Game(0, mesh1,0,0,0,0)
         controller.checkinput1(0, mesh1)
         controller.notifyObservers
         while (input != "q")

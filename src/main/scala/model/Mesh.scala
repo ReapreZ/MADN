@@ -6,11 +6,8 @@ case class Mesh(Cell: Int, Player: Int, Housenumber: Int) {
     val house1 = House(Housenumber, Player)
     val finish1 = Finish(Housenumber, Player)
     val playeramount = Player
+    val houseamount = Housenumber
     def mesh() = field1.cell() + house1.housefield() + finish1.finishfield()
-    var player = List[(Int)]()
-    /*var n, m = 0
-    while( n < Housenumber) 
-        while(m < Player)*/
 
-
+    
 }

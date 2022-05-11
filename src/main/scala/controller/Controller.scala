@@ -6,7 +6,7 @@ import util.Observable
 
 class Controller(var mesh:Mesh) extends Observable {
 
-    var game = new Game(0,new Mesh(0,0,0))
+    var game = new Game(0,new Mesh(0,0,0),0,0,0,0)
 
     //def doAndPublish(doThis: Move => Mesh, move: Move) =
     //mesh = doThis(move)
