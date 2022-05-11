@@ -1,6 +1,6 @@
-package model
+package model.HouseComponent.HouseBase
 import scala.language.postfixOps
-case class House(Amount: Int, Player: Int) {
+case class House(Amount: Int, Player: Int) extends Strategy{
     val houses = List("A","B","C","D")
     var temp = ""
     var i = 0
@@ -10,7 +10,7 @@ case class House(Amount: Int, Player: Int) {
     val hArr = temp.toArray    
     //val hArr = ((("H") * Amount + "  ") * Player).toArray
     val eol = sys.props("line.separator")
-    def housefield() =
+    def housefield():String =
         hArr.mkString("") + eol
 
 }

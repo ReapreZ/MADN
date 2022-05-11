@@ -1,6 +1,7 @@
 package aview
 
-import model.{Mesh, Field, House, Dice}
+import model.MeshComponent.MeshBase.Mesh
+import model.DiceComponent.DiceBase.Dice
 import scala.io.StdIn.readLine
 
 class Tui {
@@ -16,7 +17,6 @@ class Tui {
         println("Amount of Cells per Player:")
         val cellamount = readLine()
         var mesh1 = Mesh(cellamount.toInt, playeramount.toInt, houseamount.toInt)
-        println(mesh1.mesh())
         println("Press 'r' to roll the dice\n")
         mesh1
     }

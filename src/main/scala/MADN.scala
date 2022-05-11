@@ -1,7 +1,8 @@
 package MADN
 
 import Controller._
-import model._
+import model.MeshComponent.MeshBase.Mesh
+import model.GameComponent.GameBase.Game
 import aview._
 import scala.io.StdIn.readLine
 import scala.sys.process.processInternal
@@ -12,6 +13,8 @@ object MADN {
         val tui = new Tui
         val controller = new Controller(new Mesh(0,0,0))
         val mesh1: Mesh = tui.startgame()
+        val game: Game = new Game(0, mesh1,0,0,0,0)
+        controller.checkinput1(0, mesh1)
         controller.notifyObservers
         while (input != "q")
             input = readLine()
@@ -22,9 +25,7 @@ object MADN {
                 println("Wrong input")
             else
                 println("\nYou rolled a " + output + "\n")
-            if (input == "r")
                 //val mesh = controller.doAndPublish(controller.checkinput1, controller.move1)
-                    controller.checkinput1(output, mesh1)
-            println(mesh1.mesh())
+                controller.checkinput1(output, mesh1) 
     }
 }

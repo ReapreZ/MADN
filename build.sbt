@@ -15,6 +15,9 @@ lazy val root = project
     None,
     JacocoThresholds(),
     Seq(JacocoReportFormats.ScalaHTML, JacocoReportFormats.XML), // note XML formatter
-    "utf-8")
+    "utf-8"),
+
+    //coverageExcludePackages := "C:/Software-Engineering/MADN/src/main/scala/controller",
+    //coverageExcludeFiles := "C:/Software-Engineering/MADN/src/main/scala/MADN.scala"
   )
   
