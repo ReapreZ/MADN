@@ -19,7 +19,6 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesO
 						val piecesOutnew = game.piecesOutA + 1
 						return game.copy(piecesOutA = piecesOutnew)
 					} else move(6,game.mesh10)
-				//mesh1.player = mesh1.player :+ ("A", 0)
 				case 2 =>
 					if(game.piecesOutB < game.mesh10.houseamount) {
 						game.mesh10.field1.cArr(nextPlayer) = 'B'
@@ -28,7 +27,6 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesO
 						return game.copy(piecesOutB = piecesOutnew)
 					} else 
 						move(6,game.mesh10)
-				//mesh1.player = mesh1.player :+ ("B", nextPlayer)
 				case 3 => 
 					if(game.piecesOutC < game.mesh10.houseamount) {
 						game.mesh10.field1.cArr(nextPlayer * 2) = 'C'
@@ -37,7 +35,6 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesO
 						return game.copy(piecesOutC = piecesOutnew)
 					} else 
 						move(6,game.mesh10)
-				//mesh1.player = mesh1.player :+ ("C", nextPlayer*2)
 				case 4 =>
 					if(game.piecesOutD < game.mesh10.houseamount) {
 						game.mesh10.field1.cArr(nextPlayer * 3) = 'D'
@@ -46,17 +43,14 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesO
 						return game.copy(piecesOutD = piecesOutnew)
 					} else 
 						move(6,game.mesh10)
-				//mesh1.player = mesh1.player :+ ("D", nextPlayer*3)
 			}
-		} else if(rolledDice != 6) {
+		} else{
 			if(game.playerturn == game.mesh10.playeramount)
 				return copy(playerturn = 1)
 			else 
 				val playerturn1 = game.playerturn + 1
 				return copy(playerturn1, game.mesh10)
 		}
-		//checkIfAllOut(mesh1)
-		return copy(mesh10 = game.mesh10)
 	}
 
 	def checkinput(rolledDice: Int, mesh1:Mesh): Game = {
@@ -84,17 +78,5 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesO
 			case _ => ' '
 		}
 	}
-
-	/*def checkIfAllOut(mesh: Mesh): Mesh = {
-		//val test = mesh.player.groupBy(_.head).mapValues(_.size)
-		playerturn match {
-			case 1 => ""
-				
-		}
-
-
-		mesh
-
-	}*/
 }
 
