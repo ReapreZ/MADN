@@ -1,6 +1,7 @@
 package aview
 
-import model.{Mesh, Field, House, Dice}
+import model.MeshComponent.MeshBase.Mesh
+import model.DiceComponent.DiceBase.Dice
 import scala.io.StdIn.readLine
 
 class Tui {

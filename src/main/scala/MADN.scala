@@ -1,7 +1,8 @@
 package MADN
 
 import Controller._
-import model._
+import model.MeshComponent.MeshBase.Mesh
+import model.GameComponent.GameBase.Game
 import aview._
 import scala.io.StdIn.readLine
 import scala.sys.process.processInternal

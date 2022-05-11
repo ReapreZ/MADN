@@ -1,6 +1,9 @@
 package Controller
 
-import model.{Mesh, Field, House, Dice, Game, Move}
+
+import model.GameComponent.GameBase.Game
+import model.MeshComponent.MeshBase.Mesh
+import model.DiceComponent.DiceBase.Dice
 import scala.io.StdIn.readLine
 import util.Observable
 

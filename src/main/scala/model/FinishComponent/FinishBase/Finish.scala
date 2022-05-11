@@ -1,8 +1,8 @@
-package model
+package model.FinishComponent.FinishBase
 
-case class Finish(Amount: Int, Player: Int) {
+final case class Finish(Amount: Int, Player: Int) extends Strategy{
     val fArr = ((("-") * Amount + "  ") * Player).toArray
     val eol = sys.props("line.separator")
-    def finishfield() =
+    def finishfield():String =
         fArr.mkString("") + eol
 }
