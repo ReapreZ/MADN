@@ -1,4 +1,5 @@
 package model
+import model.DiceComponent.DiceBase.Dice
 
 import org.scalatest._
 import matchers.should.Matchers

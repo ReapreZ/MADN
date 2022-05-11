@@ -3,6 +3,7 @@ package model
 import org.scalatest._
 import matchers.should.Matchers
 import wordspec.AnyWordSpec
+import model.HouseComponent.HouseBase.House
 
 class HouseSpec() extends AnyWordSpec with Matchers {
     "A House" when {

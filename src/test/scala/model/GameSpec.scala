@@ -2,12 +2,13 @@ package model
 
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
-import model._
+import model.MeshComponent.MeshBase.Mesh
+import model.GameComponent.GameBase.Game
 
 class GameSpec extends AnyWordSpec with Matchers {
   
     "A Game is played" when {
-        val game = new Game(0,new Mesh(7,3,1))
+        val game = new Game(0,new Mesh(7,3,1),0,0,0,0)
         val mesh = new Mesh(7,3,1)
         "getOut" should {
             "when rolledDice < 6" in {
@@ -15,10 +16,12 @@ class GameSpec extends AnyWordSpec with Matchers {
             }
             "when rolledDice = 6" in {
                 val mesh1 = mesh
-                mesh1.field1.cArr(0) = 'A'
-                mesh1.field1.cArr(22) = 'B'
-                mesh1.field1.cArr(44) = 'C'
-                game.getOut(6,mesh) shouldBe (game)
+                val game1 = game.copy()
+                game1.mesh10.field1.cArr(0) = 'A'
+                game1.mesh10.field1.cArr(22) = 'B'
+                game1.mesh10.field1.cArr(44) = 'C'
+                
+                game.getOut(6,mesh) shouldBe (game.copy(piecesOutA = 1))
             }
         }
         "checkInput" should {
@@ -31,7 +34,7 @@ class GameSpec extends AnyWordSpec with Matchers {
         }
         "move" should {
             "when a figure is out" in {
-                val game1 = new Game(0,new Mesh(7,3,1))
+                val game1 = new Game(0,new Mesh(7,3,1),0,0,0,0)
                 game1.mesh10.field1.cArr(0) = '_'
                 game1.mesh10.field1.cArr(1) = 'A'
                 game.move(1, mesh) shouldBe (game1)

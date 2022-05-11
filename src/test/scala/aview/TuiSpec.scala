@@ -1,6 +1,6 @@
 package aview
 
-import model.{Mesh, Field, House, Dice}
+
 import org.scalatest._
 import matchers.should.Matchers
 import wordspec.AnyWordSpec
