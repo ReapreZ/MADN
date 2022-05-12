@@ -10,8 +10,8 @@ import scala.sys.process.processInternal
 object MADN {
     def main(args: Array[String]): Unit = {
         var input: String = ""
-        val tui = new Tui
         val controller = new Controller(new Mesh(0,0,0))
+        val tui = new Tui
         val mesh1: Mesh = tui.startgame()
         val game: Game = new Game(0, mesh1,0,0,0,0)
         controller.checkinput1(0, mesh1)
