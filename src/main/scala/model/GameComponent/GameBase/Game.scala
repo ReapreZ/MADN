@@ -75,6 +75,23 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesO
 		val playerTurnC = getTurnC(playerturn)
 		val out = mesh1.field1.cArr.indexOf(playerTurnC)
 		if(out != -1)
+			playerTurnC match {
+				case 'A' =>
+					if(piecesOutA == 1)
+						mesh1.field1.cArr(mesh1.piecepos(playerturn - 1)(0)) = ('_')
+						mesh1.field1.cArr((mesh1.piecepos(playerturn - 1)(0)) + rolledDice) = playerTurnC
+						mesh1.stepsdone(playerturn - 1)(0) = (mesh1.stepsdone(playerturn -1)(0)) + rolledDice
+						mesh1.piecepos(playerturn - 1)(0) = (mesh1.piecepos(playerturn -1)(0)) + rolledDice
+						return 	copy(mesh10 = mesh1)
+				case 'B' =>
+					if(piecesOutB == 1)
+						mesh1.field1.cArr(mesh1.piecepos(playerturn - 1)(0)) = ('_')
+						mesh1.field1.cArr((mesh1.piecepos(playerturn - 1)(0)) + rolledDice) = playerTurnC
+						mesh1.stepsdone(playerturn - 1)(0) = (mesh1.stepsdone(playerturn -1)(0)) + rolledDice
+						mesh1.piecepos(playerturn - 1)(0) = (mesh1.piecepos(playerturn -1)(0)) + rolledDice
+						return 	copy(mesh10 = mesh1)
+				
+			}
 			println("Which Piece should be moved?")
 			val input = readLine()
 					if (mesh1.stepsdone(playerturn - 1)(input.toInt - 1) != -1 && input.toInt <= mesh1.houseamount)
