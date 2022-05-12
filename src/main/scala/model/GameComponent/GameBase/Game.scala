@@ -1,5 +1,6 @@
 package model.GameComponent.GameBase
 import model.MeshComponent.MeshBase.Mesh
+import scala.io.StdIn.readLine
 
 case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesOutC:Int,piecesOutD:Int) extends Strategy {
 	
@@ -14,6 +15,8 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesO
 			game.playerturn match {
 				case 1 =>
 					if(game.piecesOutA < game.mesh10.houseamount) {
+						if(game.piecesOutA == 0)
+							game.mesh10.stepsdone(0)(0) = 0
 						game.mesh10.field1.cArr(0) = 'A'
 						game.mesh10.house1.hArr(game.piecesOutA) = 'H'
 						val piecesOutnew = game.piecesOutA + 1
@@ -21,6 +24,8 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesO
 					} else move(6,game.mesh10)
 				case 2 =>
 					if(game.piecesOutB < game.mesh10.houseamount) {
+						if(game.piecesOutB == 0)
+							game.mesh10.stepsdone(1)(0) = 0			
 						game.mesh10.field1.cArr(nextPlayer) = 'B'
 						game.mesh10.house1.hArr(nextHouse + piecesOutB) = 'H'
 						val piecesOutnew = game.piecesOutB + 1
@@ -29,6 +34,8 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesO
 						move(6,game.mesh10)
 				case 3 => 
 					if(game.piecesOutC < game.mesh10.houseamount) {
+						if(game.piecesOutC == 0)
+							game.mesh10.stepsdone(2)(0) = 0
 						game.mesh10.field1.cArr(nextPlayer * 2) = 'C'
 						game.mesh10.house1.hArr(nextHouse*2 + piecesOutC) = 'H'
 						val piecesOutnew = game.piecesOutC + 1
@@ -37,6 +44,8 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesO
 						move(6,game.mesh10)
 				case 4 =>
 					if(game.piecesOutD < game.mesh10.houseamount) {
+						if(game.piecesOutD == 0)
+							game.mesh10.stepsdone(3)(0) = 0						
 						game.mesh10.field1.cArr(nextPlayer * 3) = 'D'
 						game.mesh10.house1.hArr(nextHouse*3 + piecesOutD) = 'H'
 						val piecesOutnew = game.piecesOutD + 1
@@ -64,8 +73,26 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesO
 		val playerTurnC = getTurnC(playerturn)
 		val out = mesh1.field1.cArr.indexOf(playerTurnC)
 		if(out != -1)
+			println("Which Piece should be moved?")
+			val input = readLine()
+					if (mesh1.stepsdone(playerturn)(input.toInt) != -1 && input.toInt <= mesh1.houseamount)
+						mesh1.field1.cArr(mesh1.piecepos(playerturn)(input.toInt)) = ('_')
+						mesh1.field1.cArr(mesh1.piecepos(playerturn)(input.toInt) + rolledDice) = playerTurnC
+						mesh1.stepsdone(playerturn)(input.toInt) = mesh1.stepsdone(playerturn)(input.toInt) + rolledDice
+						mesh1.piecepos(playerturn)(input.toInt) = mesh1.piecepos(playerturn)(input.toInt) + rolledDice
+					else 
+						println("This Piece isnt out yet")
+						val game = move(rolledDice, mesh1)
+						return game.copy(mesh10 = mesh1)
+			/*playerTurnC match {
+				case 'A' =>
+					mesh1.stepsdone(0)(0) = mesh1.stepsdone(0)(0) + rolledDice
+				case 'B' => mesh1.stepsdone(1)(0) = mesh1.stepsdone(1)(0) + rolledDice
+				case 'C' => mesh1.stepsdone(2)(0) = mesh1.stepsdone(2)(0) + rolledDice
+				case 'D' => mesh1.stepsdone(3)(0) = mesh1.stepsdone(3)(0) + rolledDice
+			}
 			mesh1.field1.cArr(out) = ('_')
-			mesh1.field1.cArr(out + rolledDice) = playerTurnC
+			mesh1.field1.cArr(out + rolledDice) = playerTurnC */
 		return copy(mesh10 = mesh1)
 	}
 
