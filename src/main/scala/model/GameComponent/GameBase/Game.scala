@@ -51,29 +51,32 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesO
 						val game = movePiece(rolledDice, piecesOutD, mesh1)
 						return copy(mesh10 = mesh1)		
 			}
-			println("Which Piece should be moved or which Piece should come out?")
-			val input = readLine()
-					if (input.toInt <= mesh1.houseamount)
-						if (mesh1.stepsdone(playerturn - 1)(input.toInt - 1) == -1)
-							playerTurnC match {
-								case 'A' => 
-									if(input.toInt >= piecesOutA)
-										movePieceOut(mesh1)
-								case 'B' => 
-									if(input.toInt >= piecesOutB)
-										movePieceOut(mesh1)
-								case 'C' => 
-									if(input.toInt >= piecesOutC)
-										movePieceOut(mesh1)
-								case 'D' => 
-									if(input.toInt >= piecesOutD)
-										movePieceOut(mesh1)
-							}
-						else movePiece(rolledDice, input.toInt, mesh1)
-					else
-						println("This Piece isnt out yet")
-						val game = move(rolledDice, mesh1)
-						return game.copy(mesh10 = mesh1)
+			if (rolledDice == 6)
+				()
+			else
+				println("Which Piece should be moved?")
+				val input = readLine()
+						if (input.toInt <= mesh1.houseamount)
+							if (mesh1.stepsdone(playerturn - 1)(input.toInt - 1) == -1)
+								playerTurnC match {
+									case 'A' => 
+										if(input.toInt >= piecesOutA)
+											movePieceOut(mesh1)
+									case 'B' => 
+										if(input.toInt >= piecesOutB)
+											movePieceOut(mesh1)
+									case 'C' => 
+										if(input.toInt >= piecesOutC)
+											movePieceOut(mesh1)
+									case 'D' => 
+										if(input.toInt >= piecesOutD)
+											movePieceOut(mesh1)
+								}
+							else movePiece(rolledDice, input.toInt, mesh1)
+						else
+							println("This Piece isnt out yet")
+							val game = move(rolledDice, mesh1)
+							return game.copy(mesh10 = mesh1)
 		return copy(mesh10 = mesh1)
 	}
 
