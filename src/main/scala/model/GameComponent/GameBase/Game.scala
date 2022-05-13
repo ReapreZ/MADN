@@ -1,7 +1,7 @@
 package model.GameComponent.GameBase
 import model.MeshComponent.MeshBase.Mesh
 
-case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesOutC:Int,piecesOutD:Int) extends Strategy {
+case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesOutC:Int,piecesOutD:Int) extends GameStrategy {
 	
 	def getOut(rolledDice: Int,mesh1:Mesh): Game = {
 		val game = move(rolledDice,mesh1)

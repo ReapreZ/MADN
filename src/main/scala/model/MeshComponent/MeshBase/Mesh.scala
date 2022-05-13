@@ -5,7 +5,7 @@ import model.HouseComponent.HouseBase.House
 import model.FinishComponent.FinishBase.Finish
 
 
-final case class Mesh(Cell: Int, Player: Int, Housenumber: Int) extends Strategy{
+final case class Mesh(Cell: Int, Player: Int, Housenumber: Int){
     val field1 = Field(Cell, Player)
     val house1 = House(Housenumber, Player)
     val finish1 = Finish(Housenumber, Player)
