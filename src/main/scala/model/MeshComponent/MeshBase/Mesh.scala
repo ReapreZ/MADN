@@ -28,6 +28,6 @@ final case class Mesh(Cell: Int, Player: Int, Housenumber: Int){
             piecepos(temp)(temp2) = -1
             temp2 = temp2 + 1
         temp = temp + 1
-    def mesh():String = field1.cell() + house1.housefield() + finish1.finishfield()
+    def mesh():String = field1.toString() + house1.toString() + finish1.toString()
 
 }
