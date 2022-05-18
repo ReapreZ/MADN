@@ -11,13 +11,13 @@ class FinishSpec() extends AnyWordSpec with Matchers {
         "it is not set to any value" should {
             val finish0 = new Finish(0,0)
             "have an empty field" in {
-                finish0.finishfield() should be ("" + eol)
+                finish0.toString() should be ("" + eol)
             }
         }
         "it is a small field" should {
             val finish1 = new Finish(1,1)
             "be scalable" in {
-                finish1.finishfield() should be ("-  " + eol)
+                finish1.toString() should be ("-  " + eol)
             }
         }
     }

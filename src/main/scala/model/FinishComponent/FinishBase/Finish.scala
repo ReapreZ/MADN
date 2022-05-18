@@ -1,8 +1,6 @@
 package model.FinishComponent.FinishBase
+import model.Factory
 
-final case class Finish(Amount: Int, Player: Int){
-    val fArr = ((("-") * Amount + "  ") * Player).toArray
-    val eol = sys.props("line.separator")
-    def finishfield():String =
-        fArr.mkString("") + eol
+final case class Finish(Amount: Int, Player: Int) extends Factory{
+    override val Arr = ((("-") * Amount + "  ") * Player).toArray
 }

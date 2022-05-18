@@ -11,13 +11,13 @@ class HouseSpec() extends AnyWordSpec with Matchers {
         "it is not set to any value" should {
             val house0 = new House(0,0)
             "have an empty field" in {
-                house0.housefield() should be ("" + eol)
+                house0.toString() should be ("" + eol)
             }
         }
         "it is a small field" should {
             val house1 = new House(1,1)
             "be scalable" in {
-                house1.housefield() should be ("A  " + eol)
+                house1.toString() should be ("A  " + eol)
             }
         }
     }
