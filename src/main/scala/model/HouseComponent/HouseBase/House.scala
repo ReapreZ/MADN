@@ -1,6 +1,6 @@
 package model.HouseComponent.HouseBase
 import scala.language.postfixOps
-case class House(Amount: Int, Player: Int) extends Strategy{
+case class House(Amount: Int, Player: Int){
     val houses = List("A","B","C","D")
     var temp = ""
     var i = 0
