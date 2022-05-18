@@ -3,7 +3,7 @@ import model.MeshComponent.MeshBase.Mesh
 import scala.io.StdIn.readLine
 import scala.compiletime.ops.boolean
 
-case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesOutC:Int,piecesOutD:Int) extends Strategy {
+case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesOutC:Int,piecesOutD:Int) extends GameStrategy {
 	
 	def getOut(rolledDice: Int,mesh1:Mesh): Game = {
 		val game = move(rolledDice,mesh1)
@@ -180,3 +180,6 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesO
 	}
 }
 // Wenn einer draußen ist sollte nicht ein anderer rauskommen können
+//Try/Option bei falschem Einput
+
+// Bis nächstes mal Pattern 1 Abgabe() + Pattern 2 (Redo,Undo,Trait,Option)
