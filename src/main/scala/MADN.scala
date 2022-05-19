@@ -1,20 +1,21 @@
 package MADN
 
-import Controller._
 import model.MeshComponent.MeshBase.Mesh
+import model.MeshComponent.MeshBase._
 import model.GameComponent.GameBase.Game
 import aview._
 import scala.io.StdIn.readLine
-import scala.sys.process.processInternal
+import controller._
 
 object MADN {
     def main(args: Array[String]): Unit = {
         var input: String = ""
-        val controller = new Controller(new Mesh(0,0,0))
+        //val test: Mesh = new SimpleMesh with twoPtwoHtenF
         val tui = new Tui
         val mesh1: Mesh = tui.startgame()
-        val game: Game = new Game(0, mesh1,0,0,0,0)
-        controller.doAndPublish(controller.checkinput1, 0, mesh1)
+        val controller = new Controller(new Game(0, mesh1,0,0,0,0))
+        //val game: Game = new Game(0, mesh1,0,0,0,0)
+        controller.doAndPublish(controller.checkinput1, 0)
         while (input != "q")
             input = readLine()
             val output = tui.processInputLine(input)
@@ -22,8 +23,11 @@ object MADN {
                 println("Game over!\n")
             else if(output == -1)
                 println("Wrong input")
+            else if(output == 10)
+                controller.undo
             else
                 println("\nYou rolled a " + output + "\n")
-                controller.doAndPublish(controller.checkinput1, output, mesh1) 
+                controller.doAndPublish(controller.checkinput1, output)
     }
+
 }

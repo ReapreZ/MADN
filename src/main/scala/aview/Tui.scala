@@ -34,6 +34,7 @@ class Tui {
                 return dice1.dicestra(diceread.toInt)
 
             case "q" => return 0
+            case "undo" => return 10
             case _ => return -1
         }
     }
