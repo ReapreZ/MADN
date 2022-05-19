@@ -10,7 +10,7 @@ import util.UndoManager
 import util.Command
 
 class Controller(var game: Game) extends Observable {
-    private val undoManager = new UndoManager
+    val undoManager = new UndoManager[Game]
     var game1 = new Game(0,new Mesh(0,0,0),0,0,0,0)
     var mesh1 = new Mesh(0,0,0)
     //var gamestatus: GameStatus = IDLE
@@ -20,10 +20,7 @@ class Controller(var game: Game) extends Observable {
         game = doThis(rolledDice)
         notifyObservers
     }
-    def set(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesOutC:Int,piecesOutD:Int): Unit = {
-    undoManager.doStep(new SetCommand(playerturn, mesh10, piecesOutA, piecesOutB, piecesOutC, piecesOutD, this))
-    //gameStatus = SET
-  }
+
     def getOut1(rolledDice:Int): Game = {
         //game1 = game.copy()
         //mesh1 = mesh
@@ -39,6 +36,10 @@ class Controller(var game: Game) extends Observable {
             game1 = game.copy()
             game.checkinput(rolledDice)
     }
-    def undo: Unit = 
-        undoManager.undoStep
+
+
+    def put(rolledDice:Int): Game = undoManager.doStep(game)
+    def undo: Game = undoManager.undoStep(game)
+    def redo: Game = undoManager.redoStep(game)
+
 }
