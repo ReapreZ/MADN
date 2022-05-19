@@ -11,7 +11,7 @@ object MADN {
     def main(args: Array[String]): Unit = {
         var input: String = ""
         //val test: Mesh = new SimpleMesh with twoPtwoHtenF
-        val tui = new Tui
+        val tui = new Tui(controller)
         val mesh1: Mesh = tui.startgame()
         val controller = new Controller(new Game(0, mesh1,0,0,0,0))
         //val game: Game = new Game(0, mesh1,0,0,0,0)

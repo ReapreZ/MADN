@@ -4,8 +4,11 @@ import model.MeshComponent.MeshBase.Mesh
 import model.DiceComponent.DiceBase.Dice
 import scala.io.StdIn.readLine
 import model.DiceComponent.DiceBase.DiceStrategy
+import java.util.Observer
+import controller.Controller
 
-class Tui {
+class Tui(controller:Controller) extends Observer{
+    controller.add(this)
     
     val dice1 = new Dice
 

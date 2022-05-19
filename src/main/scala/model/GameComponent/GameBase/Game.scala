@@ -159,7 +159,7 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesO
 		}
 	}
 
-	def set(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesOutC:Int,piecesOutD:Int): Game = {
+	def put(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesOutC:Int,piecesOutD:Int): Game = {
 		copy(playerturn,mesh10,piecesOutA,piecesOutB,piecesOutC,piecesOutD)
 	}
 }
