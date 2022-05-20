@@ -78,7 +78,7 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesO
 	}
 	
 	def movePieceOut(): Game = {
-		val nextPlayer = mesh10.field1.Player * mesh10.field1.Cell + 1
+		val nextPlayer = mesh10.Player * mesh10.Cell + 1
 		val nextHouse = mesh10.Housenumber + 2
 		playerturn match {
 			case 1 =>

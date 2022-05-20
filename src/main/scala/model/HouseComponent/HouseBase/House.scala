@@ -1,7 +1,7 @@
 package model.HouseComponent.HouseBase
-import model.Factory
+import model.FieldFactory
 
-case class House(Amount: Int, Player: Int) extends Factory {
+case class House(Amount: Int, Player: Int) extends FieldFactory {
     val houses = List("A","B","C","D")
     var temp = ""
     var i = 0

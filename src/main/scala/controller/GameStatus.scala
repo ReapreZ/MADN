@@ -1,9 +1,18 @@
 package controller
 
 enum GameStatus {
-    case IDLE,NEW,SET,UNDO,REDO,SAVED,COULD_NOT_SAVE,LOADED,COULD_NOT_LOAD,FINISHED
+    case IDLE
+    case NEW
+    case SET
+    case UNDO
+    case REDO
+    case SAVED
+    case COULD_NOT_SAVE
+    case LOADED
+    case COULD_NOT_LOAD
+    case FINISHED
 
-    val map = Map[GameStatus, String](
+    def map = Map[GameStatus, String](
         IDLE -> "",
         NEW -> "A new game was created",
         SET -> "A new Mesh was created",
@@ -15,8 +24,4 @@ enum GameStatus {
         COULD_NOT_SAVE -> "The game could not be saved",
         FINISHED -> "The Game is over"
     )
-    
-    def message(gameStatus: GameStatus) = {
-        map(gameStatus)
-  }
 }

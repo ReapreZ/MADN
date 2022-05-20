@@ -1,6 +1,6 @@
 package model.FieldComponent.FieldBase
-import model.Factory
+import model.FieldFactory
 
-final case class Field(Cell: Int, Player: Int) extends Factory {
+final case class Field(Cell: Int, Player: Int) extends FieldFactory {
     override val Arr = (("x" + ("_" * Cell * Player)) * Player).toArray
 }

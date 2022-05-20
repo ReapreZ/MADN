@@ -45,12 +45,12 @@ class Controller(var game: Game) extends Observable {
     def put(rolledDice:Int): Game = undoManager.doStep(game, SetCommand(rolledDice))
     def undo: Game = {
         gamestatus = UNDO
-        //print(gamestatus.message(gamestatus))
+        print(gamestatus.map(gamestatus))
         undoManager.undoStep(game)
     }
     def redo: Game = {
         gamestatus = REDO
-        print(gamestatus.message(gamestatus))
+        print(gamestatus.map(gamestatus))
         undoManager.redoStep(game)
     }
 }

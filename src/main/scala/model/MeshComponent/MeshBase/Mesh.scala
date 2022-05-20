@@ -3,11 +3,12 @@ import scala.collection.mutable.ListBuffer
 import model.FieldComponent.FieldBase.Field
 import model.HouseComponent.HouseBase.House
 import model.FinishComponent.FinishBase.Finish
+import model.FieldFactory
 
 final case class Mesh(Cell: Int, Player: Int, Housenumber: Int){
-    val field1 = Field(Cell, Player)
-    val house1 = House(Housenumber, Player)
-    val finish1 = Finish(Housenumber, Player)
+    val field1 = FieldFactory.apply("field",Cell, Player)
+    val house1 = FieldFactory.apply("house",Housenumber, Player)
+    val finish1 = FieldFactory.apply("finish",Housenumber, Player)
     val piecepos = fillArr(Player, Housenumber)
     val stepsdone = fillArr(Player, Housenumber)
     
