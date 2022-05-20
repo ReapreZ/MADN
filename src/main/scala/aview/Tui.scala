@@ -4,11 +4,11 @@ import model.MeshComponent.MeshBase.Mesh
 import model.DiceComponent.DiceBase.Dice
 import scala.io.StdIn.readLine
 import model.DiceComponent.DiceBase.DiceStrategy
-import java.util.Observer
 import controller.Controller
+import util.Observable
 
-class Tui(controller:Controller) extends Observer{
-    controller.add(this)
+class Tui() extends Observable{
+    //controller.add(this)
     
     val dice1 = new Dice
 
@@ -37,7 +37,7 @@ class Tui(controller:Controller) extends Observer{
                 return dice1.dicestra(diceread.toInt)
 
             case "q" => return 0
-            case "undo" => return 10
+            case "undo" => 10
             case _ => return -1
         }
     }

@@ -1,7 +1,6 @@
 package model.GameComponent.GameBase
 import model.MeshComponent.MeshBase.Mesh
 import scala.io.StdIn.readLine
-import scala.compiletime.ops.boolean
 
 case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesOutC:Int,piecesOutD:Int) extends GameStrategy {
 	
@@ -39,45 +38,25 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesO
 		if(out != -1)
 			if(rolledDice != 6 && getPiecesOut() == 1)
 				val game = movePiece(rolledDice, getPiecesOut())
-				return game.copy(mesh10 = this.mesh10)
+				return game.copy()
 			if (rolledDice == 6)
 				println("Which Piece should be moved or which Piece should come out?")
 				val input = readLine()
-				playerTurnC match {
-					case 'A' => return moveOrGetOut(input.toInt,piecesOutA)
-					case 'B' => return moveOrGetOut(input.toInt,piecesOutB)
-					case 'C' => return moveOrGetOut(input.toInt,piecesOutC)
-					case 'D' => return moveOrGetOut(input.toInt,piecesOutD)	
-				}
+				return moveOrGetOut(input.toInt, getPiecesOut())
 			else
 				println("Which Piece should be moved?")
 				val input = readLine()
 						if (input.toInt <= mesh10.Housenumber)
 							if (mesh10.stepsdone(playerturn - 1)(input.toInt - 1) == -1)
-								playerTurnC match {
-									case 'A' =>
-										if(input.toInt >= piecesOutA)
-											val game1 = movePieceOut()
-											return game1
-									case 'B' => 
-										if(input.toInt >= piecesOutB)
-											val game1 = movePieceOut()
-											return game1
-									case 'C' => 
-										if(input.toInt >= piecesOutC)
-											val game1 = movePieceOut()
-											return game1
-									case 'D' => 
-										if(input.toInt >= piecesOutD)
-											val game1 = movePieceOut()
-											return game1
-								}
+								if(input.toInt >= getPiecesOut())
+									val game1 = movePieceOut()
+									return game1
 							else return movePiece(rolledDice, input.toInt)
 						else
 							println("This Piece isnt out yet")
 							val game = move(rolledDice)
-							return game.copy(mesh10 = this.mesh10)
-		return copy(mesh10 = this.mesh10)
+							return game.copy()
+		return copy()
 	}
 
 	def getTurnC(playerturn: Int): Char = {
@@ -95,7 +74,7 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesO
 		mesh10.field1.Arr((mesh10.piecepos(playerturn - 1)(piece - 1)) + rolledDice) = playerTurnC
 		mesh10.stepsdone(playerturn - 1)(piece - 1) = (mesh10.stepsdone(playerturn - 1)(piece - 1)) + rolledDice
 		mesh10.piecepos(playerturn - 1)(piece - 1) = (mesh10.piecepos(playerturn - 1)(piece - 1)) + rolledDice
-		return copy(mesh10 = this.mesh10)
+		return copy()
 	}
 	
 	def movePieceOut(): Game = {

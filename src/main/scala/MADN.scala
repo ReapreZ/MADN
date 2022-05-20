@@ -11,7 +11,7 @@ object MADN {
     def main(args: Array[String]): Unit = {
         var input: String = ""
         //val test: Mesh = new SimpleMesh with twoPtwoHtenF
-        val tui = new Tui(controller)
+        val tui = new Tui()
         val mesh1: Mesh = tui.startgame()
         val controller = new Controller(new Game(0, mesh1,0,0,0,0))
         //val game: Game = new Game(0, mesh1,0,0,0,0)
@@ -24,7 +24,7 @@ object MADN {
             else if(output == -1)
                 println("Wrong input")
             else if(output == 10)
-                controller.undo
+                controller.doAndPublish(controller.undo)
             else
                 println("\nYou rolled a " + output + "\n")
                 controller.doAndPublish(controller.checkinput1, output)

@@ -1,5 +1,7 @@
 package util
 
+import model.GameComponent.GameBase.Game
+
 trait Command[T]:
   def noStep(t: T): T
   def doStep(t: T): T

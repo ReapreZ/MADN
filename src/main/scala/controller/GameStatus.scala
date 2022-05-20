@@ -1,13 +1,12 @@
 package controller
 
-object GameStatus extends Enumeration {
-    type GameStatus = Value
-    val IDLE,NEW,SET,UNDO,REDO,SAVED,COULD_NOT_SAVE,LOADED,COULD_NOT_LOAD,FINISHED = Value
+enum GameStatus {
+    case IDLE,NEW,SET,UNDO,REDO,SAVED,COULD_NOT_SAVE,LOADED,COULD_NOT_LOAD,FINISHED
 
     val map = Map[GameStatus, String](
         IDLE -> "",
         NEW -> "A new game was created",
-        SET -> "A Cell was set",
+        SET -> "A new Mesh was created",
         UNDO -> "Undone one step",
         REDO -> "Redone one step",
         LOADED -> "A new Game was loaded",
@@ -16,6 +15,7 @@ object GameStatus extends Enumeration {
         COULD_NOT_SAVE -> "The game could not be saved",
         FINISHED -> "The Game is over"
     )
+    
     def message(gameStatus: GameStatus) = {
         map(gameStatus)
   }
