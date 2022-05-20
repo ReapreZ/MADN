@@ -8,16 +8,22 @@ import scala.io.StdIn.readLine
 import util.Observable
 import util.UndoManager
 import util.Command
+import GameStatus._
 
 class Controller(var game: Game) extends Observable {
     val undoManager = new UndoManager[Game]
     var game1 = new Game(0,new Mesh(0,0,0),0,0,0,0)
     var mesh1 = new Mesh(0,0,0)
-    //var gamestatus: GameStatus = IDLE
+    var gamestatus: GameStatus = IDLE
 
     def doAndPublish(doThis: (Int) => Game,rolledDice:Int) = {
+        undoManager.doStep(game,SetCommand(rolledDice))
         //game = game.copy()
         game = doThis(rolledDice)
+        notifyObservers
+    }
+    def doAndPublish(doThis: => Game) = {
+        game = doThis
         notifyObservers
     }
 
@@ -36,10 +42,15 @@ class Controller(var game: Game) extends Observable {
             game1 = game.copy()
             game.checkinput(rolledDice)
     }
-
-
-    def put(rolledDice:Int): Game = undoManager.doStep(game)
-    def undo: Game = undoManager.undoStep(game)
-    def redo: Game = undoManager.redoStep(game)
-
+    def put(rolledDice:Int): Game = undoManager.doStep(game, SetCommand(rolledDice))
+    def undo: Game = {
+        gamestatus = UNDO
+        //print(gamestatus.message(gamestatus))
+        undoManager.undoStep(game)
+    }
+    def redo: Game = {
+        gamestatus = REDO
+        print(gamestatus.message(gamestatus))
+        undoManager.redoStep(game)
+    }
 }
