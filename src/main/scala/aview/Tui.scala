@@ -5,14 +5,18 @@ import model.DiceComponent.DiceBase.Dice
 import scala.io.StdIn.readLine
 import model.DiceComponent.DiceBase.DiceStrategy
 import controller.Controller
-import util.Observable
+import util.Observer
+import scala.util.{Try,Success,Failure}
 
-class Tui() extends Observable{
-    //controller.add(this)
+class Tui(controller: Controller) extends Observer:
+
+    controller.add(this)
     
+    override def update = println(controller.game.mesh10.mesh())
+
     val dice1 = new Dice
 
-    def startgame(): Mesh = {
+    /*def startgame(): Mesh = {
         //println("Which Dice? 1 = RandomDice 2 = MagicDice")
         //val diceread = readLine()
         //dice1.dicestra(diceread.toInt)
@@ -26,7 +30,7 @@ class Tui() extends Observable{
         var mesh1 = Mesh(cellamount.toInt, playeramount.toInt, houseamount.toInt)
         println("Press 'r' to roll the dice\n")
         mesh1
-    }
+    }*/
 
     def processInputLine(input: String): Int = {
 
@@ -34,12 +38,12 @@ class Tui() extends Observable{
             case "r" =>
                 println("Which Dice? 1 = RandomDice 2 = MagicDice")
                 val diceread = readLine()
-                return dice1.dicestra(diceread.toInt)
-
+                dice1.dicestra(diceread.toInt)
+                
             case "q" => return 0
             case "undo" => 10
             case _ => return -1
         }
     }
 
-}
+

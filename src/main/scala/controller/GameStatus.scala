@@ -14,14 +14,14 @@ enum GameStatus {
 
     def map = Map[GameStatus, String](
         IDLE -> "",
-        NEW -> "A new game was created",
-        SET -> "A new Mesh was created",
-        UNDO -> "Undone one step",
-        REDO -> "Redone one step",
-        LOADED -> "A new Game was loaded",
-        COULD_NOT_LOAD -> "The file could not be loaded",
-        SAVED -> "The Game was saved",
-        COULD_NOT_SAVE -> "The game could not be saved",
-        FINISHED -> "The Game is over"
+        NEW -> "A new game was created\n",
+        SET -> "A new Mesh was created\n",
+        UNDO -> "Undone one step\n",
+        REDO -> "Redone one step\n",
+        LOADED -> "A new Game was loaded\n",
+        COULD_NOT_LOAD -> "The file could not be loaded\n",
+        SAVED -> "The Game was saved\n",
+        COULD_NOT_SAVE -> "The game could not be saved\n",
+        FINISHED -> "The Game is over\n"
     )
 }

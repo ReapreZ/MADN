@@ -9,6 +9,7 @@ lazy val root = project
     scalaVersion := scala3Version,
     //libraryDependencies += "org.scalameta" %% "munit" % "0.7.29" % Test,
     libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.11",
+    libraryDependencies += "org.scala-lang.modules" %% "scala-swing" % "3.0.0",
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.11" % "test",
     jacocoReportSettings := JacocoReportSettings(
     "Jacoco Coverage Report",

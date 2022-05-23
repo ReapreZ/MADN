@@ -9,6 +9,7 @@ import util.Observable
 import util.UndoManager
 import util.Command
 import GameStatus._
+import model.Move
 
 class Controller(var game: Game) extends Observable {
     val undoManager = new UndoManager[Game]
@@ -16,9 +17,8 @@ class Controller(var game: Game) extends Observable {
     var mesh1 = new Mesh(0,0,0)
     var gamestatus: GameStatus = IDLE
 
+
     def doAndPublish(doThis: (Int) => Game,rolledDice:Int) = {
-        undoManager.doStep(game,SetCommand(rolledDice))
-        //game = game.copy()
         game = doThis(rolledDice)
         notifyObservers
     }
@@ -26,23 +26,19 @@ class Controller(var game: Game) extends Observable {
         game = doThis
         notifyObservers
     }
-
     def getOut1(rolledDice:Int): Game = {
-        //game1 = game.copy()
-        //mesh1 = mesh
         game.getOut(rolledDice)
     }
     def move1(rolledDice:Int):Game = { 
-        //game1 = game.copy()
-        //mesh1 = mesh
         game.move(rolledDice)
     }
     def checkinput1(rolledDice:Int):Game = {
-            //mesh1 = game.mesh10.copy()
+            //print(game.mesh10.mesh())
+            //doAndPublish(put/*Move(output, mesh1)*/)
             game1 = game.copy()
             game.checkinput(rolledDice)
     }
-    def put(rolledDice:Int): Game = undoManager.doStep(game, SetCommand(rolledDice))
+    def put(/*move:Move*/): Game = undoManager.doStep(game, SetCommand(game.playerturn, game.mesh10, game.piecesOutA, game.piecesOutB, game.piecesOutC, game.piecesOutD, this/*move*/))
     def undo: Game = {
         gamestatus = UNDO
         print(gamestatus.map(gamestatus))
