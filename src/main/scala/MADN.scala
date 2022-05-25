@@ -22,7 +22,7 @@ object MADN {
             case Failure(e) => print(e.getMessage)
         }
         val controller = new Controller(new Game(1, mesh,0,0,0,0))
-        val tui = new Tui(controller)
+        val tui = new Tui(controller) 
         val gui = new GuiSwing(controller)
         //controller.doAndPublish(controller.checkinput1, 0)
         while (input != "q")
