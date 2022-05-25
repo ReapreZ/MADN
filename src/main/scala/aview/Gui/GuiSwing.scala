@@ -2,10 +2,12 @@ package aview.Gui
 
 import util._
 import scala.swing._
-import javax.swing.{JPanel, JScrollPane, SwingUtilities}
-import BorderPanel.Position._
-import scala.swing.Swing.LineBorder
-import java.awt.BorderLayout
+import javax.swing.{JPanel, JScrollPane, SwingUtilities, ImageIcon}
+import java.awt.{BorderLayout, Image, Toolkit}
+import javax.imageio.ImageIO
+import java.awt.image.BufferedImage
+import scala.util.{Try, Success, Failure}
+import java.io.File
 import scala.swing.event._
 import controller.Controller
 import model.DiceComponent.DiceBase.Dice
@@ -13,15 +15,22 @@ import model.MeshComponent.MeshBase.Mesh
 import model.GameComponent.GameBase.Game
 
 class GuiSwing(controller: Controller) extends MainFrame with Observer{
-     //listenTo(controller)
-    var mesh: Mesh = new Mesh(0,0,0)
-    override def update = println()
-    val infolabel = new TextField("Put in the amount of Players/Houses/Cells to start the game")
-    val rollDiceB = new Button("Roll the Dice")
+    //listenTo(controller)
+    controller.add(this)
     title = "Mensch ärgere dich nicht!"
     preferredSize = new Dimension(800, 700)
+
+    val circle = Toolkit.getDefaultToolkit.getImage("C:/Software-Engineering/MADN-1/Bilder/Kreis.jpg")
+    val infolabel = new TextField("Put in the amount of Players/Houses/Cells to start the game")
+    val rollDiceB = new Button("Roll the Dice")
+    val testB = new Button
+    val testA = new Button
+    val testC = new Button
+
+    var mesh: Mesh = new Mesh(0,0,0)
     val dice1 = new Dice
-        def infoPanel = new FlowPanel {
+
+        def bottomPanel = new FlowPanel {
             infolabel.preferredSize = new Dimension(690,50)
             infolabel.editable = false
             contents += infolabel
@@ -43,12 +52,26 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
                     case event.ButtonClicked(_) => 
                         val mesh = new Mesh(cellamountTF.text.toInt, playeramountTF.text.toInt, houseamoutTF.text.toInt) 
                         val controller = new Controller(new Game(1, mesh,0,0,0,0))
+                        centerPanel.contents += new Button("test")
                 }
             }
         }
-        contents = new BorderPanel {
-            add(infoPanel, BorderPanel.Position.South)
-            add(topPanel, BorderPanel.Position.North)
+
+        def centerPanel = new GridPanel(2,3) {
+            contents += testB
+            contents += testA
+            contents += testC
+            testB.preferredSize = new Dimension(50,50)
+
+            /*testB.icon = 
+                val imagePath = "C:/Software-Engineering/MADN-1/src/main\resources/Icons/Kreis.png"
+                val image: BufferedImage = Try(ImageIO.read(new File(imagePath))) match {
+                    case s: Success[BufferedImage] => s.value
+                    case f: Failure[BufferedImage] =>
+                    new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB)
+                    }
+                new ImageIcon(image)
+            //testB.icon = image */
         }
         
         rollDiceB.reactions += {
@@ -57,10 +80,15 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
                 infolabel.text = "You rolled a " + rolledDice.toString
                 controller.doAndPublish(controller.checkinput1 , rolledDice)
         }
+
+        contents = new BorderPanel {
+        add(bottomPanel, BorderPanel.Position.South)
+        add(topPanel, BorderPanel.Position.North)
+        add(centerPanel, BorderPanel.Position.Center)
+        }
     
-    override def closeOperation() = {
-        this.close()
-    }
+    override def closeOperation() = this.close()
+    override def update = println()
     pack()
     centerOnScreen()
     open()
