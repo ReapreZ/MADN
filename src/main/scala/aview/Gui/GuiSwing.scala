@@ -3,7 +3,8 @@ package aview.Gui
 import util._
 import scala.swing._
 import javax.swing.{JPanel, JScrollPane, SwingUtilities, ImageIcon}
-import java.awt.{BorderLayout, Image, Toolkit}
+import java.awt.{BorderLayout, Image, Toolkit, Font}
+import java.awt.Font._
 import javax.imageio.ImageIO
 import java.awt.image.BufferedImage
 import scala.util.{Try, Success, Failure}
@@ -21,19 +22,24 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
     preferredSize = new Dimension(800, 700)
 
     val circle = Toolkit.getDefaultToolkit.getImage("C:/Software-Engineering/MADN-1/Bilder/Kreis.jpg")
-    val infolabel = new TextField("Put in the amount of Players/Houses/Cells to start the game")
+    val infoLabel = new TextField("Put in the amount of Players/Houses/Cells to start the game")
     val rollDiceB = new Button("Roll the Dice")
     val testB = new Button
-    val testA = new Button
-    val testC = new Button
+    val testB2 = new Button
+    val testB3 = new Button
+    val testB4 = new Button
+    val testB5 = new Button
 
     var mesh: Mesh = new Mesh(0,0,0)
     val dice1 = new Dice
+    var fieldLabel = new Label
+    var houseLabel = new Label
+    var finishLabel = new Label
 
         def bottomPanel = new FlowPanel {
-            infolabel.preferredSize = new Dimension(690,50)
-            infolabel.editable = false
-            contents += infolabel
+            infoLabel.preferredSize = new Dimension(690,50)
+            infoLabel.editable = false
+            contents += infoLabel
         }
         def topPanel = new FlowPanel {
             contents += rollDiceB
@@ -50,17 +56,29 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
             contents += new Button("Start Game") {
                 reactions += {
                     case event.ButtonClicked(_) => 
-                        val mesh = new Mesh(cellamountTF.text.toInt, playeramountTF.text.toInt, houseamoutTF.text.toInt) 
+                        mesh = new Mesh(cellamountTF.text.toInt, playeramountTF.text.toInt, houseamoutTF.text.toInt) 
                         val controller = new Controller(new Game(1, mesh,0,0,0,0))
-                        centerPanel.contents += new Button("test")
+                        println("this is the mesh" + mesh.mesh())
+                        fieldLabel.text = controller.game.mesh10.field1.toString
+                        houseLabel.text = controller.game.mesh10.house1.toString
+                        finishLabel.text = controller.game.mesh10.finish1.toString
+                        
                 }
             }
         }
 
-        def centerPanel = new GridPanel(2,3) {
-            contents += testB
-            contents += testA
-            contents += testC
+        def centerPanel = new GridPanel(3,3) {
+            /*contents += testB
+            contents += testB2
+            contents += testB3
+            contents += testB4
+            contents += testB5*/
+            contents += fieldLabel
+            contents += houseLabel
+            contents += finishLabel
+            fieldLabel.font = new Font("Arial", 0, 20)
+            houseLabel.font = new Font("Arial", 0, 20)
+            finishLabel.font = new Font("Arial", 0, 20)
             testB.preferredSize = new Dimension(50,50)
 
             /*testB.icon = 
@@ -76,9 +94,12 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
         
         rollDiceB.reactions += {
             case event.ButtonClicked(`rollDiceB`) =>
-                val rolledDice = dice1.magicDice()
-                infolabel.text = "You rolled a " + rolledDice.toString
+                val rolledDice = dice1.diceRandom()
+                infoLabel.text = "You rolled a " + rolledDice.toString
                 controller.doAndPublish(controller.checkinput1 , rolledDice)
+                fieldLabel.text = controller.game.mesh10.field1.toString
+                houseLabel.text = controller.game.mesh10.house1.toString
+                finishLabel.text = controller.game.mesh10.finish1.toString
         }
 
         contents = new BorderPanel {
