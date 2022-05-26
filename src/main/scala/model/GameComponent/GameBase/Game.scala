@@ -10,11 +10,11 @@ import scala.util.{Try,Success,Failure}
 case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesOutC:Int,piecesOutD:Int) extends GameStrategy {
 	var out: Int = -1
 	def getOut(rolledDice: Int): Game = {
-		val game = move(rolledDice)
+		//val game = move(rolledDice)
 		val playerTurnC = getTurnC(playerturn)
 		//val out = game.mesh10.field1.Arr.indexOf(playerTurnC)
 		playerTurnC match {
-				case Success(v) => out = game.mesh10.field1.Arr.indexOf(v.toChar)
+				case Success(v) => out = mesh10.field1.Arr.indexOf(v.toChar)
 				case Failure(e) => println(e.getMessage)
 			}
 		if(rolledDice == 6) {
@@ -28,13 +28,13 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesO
 		} else{
 			//PlayerOutState.state = 0
 			//PlayerOutState.handle(PlayerOutState.state)
-			if(game.playerturn == game.mesh10.Player)
+			if(playerturn == mesh10.Player)
 				return copy(playerturn = 1)
 			else 
-				val playerturn1 = game.playerturn + 1
-				return copy(playerturn1, game.mesh10)
+				val playerturn1 = playerturn + 1
+				return copy(playerturn1, mesh10)
 		}
-		return game.copy()
+		return copy()
 	}
 
 	def checkinput(rolledDice: Int): Game = {
@@ -44,7 +44,6 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesO
 			case Failure(e) => println(e.getMessage)
 		}
 		//println("It is Player " + getTurnC(game.playerturn) + "'s turn\n")
-		//println(game.mesh10.mesh())
 		return game.copy()
 	}
 
@@ -91,15 +90,6 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesO
 			case _ => Success(' ')
 		}
 	}
-	/*def getTurnC(playerturn: Int): Char = {
-		playerturn match {
-			case 1 => 'A'
-			case 2 => 'B'
-			case 3 => 'C'
-			case 4 => 'D'
-			case _ => ' '
-		}
-	}*/
 	def movePiece(rolledDice:Int, piece:Int): Game = {
 		val playerTurnC = getTurnC(playerturn)
 		mesh10.field1.Arr(mesh10.piecepos(playerturn - 1)(piece - 1)) = ('_')

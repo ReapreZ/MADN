@@ -56,7 +56,7 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
             contents += new Button("Start Game") {
                 reactions += {
                     case event.ButtonClicked(_) => 
-                        mesh = new Mesh(cellamountTF.text.toInt, playeramountTF.text.toInt, houseamoutTF.text.toInt) 
+                        mesh = new Mesh(cellamountTF.text.toInt, playeramountTF.text.toInt, houseamoutTF.text.toInt)
                         val controller = new Controller(new Game(1, mesh,0,0,0,0))
                         println("this is the mesh" + mesh.mesh())
                         fieldLabel.text = controller.game.mesh10.field1.toString
