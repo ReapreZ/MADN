@@ -10,7 +10,7 @@ import model.Move
 class SetCommand(move:Move) extends Command[Game]:
   
   override def noStep(game: Game): Game = game
-  override def doStep(game: Game): Game = game.put(move.rolledDice,move.piece)
-  override def undoStep(game: Game): Game = game.put(-move.rolledDice,move.piece)
-  override def redoStep(game: Game): Game = game.put(move.rolledDice,move.piece)
+  override def doStep(game: Game): Game = game.move(move.rolledDice)
+  override def undoStep(game: Game): Game = game.move(-move.rolledDice)
+  override def redoStep(game: Game): Game = game.move(move.rolledDice)
 

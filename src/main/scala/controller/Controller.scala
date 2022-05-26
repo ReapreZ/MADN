@@ -18,6 +18,11 @@ class Controller(var game: Game) extends Observable {
     var mesh1 = new Mesh(0,0,0)
     var gamestatus: GameStatus = IDLE
 
+    def doAndPublish(doThis: (Move) => Game,move:Move) = {
+        game = doThis(move)
+        notifyObservers
+    }
+
     def doAndPublish(doThis: (Int) => Game,rolledDice:Int) = {
         game = doThis(rolledDice)
         notifyObservers

@@ -26,10 +26,8 @@ object MADN {
         val tui = new Tui(controller) 
         val gui = new GuiSwing(controller)
         //controller.doAndPublish(controller.checkinput1, 0)
-        while (input != "q")
-            input = readLine()
-            val output = tui.processInputLine(input)
-            if(output == 0)
+        tui.inputLoop()
+            /*if(output == 0)
                 println("Game over!\n")
                 gui.closeOperation()
             else if(output == -1)
@@ -39,7 +37,7 @@ object MADN {
                 //controller.setGame(controller.doAndPublish(controller.undo))
             else
                 println("\nYou rolled a " + output + "\n")
-                controller.doAndPublish(controller.checkinput1, output)
+                controller.doAndPublish(controller.checkinput1, output)*/
     }
 
 }

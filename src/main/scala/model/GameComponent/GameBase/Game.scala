@@ -63,11 +63,11 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 			if(rolledDice != 6 && piecesOutMap(playerturn + 1) == 1)
 				val game = movePiece(rolledDice, piecesOutMap(playerturn + 1))
 				return game.copy()
-			if (rolledDice == 6)
+			/*if (rolledDice == 6)
 				println("Which Piece should be moved or which Piece should come out?")
 				val input = readLine()
-				return moveOrGetOut(input.toInt, piecesOutMap(playerturn + 1))
-			else
+				return moveOrGetOut(input.toInt, piecesOutMap(playerturn + 1))*/
+			if(rolledDice != 6)
 				println("Which Piece should be moved?")
 				val input = readLine()
 				if (input.toInt <= mesh10.Housenumber)
@@ -101,7 +101,6 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 			case Success(v) => mesh10.field1.Arr((mesh10.piecepos(playerturn - 1)(piece - 1)) + rolledDice) = v.toChar
 			case Failure(e) => println(e.getMessage)
 		}
-		//mesh10.field1.Arr((mesh10.piecepos(playerturn - 1)(piece - 1)) + rolledDice) = playerTurnC
 		mesh10.stepsdone(playerturn - 1)(piece - 1) = (mesh10.stepsdone(playerturn - 1)(piece - 1)) + rolledDice
 		mesh10.piecepos(playerturn - 1)(piece - 1) = (mesh10.piecepos(playerturn - 1)(piece - 1)) + rolledDice
 		return copy()
@@ -117,7 +116,6 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 					mesh10.piecepos(0)(piecesOutMap(0)) = 0
 					mesh10.field1.Arr(0) = 'A'
 					mesh10.house1.Arr(piecesOutMap(0)) = 'H'
-					println("test " + piecesOutMap(0))
 					return copy(piecesOutMap = changeMap(0))
 				} else 
 					return move(6)
