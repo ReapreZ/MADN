@@ -7,7 +7,7 @@ import scala.util.{Try,Success,Failure}
 //import model.GameComponent.GameBase.Event
 
 
-case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesOutC:Int,piecesOutD:Int) extends GameStrategy {
+case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)) extends GameStrategy {
 	var out: Int = -1
 	def getOut(rolledDice: Int): Game = {
 		//val game = move(rolledDice)
@@ -25,6 +25,10 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesO
 			//println("Player A can move out one Piece\n")
 				println("You can roll again\n")
 				return movePieceOut()
+			else 
+				println("Which Piece should be moved or which Piece should come out?")
+				val input = readLine()
+				return moveOrGetOut(input.toInt,piecesOutMap(playerturn + 1))
 		} else{
 			//PlayerOutState.state = 0
 			//PlayerOutState.handle(PlayerOutState.state)
@@ -48,7 +52,7 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesO
 	}
 
 	def move(rolledDice: Int): Game = {
-		println("A: " + piecesOutA + " B: " + piecesOutB + " C: " + piecesOutC + " playerturn: " + playerturn)
+		println("A: " + piecesOutMap(0) + " B: " + piecesOutMap(1) + " C: " + piecesOutMap(2) + " playerturn: " + playerturn)
 		val playerTurnC = getTurnC(playerturn)
 		//val out = mesh10.field1.Arr.indexOf(playerTurnC)
 			playerTurnC match {
@@ -56,26 +60,26 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesO
 				case Failure(e) => println(e.getMessage)
 			}
 		if(out != -1)
-			if(rolledDice != 6 && getPiecesOut() == 1)
-				val game = movePiece(rolledDice, getPiecesOut())
+			if(rolledDice != 6 && piecesOutMap(playerturn + 1) == 1)
+				val game = movePiece(rolledDice, piecesOutMap(playerturn + 1))
 				return game.copy()
 			if (rolledDice == 6)
 				println("Which Piece should be moved or which Piece should come out?")
 				val input = readLine()
-				return moveOrGetOut(input.toInt, getPiecesOut())
+				return moveOrGetOut(input.toInt, piecesOutMap(playerturn + 1))
 			else
 				println("Which Piece should be moved?")
 				val input = readLine()
-						if (input.toInt <= mesh10.Housenumber)
-							if (mesh10.stepsdone(playerturn - 1)(input.toInt - 1) == -1)
-								if(input.toInt >= getPiecesOut())
-									val game1 = movePieceOut()
-									return game1
-							else return movePiece(rolledDice, input.toInt)
-						else
-							println("This Piece isnt out yet")
-							val game = move(rolledDice)
-							return game.copy()
+				if (input.toInt <= mesh10.Housenumber)
+					if (mesh10.stepsdone(playerturn - 1)(input.toInt - 1) == -1)
+						if(input.toInt >= piecesOutMap(playerturn + 1))
+							val game1 = movePieceOut()
+							return game1
+					else return movePiece(rolledDice, input.toInt)
+				else
+					println("This Piece isnt out yet")
+					val game = move(rolledDice)
+					return game.copy()
 		return copy()
 	}
 
@@ -108,42 +112,40 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesO
 		val nextHouse = mesh10.Housenumber + 2
 		playerturn match {
 			case 1 =>
-				if(piecesOutA <= mesh10.Housenumber) {
-					mesh10.stepsdone(0)(piecesOutA) = 0
-					mesh10.piecepos(0)(piecesOutA) = 0
+				if(piecesOutMap(0) <= mesh10.Housenumber) {
+					mesh10.stepsdone(0)(piecesOutMap(0)) = 0
+					mesh10.piecepos(0)(piecesOutMap(0)) = 0
 					mesh10.field1.Arr(0) = 'A'
-					mesh10.house1.Arr(piecesOutA) = 'H'
-					println("test " + piecesOutA)
-					return copy(piecesOutA = piecesOutA + 1)
+					mesh10.house1.Arr(piecesOutMap(0)) = 'H'
+					println("test " + piecesOutMap(0))
+					return copy(piecesOutMap = changeMap(0))
 				} else 
 					return move(6)
 			case 2 =>
-				if(piecesOutB <= mesh10.Housenumber) {
-					mesh10.stepsdone(1)(piecesOutB) = 0
-					mesh10.piecepos(1)(piecesOutB) = nextPlayer
+				if(piecesOutMap(1) <= mesh10.Housenumber) {
+					mesh10.stepsdone(1)(piecesOutMap(1)) = 0
+					mesh10.piecepos(1)(piecesOutMap(1)) = nextPlayer
 					mesh10.field1.Arr(nextPlayer) = 'B'
-					mesh10.house1.Arr(nextHouse + piecesOutB) = 'H'
-					return copy(piecesOutB = piecesOutB + 1)
+					mesh10.house1.Arr(nextHouse + piecesOutMap(1)) = 'H'
+					return copy(piecesOutMap = changeMap(1))
 				} else
 					return move(6)
 			case 3 => 
-				if(piecesOutC <= mesh10.Housenumber) {
-					mesh10.stepsdone(2)(piecesOutC) = 0
-					mesh10.piecepos(2)(piecesOutC) = nextPlayer * 2
+				if(piecesOutMap(2) <= mesh10.Housenumber) {
+					mesh10.stepsdone(2)(piecesOutMap(2)) = 0
+					mesh10.piecepos(2)(piecesOutMap(2)) = nextPlayer * 2
 					mesh10.field1.Arr(nextPlayer * 2) = 'C'
-					mesh10.house1.Arr(nextHouse*2 + piecesOutC) = 'H'
-					println("test " + piecesOutC)
-					return copy(piecesOutC = piecesOutC + 1)
+					mesh10.house1.Arr(nextHouse*2 + piecesOutMap(2)) = 'H'
+					return copy(piecesOutMap = changeMap(2))
 				} else 
 					return move(6)
 			case 4 =>
-				if(piecesOutD <= mesh10.Housenumber) {
-					mesh10.stepsdone(3)(piecesOutD) = 0
-					mesh10.piecepos(3)(piecesOutD) = nextPlayer * 3
+				if(piecesOutMap(3) <= mesh10.Housenumber) {
+					mesh10.stepsdone(3)(piecesOutMap(3)) = 0
+					mesh10.piecepos(3)(piecesOutMap(3)) = nextPlayer * 3
 					mesh10.field1.Arr(nextPlayer * 3) = 'D'
-					mesh10.house1.Arr(nextHouse*3 + piecesOutD) = 'H'
-					val piecesOutnew = piecesOutD + 1
-					return copy(piecesOutD = piecesOutnew)
+					mesh10.house1.Arr(nextHouse*3 + piecesOutMap(3)) = 'H'
+					return copy(piecesOutMap = changeMap(3))
 				} else 
 					return move(6)
 		}
@@ -155,17 +157,14 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesO
 		else return movePiece(6,piece)
 	}
 
-	def getPiecesOut():Int = {
-		playerturn match {
-			case 1 => return piecesOutA
-			case 2 => return piecesOutB
-			case 3 => return piecesOutC
-			case 4 => return piecesOutD
-		}
+	def changeMap(stelle:Int): Map[Int,Int] = {
+		var changedMap: scala.collection.mutable.Map[Int,Int] = scala.collection.mutable.Map(piecesOutMap.toSeq: _*)
+		changedMap(stelle) = piecesOutMap(stelle) + 1
+		return changedMap.toMap
 	}
 
-	def put(playerturn:Int,mesh10:Mesh,piecesOutA:Int,piecesOutB:Int,piecesOutC:Int,piecesOutD:Int): Game = {
-		copy(playerturn,mesh10,piecesOutA,piecesOutB,piecesOutC,piecesOutD)
+	def put(playerturn:Int,mesh10:Mesh, piecesOutMap:Map[Int,Int]): Game = {
+		copy(playerturn,mesh10,piecesOutMap)
 	}
 }
 // Wenn einer draußen ist sollte nicht ein anderer rauskommen können

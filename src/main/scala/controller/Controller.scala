@@ -15,7 +15,6 @@ import scala.util.{Try,Success,Failure}
 
 class Controller(var game: Game) extends Observable {
     val undoManager = new UndoManager[Game]
-    var game1 = new Game(0,new Mesh(0,0,0),0,0,0,0)
     var mesh1 = new Mesh(0,0,0)
     var gamestatus: GameStatus = IDLE
 
@@ -52,7 +51,7 @@ class Controller(var game: Game) extends Observable {
     def getTurnC1(playerturn: Int) : Try[Char] = {
         game.getTurnC(playerturn)
     }
-    def put(/*move:Move*/): Game = undoManager.doStep(game, SetCommand(game.playerturn, game.mesh10, game.piecesOutA, game.piecesOutB, game.piecesOutC, game.piecesOutD, this/*move*/))
+    def put(/*move:Move*/): Game = undoManager.doStep(game, SetCommand(game.playerturn, game.mesh10, game.piecesOutMap, this/*move*/))
     def undo: Game = {
         gamestatus = UNDO
         print(gamestatus.map(gamestatus))
