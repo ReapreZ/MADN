@@ -32,8 +32,9 @@ class Controller(var game: Game) extends Observable {
         notifyObservers
     }
     def move1(rolledDice:Int): Game = {
+        game = put(Move(rolledDice, game.playerturn, 1))
         //game.move(rolledDice)
-        game = game.move(rolledDice)
+        //game = game.move(rolledDice)
         printPlayerTurn()
         game
         }
@@ -43,24 +44,6 @@ class Controller(var game: Game) extends Observable {
 			case Failure(e) => println(e.getMessage)
 		}
     }
-    /*
-    def move1(rolledDice:Int):Game = {
-        game.move(rolledDice)
-    }*/
-    /*def checkinput1(rolledDice:Int):Game = {
-            //print(game.mesh10.mesh())
-            //doAndPublish(put/*Move(output, mesh1)*/)
-            checkinput(rolledDice)
-    }*/
-    /*def checkinput(rolledDice: Int): Game = {
-        game = getOut1(rolledDice)
-        getTurnC1(game.playerturn) match {
-            case Success(v) => println("It is Player " + v + "'s turn\n")
-            case Failure(e) => println(e.getMessage)
-        }
-		//println("It is Player " + getTurnC(game.playerturn) + "'s turn\n")
-        return game
-    }*/
     def getTurnC1(playerturn: Int) : Try[Char] = {
         game.getTurnC(playerturn)
     }

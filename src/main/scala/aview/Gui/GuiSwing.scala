@@ -59,7 +59,6 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
                         val piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)
                         mesh = new Mesh(cellamountTF.text.toInt, playeramountTF.text.toInt, houseamoutTF.text.toInt)
                         val controller = new Controller(new Game(1, mesh,piecesOutMap))
-                        println("this is the mesh" + mesh.mesh())
                         fieldLabel.text = controller.game.mesh10.field1.toString
                         houseLabel.text = controller.game.mesh10.house1.toString
                         finishLabel.text = controller.game.mesh10.finish1.toString
