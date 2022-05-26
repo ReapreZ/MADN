@@ -9,7 +9,46 @@ import scala.util.{Try,Success,Failure}
 
 case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)) extends GameStrategy {
 	var out: Int = -1
-	def getOut(rolledDice: Int): Game = {
+
+	def move(rolledDice: Int): Game = {
+		println("A: " + piecesOutMap(0) + " B: " + piecesOutMap(1) + " C: " + piecesOutMap(2) + " playerturn: " + playerturn)
+		getTurnC(playerturn) match {
+			case Success(v) => println("It is Player " + v + "'s turn\n")
+			case Failure(e) => println(e.getMessage)
+		}
+		val playerTurnC = getTurnC(playerturn)
+		//val out = game.mesh10.field1.Arr.indexOf(playerTurnC)
+		playerTurnC match {
+				case Success(v) => out = mesh10.field1.Arr.indexOf(v.toChar)
+				case Failure(e) => println(e.getMessage)
+			}
+		if(rolledDice != 6) // Wenn keine 6 gewürfelt wird
+			if(piecesOutMap(playerturn - 1) == 1) // Nur einer draußen und keine 6
+				val game1 = movePiece(rolledDice, 1)
+				game1.changePlayerTurn()
+				println(game1.playerturn + "<--")
+				return game1.copy()
+			else if(piecesOutMap(playerturn - 1) == 0) // Keiner draußen und keine 6
+				changePlayerTurn()
+				return copy(piecesOutMap = changeMap(playerturn - 1))
+			else // Mehrere draußen und keine 6
+				println("Which Piece should move?")
+				val input = readLine()
+				val game1 = movePiece(rolledDice, input.toInt)
+				game1.changePlayerTurn()
+				return game1
+		else // Wenn eine 6 gewürfelt wird
+			if(piecesOutMap(playerturn - 1) == 0)
+				return movePieceOut()
+			else
+				println("Which Piece should move or get out?")
+				val input = readLine()
+				if(input.toInt <= mesh10.Housenumber)
+					return moveOrGetOut(input.toInt, piecesOutMap(playerturn - 1))
+				else move(rolledDice)
+
+	}
+	/*def getOut(rolledDice: Int): Game = {
 		//val game = move(rolledDice)
 		val playerTurnC = getTurnC(playerturn)
 		//val out = game.mesh10.field1.Arr.indexOf(playerTurnC)
@@ -28,7 +67,10 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 			else 
 				println("Which Piece should be moved or which Piece should come out?")
 				val input = readLine()
-				return moveOrGetOut(input.toInt,piecesOutMap(playerturn + 1))
+				if(input.toInt <= piecesOutMap(playerturn + 1))
+					movePiece(6,input.toInt)
+				else
+					return moveOrGetOut(input.toInt,piecesOutMap(playerturn + 1))
 		} else{
 			//PlayerOutState.state = 0
 			//PlayerOutState.handle(PlayerOutState.state)
@@ -39,9 +81,9 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 				return copy(playerturn1, mesh10)
 		}
 		return copy()
-	}
+	}*/
 
-	def checkinput(rolledDice: Int): Game = {
+	/*def checkinput(rolledDice: Int): Game = {
 		val game = getOut(rolledDice)
 		getTurnC(game.playerturn) match {
 			case Success(v) => println("It is Player " + v + "'s turn\n")
@@ -49,9 +91,9 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 		}
 		//println("It is Player " + getTurnC(game.playerturn) + "'s turn\n")
 		return game.copy()
-	}
+	}*/
 
-	def move(rolledDice: Int): Game = {
+	/*def move(rolledDice: Int): Game = {
 		println("A: " + piecesOutMap(0) + " B: " + piecesOutMap(1) + " C: " + piecesOutMap(2) + " playerturn: " + playerturn)
 		val playerTurnC = getTurnC(playerturn)
 		//val out = mesh10.field1.Arr.indexOf(playerTurnC)
@@ -81,7 +123,7 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 					val game = move(rolledDice)
 					return game.copy()
 		return copy()
-	}
+	}*/
 
 	def getTurnC(playerturn: Int): Try[Char] = {
 		if playerturn < 0 && playerturn > 4 then return Failure(NoSuchMethodException("Something went wrong"))
@@ -153,6 +195,13 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 		if(piece > piecesOut && piece != mesh10.Housenumber + 1)
 			return movePieceOut()
 		else return movePiece(6,piece)
+	}
+
+	def changePlayerTurn() : Game = {
+		if(playerturn == mesh10.Player)
+				return copy(playerturn = 1)
+		else 
+			return copy(playerturn = playerturn + 1)
 	}
 
 	def changeMap(stelle:Int): Map[Int,Int] = {
