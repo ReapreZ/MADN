@@ -163,10 +163,9 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 		return changedMap.toMap
 	}
 
-	def put(playerturn:Int,mesh10:Mesh, piecesOutMap:Map[Int,Int]): Game = {
-		copy(playerturn,mesh10,piecesOutMap)
+	def put(rolledDice:Int,piece:Int) = copy(rolledDice,mesh10)
 	}
-}
+
 // Wenn einer draußen ist sollte nicht ein anderer rauskommen können
 //Try/Option bei falschem Einput
 

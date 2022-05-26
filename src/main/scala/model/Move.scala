@@ -1,5 +1,5 @@
 package model
 
-import model.MeshComponent.MeshBase.Mesh
+import model.GameComponent.GameBase.Game
 
-final case class Move(rolledDice: Int, mesh: Mesh)
+case class Move(rolledDice: Int)

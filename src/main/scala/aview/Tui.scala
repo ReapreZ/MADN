@@ -16,23 +16,13 @@ class Tui(controller: Controller) extends Observer:
 
     val dice1 = new Dice
 
-    /*def startgame(): Mesh = {
-        //println("Which Dice? 1 = RandomDice 2 = MagicDice")
-        //val diceread = readLine()
-        //dice1.dicestra(diceread.toInt)
-        println("Amount of Players:")
-        val input = readLine()
-        val playeramount = input.toInt
-        println("Amount of Houses:")
-        val houseamount = readLine()
-        println("Amount of Cells per Player:")
-        val cellamount = readLine()
-        var mesh1 = Mesh(cellamount.toInt, playeramount.toInt, houseamount.toInt)
-        println("Press 'r' to roll the dice\n")
-        mesh1
-    }*/
+    def inputLoop(): Unit =
+        processInputLine(readLine) match
+            case None   => 
+            case Some(move) => controller.doAndPublish(controller.put,move)
+        inputLoop()
 
-    def processInputLine(input: String): Int = {
+    def processInputLine(input: String): Option[Move] = {
 
         input match {
             case "r" =>
@@ -40,9 +30,9 @@ class Tui(controller: Controller) extends Observer:
                 val diceread = readLine()
                 dice1.dicestra(diceread.toInt)
                 
-            case "q" => return 0
-            case "undo" => 10
-            case _ => return -1
+            case "q" => return None
+            case "undo" => controller.doAndPublish(controller.undo);None
+            //case _ => return -1
         }
     }
 

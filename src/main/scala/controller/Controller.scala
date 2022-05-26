@@ -44,23 +44,21 @@ class Controller(var game: Game) extends Observable {
             case Success(v) => println("It is Player " + v + "'s turn\n")
             case Failure(e) => println(e.getMessage)
         }
-        put()
 		//println("It is Player " + getTurnC(game.playerturn) + "'s turn\n")
         return game
     }
     def getTurnC1(playerturn: Int) : Try[Char] = {
         game.getTurnC(playerturn)
     }
-    def put(/*move:Move*/): Game = undoManager.doStep(game, SetCommand(game.playerturn, game.mesh10, game.piecesOutMap, this/*move*/))
+    def put(move:Move): Game = undoManager.doStep(game, SetCommand(move))
+    
     def undo: Game = {
         gamestatus = UNDO
         print(gamestatus.map(gamestatus))
-        undoManager.undoStep(game)
-    }
-    def undo1(): Game = {
-        game = undo
+        game = undoManager.undoStep(game)
         game
     }
+   
     def redo: Game = {
         gamestatus = REDO
         print(gamestatus.map(gamestatus))

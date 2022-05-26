@@ -6,10 +6,11 @@ import model.MeshComponent.MeshBase.Mesh
 import model.GameComponent.GameBase.Game
 import model.Move
 
-class SetCommand(playerturn: Int, mesh10: Mesh, piecesOutMap:Map[Int,Int], controller: Controller/*move: Move*/) extends Command[Game] {
+
+class SetCommand(move:Move) extends Command[Game]:
   
   override def noStep(game: Game): Game = game
-  override def doStep(game: Game): Game = controller.game.put(playerturn, mesh10, piecesOutMap)
-  override def undoStep(game: Game): Game = controller.game.put(playerturn, mesh10, piecesOutMap)
-  override def redoStep(game: Game): Game = controller.game.put(playerturn, mesh10, piecesOutMap)
-}
+  override def doStep(game: Game): Game = game.put(move.rolledDice,move.piece)
+  override def undoStep(game: Game): Game = game.put(-move.rolledDice,move.piece)
+  override def redoStep(game: Game): Game = game.put(move.rolledDice,move.piece)
+
