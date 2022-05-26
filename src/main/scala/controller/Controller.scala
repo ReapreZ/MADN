@@ -10,13 +10,14 @@ import util.UndoManager
 import util.Command
 import GameStatus._
 import model.Move
+import scala.util.{Try,Success,Failure}
+
 
 class Controller(var game: Game) extends Observable {
     val undoManager = new UndoManager[Game]
     var game1 = new Game(0,new Mesh(0,0,0),0,0,0,0)
     var mesh1 = new Mesh(0,0,0)
     var gamestatus: GameStatus = IDLE
-
 
     def doAndPublish(doThis: (Int) => Game,rolledDice:Int) = {
         game = doThis(rolledDice)
@@ -27,22 +28,39 @@ class Controller(var game: Game) extends Observable {
         notifyObservers
     }
     def getOut1(rolledDice:Int): Game = {
+        game.move(rolledDice)
         game.getOut(rolledDice)
     }
-    def move1(rolledDice:Int):Game = { 
+    def move1(rolledDice:Int):Game = {
         game.move(rolledDice)
     }
     def checkinput1(rolledDice:Int):Game = {
             //print(game.mesh10.mesh())
             //doAndPublish(put/*Move(output, mesh1)*/)
-            game1 = game.copy()
-            game.checkinput(rolledDice)
+            checkinput(rolledDice)
+    }
+    def checkinput(rolledDice: Int): Game = {
+        val game = getOut1(rolledDice)
+        getTurnC1(game.playerturn) match {
+            case Success(v) => println("It is Player " + v + "'s turn\n")
+            case Failure(e) => println(e.getMessage)
+        }
+        put()
+		//println("It is Player " + getTurnC(game.playerturn) + "'s turn\n")
+        return game
+    }
+    def getTurnC1(playerturn: Int) : Try[Char] = {
+        game.getTurnC(playerturn)
     }
     def put(/*move:Move*/): Game = undoManager.doStep(game, SetCommand(game.playerturn, game.mesh10, game.piecesOutA, game.piecesOutB, game.piecesOutC, game.piecesOutD, this/*move*/))
     def undo: Game = {
         gamestatus = UNDO
         print(gamestatus.map(gamestatus))
         undoManager.undoStep(game)
+    }
+    def undo1(): Game = {
+        game = undo
+        game
     }
     def redo: Game = {
         gamestatus = REDO

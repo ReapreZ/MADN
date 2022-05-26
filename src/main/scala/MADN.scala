@@ -34,7 +34,7 @@ object MADN {
             else if(output == -1)
                 println("Wrong input")
             else if(output == 10)
-                controller.doAndPublish(controller.undo)
+                controller.doAndPublish(controller.undo1())
                 //controller.setGame(controller.doAndPublish(controller.undo))
             else
                 println("\nYou rolled a " + output + "\n")
