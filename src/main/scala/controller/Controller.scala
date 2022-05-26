@@ -33,7 +33,15 @@ class Controller(var game: Game) extends Observable {
     }
     def move1(rolledDice:Int): Game = {
         //game.move(rolledDice)
-        game.move(rolledDice)
+        game = game.move(rolledDice)
+        printPlayerTurn()
+        game
+        }
+    def printPlayerTurn() : Unit = {
+        getTurnC1(game.playerturn) match {
+			case Success(v) => println("It is Player " + v + "'s turn\n")
+			case Failure(e) => println(e.getMessage)
+		}
     }
     /*
     def move1(rolledDice:Int):Game = {
