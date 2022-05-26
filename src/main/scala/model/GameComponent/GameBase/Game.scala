@@ -47,7 +47,10 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 				println("Which Piece should move or get out?")
 				val input = readLine()
 				if(input.toInt <= mesh10.Housenumber)
-					return moveOrGetOut(input.toInt, piecesOutMap(playerturn - 1))
+				piecesOutMap.get(playerturn - 1) match {
+					case Some(piece) => return moveOrGetOut(input.toInt, piece)
+					case None => return move(rolledDice)
+				}
 				else move(rolledDice)
 
 	}
