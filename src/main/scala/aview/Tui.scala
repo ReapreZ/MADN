@@ -22,7 +22,7 @@ class Tui(controller: Controller) extends Observer:
             return
         processInputLine(output) match
             case None   => 
-            case Some(move) => controller.doAndPublish(controller.checkinput,move.rolledDice)
+            case Some(move) => controller.doAndPublish(controller.move1,move.rolledDice)
         inputLoop()
     }
 
@@ -32,7 +32,9 @@ class Tui(controller: Controller) extends Observer:
             case "r" =>
                 println("Which Dice? 1 = RandomDice 2 = MagicDice")
                 val diceread = readLine()
-                Some(Move(dice1.dicestra(diceread.toInt)))
+                val rolledDice = dice1.dicestra(diceread.toInt)
+                println("\nYou rolled a " + rolledDice + "\n")
+                Some(Move(rolledDice))
                 
             case "q" => None
             case "undo" => controller.doAndPublish(controller.undo);None

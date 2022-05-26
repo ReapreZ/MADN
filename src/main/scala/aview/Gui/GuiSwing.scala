@@ -97,7 +97,7 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
             case event.ButtonClicked(`rollDiceB`) =>
                 val rolledDice = dice1.diceRandom()
                 infoLabel.text = "You rolled a " + rolledDice.toString
-                controller.doAndPublish(controller.checkinput1 , rolledDice)
+                controller.doAndPublish(controller.move1 , rolledDice)
                 fieldLabel.text = controller.game.mesh10.field1.toString
                 houseLabel.text = controller.game.mesh10.house1.toString
                 finishLabel.text = controller.game.mesh10.finish1.toString
