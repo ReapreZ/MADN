@@ -39,6 +39,10 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
     listenTo(piece3B)
     val piece4B = new Button("4")
     listenTo(piece4B)
+    val undoB = new Button("Undo")
+    listenTo(undoB)
+    val redoB = new Button("Redo")
+    listenTo(redoB)
 
     var mesh: Mesh = new Mesh(0,0,0)
     val dice1 = new Dice
@@ -70,9 +74,7 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
                         mesh = startGame()
                         val controller2 = new Controller(game.copy(1, mesh, piecesOutMap))
                         controller.game.setPieceChooser(0)
-                        fieldLabel.text = controller.game.mesh10.field1.toString
-                        houseLabel.text = controller.game.mesh10.house1.toString
-                        finishLabel.text = controller.game.mesh10.finish1.toString
+                        updateField()
                         infoLabel.text = "Press the roll Button to roll"
                 }
             }
@@ -96,7 +98,8 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
             finishLabel.font = new Font("Arial", 0, 20)
         }
         def leftPanel = new GridPanel(4,1) {
-
+            contents += undoB
+            contents += redoB
         }
         reactions += {
             case event.ButtonClicked(`rollDiceB`) =>
@@ -139,7 +142,13 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
                 println("GUI PieceChooser: " + controller.game.pieceChooser)
             case event.ButtonClicked(`piece2B`) => 
                 controller.game.pieceChooser = 2
-                println("GUI PieceChooser: " + controller.game.pieceChooser)    
+                println("GUI PieceChooser: " + controller.game.pieceChooser)
+            case event.ButtonClicked(`undoB`) =>
+                controller.doAndPublish(controller.undo)
+                updateField()
+            case event.ButtonClicked(`redoB`) =>
+                controller.doAndPublish(controller.redo)
+                updateField()
         }
         contents = new BorderPanel {
         add(bottomPanel, BorderPanel.Position.South)
@@ -153,10 +162,13 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
     }
     def movePiece(rolledDice: Int): Unit = {
             controller.doAndPublish(controller.move1 , rolledDice)
-            //controller.game.pieceChooser = 0
-            fieldLabel.text = controller.game.mesh10.field1.toString
-            houseLabel.text = controller.game.mesh10.house1.toString
-            finishLabel.text = controller.game.mesh10.finish1.toString
+            controller.game.pieceChooser = 0
+            updateField()
+    }
+    def updateField() : Unit = {
+        fieldLabel.text = controller.game.mesh10.field1.toString
+        houseLabel.text = controller.game.mesh10.house1.toString
+        finishLabel.text = controller.game.mesh10.finish1.toString
     }
     def checkForPieceChoosing(rolledDice: Int): Unit = {
         if(rolledDice.toInt != 6 && (controller.game.piecesOutMap(controller.game.playerturn - 1) != 1 && controller.game.piecesOutMap(controller.game.playerturn - 1) != 0))
