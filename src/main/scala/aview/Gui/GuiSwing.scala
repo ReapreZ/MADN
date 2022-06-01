@@ -20,21 +20,32 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
     controller.add(this)
     title = "Mensch ärgere dich nicht!"
     preferredSize = new Dimension(800, 700)
-
+    val piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)
+    val game: Game = new Game(1, mesh,piecesOutMap)
     val circle = Toolkit.getDefaultToolkit.getImage("C:/Software-Engineering/MADN-1/Bilder/Kreis.jpg")
     val infoLabel = new TextField("Put in the amount of Players/Houses/Cells to start the game")
     val rollDiceB = new Button("Roll the Dice")
-    val testB = new Button
-    val testB2 = new Button
-    val testB3 = new Button
-    val testB4 = new Button
-    val testB5 = new Button
+    listenTo(rollDiceB)
+    val rollMagicDiceB = new Button("Magic Dice")
+    listenTo(rollMagicDiceB)
+    val piece1B = new Button("1")
+    listenTo(piece1B)
+    val piece2B = new Button("2")
+    listenTo(piece2B)
+    val piece3B = new Button("3")
+    listenTo(piece3B)
+    val piece4B = new Button("4")
+    listenTo(piece4B)
 
     var mesh: Mesh = new Mesh(0,0,0)
     val dice1 = new Dice
     var fieldLabel = new Label
     var houseLabel = new Label
     var finishLabel = new Label
+
+    val playeramountTF = new TextField()
+    val houseamoutTF = new TextField()
+    val cellamountTF = new TextField()
 
         def bottomPanel = new FlowPanel {
             infoLabel.preferredSize = new Dimension(690,50)
@@ -43,12 +54,9 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
         }
         def topPanel = new FlowPanel {
             contents += rollDiceB
-            listenTo(rollDiceB)
-            val playeramountTF = new TextField()
+            contents += rollMagicDiceB
             playeramountTF.preferredSize = new Dimension(100,30)
-            val houseamoutTF = new TextField()
             houseamoutTF.preferredSize = new Dimension(100,30)
-            val cellamountTF = new TextField()
             cellamountTF.preferredSize = new Dimension(100,30)
             contents += playeramountTF
             contents += houseamoutTF
@@ -56,9 +64,9 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
             contents += new Button("Start Game") {
                 reactions += {
                     case event.ButtonClicked(_) =>
-                        val piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)
-                        mesh = new Mesh(cellamountTF.text.toInt, playeramountTF.text.toInt, houseamoutTF.text.toInt)
-                        val controller = new Controller(new Game(1, mesh,piecesOutMap))
+                        mesh = startGame()
+                        val controller2 = new Controller(game.copy(1, mesh, piecesOutMap))
+                        controller.game.setPieceChooser(0)
                         fieldLabel.text = controller.game.mesh10.field1.toString
                         houseLabel.text = controller.game.mesh10.house1.toString
                         finishLabel.text = controller.game.mesh10.finish1.toString
@@ -66,49 +74,76 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
                 }
             }
         }
+        def rightPanel = new GridPanel(4,1) {
+            contents += piece1B
+            contents += piece2B
+            contents += piece3B
+            contents += piece4B
+            piece1B.preferredSize = new Dimension(50,30)
+            piece2B.preferredSize = new Dimension(50,30)
+            piece3B.preferredSize = new Dimension(50,30)
+            piece4B.preferredSize = new Dimension(50,30)
+        }
 
-        def centerPanel = new GridPanel(3,3) {
-            /*contents += testB
-            contents += testB2
-            contents += testB3
-            contents += testB4
-            contents += testB5*/
+        def centerPanel = new GridPanel(4,3) {
             contents += fieldLabel
             contents += houseLabel
             contents += finishLabel
             fieldLabel.font = new Font("Arial", 0, 20)
             houseLabel.font = new Font("Arial", 0, 20)
             finishLabel.font = new Font("Arial", 0, 20)
-            testB.preferredSize = new Dimension(50,50)
 
-            /*testB.icon = 
-                val imagePath = "C:/Software-Engineering/MADN-1/src/main\resources/Icons/Kreis.png"
-                val image: BufferedImage = Try(ImageIO.read(new File(imagePath))) match {
-                    case s: Success[BufferedImage] => s.value
-                    case f: Failure[BufferedImage] =>
-                    new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB)
-                    }
-                new ImageIcon(image)
-            //testB.icon = image */
+
         }
         
-        rollDiceB.reactions += {
+        reactions += {
             case event.ButtonClicked(`rollDiceB`) =>
                 val rolledDice = dice1.diceRandom()
+                infoLabel.text = "You rolled a " + rolledDice.toString
+                if(rolledDice.toInt != 6 && (controller.game.piecesOutMap(controller.game.playerturn - 1) != 1 && controller.game.piecesOutMap(controller.game.playerturn - 1) != 0))
+                    infoLabel.text = infoLabel.text + "     Which Piece should move?"
+                    controller.game.pieceChooser = getPieceButton()
+                if(rolledDice.toInt == 6 && piecesOutMap(controller.game.playerturn - 1) != 0)
+                    infoLabel.text = infoLabel.text + "    Which Piece should move or get out?"
+                    controller.game.pieceChooser = getPieceButton()
+                controller.doAndPublish(controller.move1 , rolledDice)
+                fieldLabel.text = controller.game.mesh10.field1.toString
+                houseLabel.text = controller.game.mesh10.house1.toString
+                finishLabel.text = controller.game.mesh10.finish1.toString
+            case event.ButtonClicked(`rollMagicDiceB`) =>
+                val rolledDice = dice1.magicDice(6)
+                controller.game.pieceChooser = 0
                 infoLabel.text = "You rolled a " + rolledDice.toString
                 controller.doAndPublish(controller.move1 , rolledDice)
                 fieldLabel.text = controller.game.mesh10.field1.toString
                 houseLabel.text = controller.game.mesh10.house1.toString
                 finishLabel.text = controller.game.mesh10.finish1.toString
+            case event.ButtonClicked(`piece1B`) => 
+                controller.game.setPieceChooser(1)
+                println("GUI PieceChooser: " + controller.game.pieceChooser)
+            case event.ButtonClicked(`piece2B`) => 
+                controller.game.setPieceChooser(2)
+                println("GUI PieceChooser: " + controller.game.pieceChooser)    
         }
 
         contents = new BorderPanel {
         add(bottomPanel, BorderPanel.Position.South)
         add(topPanel, BorderPanel.Position.North)
         add(centerPanel, BorderPanel.Position.Center)
+        add(rightPanel, BorderPanel.Position.East)
         }
     
-    override def closeOperation() = this.close()
+    def startGame(): Mesh = {
+        return Mesh(cellamountTF.text.toInt, playeramountTF.text.toInt, houseamoutTF.text.toInt)
+    }
+    def getPieceButton(): Int = {
+        if(controller.game.pieceChooser == 0)
+            return getPieceButton()
+        else return controller.game.pieceChooser
+    }
+    
+    override def closeOperation() = 
+        this.close()
     override def update = println()
     pack()
     centerOnScreen()

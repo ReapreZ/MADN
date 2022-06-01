@@ -7,6 +7,8 @@ import scala.util.{Try,Success,Failure}
 
 case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)) extends GameStrategy {
 	var out: Int = -1
+	var pieceChooser: Int = -1
+	var input = " "
 
 	def move(rolledDice: Int): Game = {
 		println("A: " + piecesOutMap(0) + " B: " + piecesOutMap(1) + " C: " + piecesOutMap(2) + " playerturn: " + playerturn)
@@ -32,20 +34,31 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 				return copy(piecesOutMap = changeMap(playerturn - 1))
 			else // Mehrere draußen und keine 6
 				println("Which Piece should move?")
-				val input = readLine()
-				val game1 = movePiece(rolledDice, input.toInt)
-				if(playerturn == mesh10.Player)
-					return copy(playerturn = 1)
+				println("pieceChooser: " + pieceChooser)
+				if(pieceChooser == -1)
+					input = readLine()
 				else
-					val playerturn1 = playerturn + 1 
-					return copy(playerturn = playerturn1)
-				return game1
+					input = getPiece()
+					pieceChooser = 0
+					val game1 = movePiece(rolledDice, input.toInt)
+					if(playerturn == mesh10.Player)
+						return copy(playerturn = 1)
+					else
+						val playerturn1 = playerturn + 1 
+						return copy(playerturn = playerturn1)
+					return game1
+				return copy()
 		else // Wenn eine 6 gewürfelt wird
 			if(piecesOutMap(playerturn - 1) == 0)
 				return movePieceOut()
 			else
 				println("Which Piece should move or get out?")
-				val input = readLine()
+				println("pieceChooser: " + pieceChooser)
+				if(pieceChooser == -1)
+					input = readLine()
+				else
+					input = getPiece()
+					pieceChooser = 0
 				if(input.toInt <= mesh10.Housenumber)
 				piecesOutMap.get(playerturn - 1) match {
 					case Some(piece) => return moveOrGetOut(input.toInt, piece)
@@ -155,6 +168,18 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 	def put(game: Game): Game = {
 		return game.copy()
 	}
+
+	def getPiece(): String = {
+		if(pieceChooser == 0)
+			getPiece()
+		return pieceChooser.toString
+	}
+
+	def setPieceChooser(value: Int): Unit = {
+		pieceChooser = value
+	}
+
+
 	}
 
 // Wenn einer draußen ist sollte nicht ein anderer rauskommen können
