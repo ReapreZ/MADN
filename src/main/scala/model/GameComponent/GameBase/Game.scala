@@ -39,7 +39,7 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 					input = readLine()
 				else
 					input = getPiece()
-					pieceChooser = 0
+					//pieceChooser = 0
 					val game1 = movePiece(rolledDice, input.toInt)
 					if(playerturn == mesh10.Player)
 						return copy(playerturn = 1)
@@ -58,7 +58,7 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 					input = readLine()
 				else
 					input = getPiece()
-					pieceChooser = 0
+					//pieceChooser = 0
 				if(input.toInt <= mesh10.Housenumber)
 				piecesOutMap.get(playerturn - 1) match {
 					case Some(piece) => return moveOrGetOut(input.toInt, piece)

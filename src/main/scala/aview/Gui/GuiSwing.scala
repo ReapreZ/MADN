@@ -14,10 +14,13 @@ import controller.Controller
 import model.DiceComponent.DiceBase.Dice
 import model.MeshComponent.MeshBase.Mesh
 import model.GameComponent.GameBase.Game
+import java.time._
 
 class GuiSwing(controller: Controller) extends MainFrame with Observer{
     //listenTo(controller)
     controller.add(this)
+    var oldDice: Int = 0
+    var playerturnC = ' '
     title = "Mensch ärgere dich nicht!"
     preferredSize = new Dimension(800, 700)
     val piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)
@@ -70,7 +73,7 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
                         fieldLabel.text = controller.game.mesh10.field1.toString
                         houseLabel.text = controller.game.mesh10.house1.toString
                         finishLabel.text = controller.game.mesh10.finish1.toString
-                        
+                        infoLabel.text = "Press the roll Button to roll"
                 }
             }
         }
@@ -84,7 +87,6 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
             piece3B.preferredSize = new Dimension(50,30)
             piece4B.preferredSize = new Dimension(50,30)
         }
-
         def centerPanel = new GridPanel(4,3) {
             contents += fieldLabel
             contents += houseLabel
@@ -92,56 +94,85 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
             fieldLabel.font = new Font("Arial", 0, 20)
             houseLabel.font = new Font("Arial", 0, 20)
             finishLabel.font = new Font("Arial", 0, 20)
-
+        }
+        def leftPanel = new GridPanel(4,1) {
 
         }
-        
         reactions += {
             case event.ButtonClicked(`rollDiceB`) =>
+                println(controller.game.pieceChooser.toString)
                 val rolledDice = dice1.diceRandom()
-                infoLabel.text = "You rolled a " + rolledDice.toString
-                if(rolledDice.toInt != 6 && (controller.game.piecesOutMap(controller.game.playerturn - 1) != 1 && controller.game.piecesOutMap(controller.game.playerturn - 1) != 0))
-                    infoLabel.text = infoLabel.text + "     Which Piece should move?"
-                    controller.game.pieceChooser = getPieceButton()
-                if(rolledDice.toInt == 6 && piecesOutMap(controller.game.playerturn - 1) != 0)
-                    infoLabel.text = infoLabel.text + "    Which Piece should move or get out?"
-                    controller.game.pieceChooser = getPieceButton()
-                controller.doAndPublish(controller.move1 , rolledDice)
-                fieldLabel.text = controller.game.mesh10.field1.toString
-                houseLabel.text = controller.game.mesh10.house1.toString
-                finishLabel.text = controller.game.mesh10.finish1.toString
+                controller.game.getTurnC(controller.game.playerturn) match {
+                    case Success(v) => playerturnC = v
+                    case Failure(e) => println(e.getMessage)
+                }
+                if(oldDice == 0)
+                    infoLabel.text = "It is Player's " + playerturnC + " and you rolled a " + rolledDice.toString
+                    oldDice = rolledDice
+                    checkForPieceChoosing(rolledDice)
+                else 
+                    infoLabel.text = "It is Player's " + playerturnC + " and you rolled a " + oldDice.toString
+                    checkForPieceChoosing(oldDice)
+                    oldDice = 0
+
             case event.ButtonClicked(`rollMagicDiceB`) =>
+                println(controller.game.pieceChooser.toString)
                 val rolledDice = dice1.magicDice(6)
-                controller.game.pieceChooser = 0
-                infoLabel.text = "You rolled a " + rolledDice.toString
-                controller.doAndPublish(controller.move1 , rolledDice)
-                fieldLabel.text = controller.game.mesh10.field1.toString
-                houseLabel.text = controller.game.mesh10.house1.toString
-                finishLabel.text = controller.game.mesh10.finish1.toString
+                controller.game.getTurnC(controller.game.playerturn) match {
+                    case Success(v) => playerturnC = v
+                    case Failure(e) => println(e.getMessage)
+                }
+                if(oldDice == 0)
+                    infoLabel.text = "It is Player's " + playerturnC + " and you rolled a " + rolledDice.toString
+                //infoLabel.text = "You rolled a " + rolledDice.toString
+                if(controller.game.piecesOutMap(controller.game.playerturn - 1) != 0)
+                    infoLabel.text = infoLabel.text + "    Which Piece should move or get out? After choosing, roll again to confirm"
+                    if(controller.game.pieceChooser != 0 && controller.game.pieceChooser != -1)
+                        movePiece(rolledDice)
+                        //infoLabel.text = "Press the roll Button to roll"
+                else 
+                    movePiece(rolledDice)
+                    //infoLabel.text = "Press the roll Button to roll"
+
             case event.ButtonClicked(`piece1B`) => 
-                controller.game.setPieceChooser(1)
+                controller.game.pieceChooser = 1
                 println("GUI PieceChooser: " + controller.game.pieceChooser)
             case event.ButtonClicked(`piece2B`) => 
-                controller.game.setPieceChooser(2)
+                controller.game.pieceChooser = 2
                 println("GUI PieceChooser: " + controller.game.pieceChooser)    
         }
-
         contents = new BorderPanel {
         add(bottomPanel, BorderPanel.Position.South)
         add(topPanel, BorderPanel.Position.North)
         add(centerPanel, BorderPanel.Position.Center)
         add(rightPanel, BorderPanel.Position.East)
+        add(leftPanel, BorderPanel.Position.West)
         }
-    
     def startGame(): Mesh = {
         return Mesh(cellamountTF.text.toInt, playeramountTF.text.toInt, houseamoutTF.text.toInt)
     }
-    def getPieceButton(): Int = {
-        if(controller.game.pieceChooser == 0)
-            return getPieceButton()
-        else return controller.game.pieceChooser
+    def movePiece(rolledDice: Int): Unit = {
+            controller.doAndPublish(controller.move1 , rolledDice)
+            //controller.game.pieceChooser = 0
+            fieldLabel.text = controller.game.mesh10.field1.toString
+            houseLabel.text = controller.game.mesh10.house1.toString
+            finishLabel.text = controller.game.mesh10.finish1.toString
     }
-    
+    def checkForPieceChoosing(rolledDice: Int): Unit = {
+        if(rolledDice.toInt != 6 && (controller.game.piecesOutMap(controller.game.playerturn - 1) != 1 && controller.game.piecesOutMap(controller.game.playerturn - 1) != 0))
+            infoLabel.text = infoLabel.text + "     Which Piece should move? After choosing, roll again to confirm"
+            if(controller.game.pieceChooser != 0 && controller.game.pieceChooser != -1)
+                movePiece(rolledDice)
+                //infoLabel.text = "Press the roll Button to roll"
+        else if(rolledDice.toInt == 6 && controller.game.piecesOutMap(controller.game.playerturn - 1) != 0)
+                infoLabel.text = infoLabel.text + "    Which Piece should move or get out? After choosing, roll again to confirm"
+                if(controller.game.pieceChooser != 0 && controller.game.pieceChooser != -1)
+                        movePiece(rolledDice)
+                        //infoLabel.text = "Press the roll Button to roll"
+        else 
+            movePiece(rolledDice)
+            //infoLabel.text = "Press the roll Button to roll"
+    }
     override def closeOperation() = 
         this.close()
     override def update = println()
