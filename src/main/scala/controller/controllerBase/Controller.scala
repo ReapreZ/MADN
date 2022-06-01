@@ -1,9 +1,9 @@
 package controller
 
 import controller.SetCommand
-import model.GameComponent.GameBase.Game
-import model.MeshComponent.MeshBase.Mesh
-import model.DiceComponent.DiceBase.Dice
+import model.gameComponent.gameBase.Game
+import model.meshComponent.meshBase._
+import model.diceComponent.diceBase.Dice
 import scala.io.StdIn.readLine
 import util.Observable
 import util.UndoManager
@@ -13,15 +13,15 @@ import model.Move
 import scala.util.{Try,Success,Failure}
 
 
-class Controller(var game: Game) extends Observable {
+class Controller(var game: Game) extends ControllerInterface{
     val undoManager = new UndoManager[Game]
     var mesh1 = new Mesh(0,0,0)
     var gamestatus: GameStatus = IDLE
 
-    def doAndPublish(doThis: (Move) => Game,move:Move) = {
+    /*def doAndPublish(doThis: (Move) => Game,move:Move) = {
         game = doThis(move)
         notifyObservers
-    }
+    }*/
 
     def doAndPublish(doThis: (Int) => Game,rolledDice:Int) = {
         game = doThis(rolledDice)

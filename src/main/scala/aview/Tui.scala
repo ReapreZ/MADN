@@ -1,9 +1,9 @@
 package aview
 
-import model.MeshComponent.MeshBase.Mesh
-import model.DiceComponent.DiceBase.Dice
+import model.meshComponent.meshBase.Mesh
+import model.diceComponent.diceBase.Dice
 import scala.io.StdIn.readLine
-import model.DiceComponent.DiceBase.DiceStrategy
+import model.diceComponent.diceBase.DiceStrategy
 import controller.Controller
 import util.Observer
 import scala.util.{Try,Success,Failure}
@@ -43,5 +43,3 @@ class Tui(controller: Controller) extends Observer:
             //case _ => return -1
         }
     }
-
-

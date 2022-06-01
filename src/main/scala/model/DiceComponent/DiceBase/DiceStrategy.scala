@@ -1,9 +1,9 @@
-package model.DiceComponent.DiceBase
-import model.DiceComponent.DiceBase.Dice
+package model.diceComponent.diceBase
+import model.diceComponent.diceBase.Dice
 import scala.util.{Try,Success,Failure}
 
 
-trait  DiceStrategy {
+trait DiceStrategy {
     
     /*def dicestra(diceread:Int): Try[Int] =
         if diceread > 2 && diceread < 1 then return Failure(NoSuchMethodException("Something went wrong"))

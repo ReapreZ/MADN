@@ -11,10 +11,9 @@ import scala.util.{Try, Success, Failure}
 import java.io.File
 import scala.swing.event._
 import controller.Controller
-import model.DiceComponent.DiceBase.Dice
-import model.MeshComponent.MeshBase.Mesh
-import model.GameComponent.GameBase.Game
-import java.time._
+import model.diceComponent.diceBase.Dice
+import model.meshComponent.meshBase.Mesh
+import model.gameComponent.gameBase.Game
 
 class GuiSwing(controller: Controller) extends MainFrame with Observer{
     //listenTo(controller)
@@ -22,7 +21,7 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
     var oldDice: Int = 0
     var playerturnC = ' '
     title = "Mensch ärgere dich nicht!"
-    preferredSize = new Dimension(800, 700)
+    preferredSize = new Dimension(1024, 720)
     val piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)
     val game: Game = new Game(1, mesh,piecesOutMap)
     val circle = Toolkit.getDefaultToolkit.getImage("C:/Software-Engineering/MADN-1/Bilder/Kreis.jpg")
@@ -73,7 +72,7 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
                     case event.ButtonClicked(_) =>
                         mesh = startGame()
                         val controller2 = new Controller(game.copy(1, mesh, piecesOutMap))
-                        controller.game.setPieceChooser(0)
+                        controller.game.pieceChooser = 0
                         updateField()
                         infoLabel.text = "Press the roll Button to roll"
                 }

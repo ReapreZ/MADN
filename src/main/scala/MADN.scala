@@ -1,8 +1,7 @@
 package MADN
 
-import model.MeshComponent.MeshBase.Mesh
-import model.MeshComponent.MeshBase._
-import model.GameComponent.GameBase.Game
+import model.meshComponent.meshBase.Mesh
+import model.gameComponent.gameBase.Game
 import aview._
 import scala.io.StdIn.readLine
 import controller._
@@ -28,5 +27,4 @@ object MADN {
         tui.inputLoop()
         gui.closeOperation()
     }
-
 }

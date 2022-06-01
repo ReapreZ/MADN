@@ -1,5 +1,5 @@
 
-package model.DiceComponent.DiceBase
+package model.diceComponent.diceBase
 import scala.util.{Try,Success,Failure}
 
 

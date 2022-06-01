@@ -1,8 +1,6 @@
 package model
 
-import model.FieldComponent.FieldBase.Field
-import model.HouseComponent.HouseBase.House
-import model.FinishComponent.FinishBase.Finish
+import model.meshComponent.meshBase._
 
 trait FieldFactory() {
     

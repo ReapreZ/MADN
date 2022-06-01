@@ -1,11 +1,11 @@
-package model.GameComponent.GameBase
-import model.MeshComponent.MeshBase.Mesh
+package model.gameComponent.gameBase
+import model.meshComponent.meshBase.Mesh
+import model.gameComponent.GameInterface
 import scala.io.StdIn.readLine
-import controller.Controller
 import scala.util.{Try,Success,Failure}
 
 
-case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)) extends GameStrategy {
+case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)) extends GameInterface {
 	var out: Int = -1
 	var pieceChooser: Int = -1
 	var input = " "
@@ -174,16 +174,6 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 			getPiece()
 		return pieceChooser.toString
 	}
-
-	def setPieceChooser(value: Int): Unit = {
-		pieceChooser = value
-	}
-
-
 	}
 
 // Wenn einer draußen ist sollte nicht ein anderer rauskommen können
-//Try/Option bei falschem Einput
-
-
-// Bis nächstes mal Pattern 1 Abgabe() + Pattern 2 (Redo,Undo,Trait,Option)

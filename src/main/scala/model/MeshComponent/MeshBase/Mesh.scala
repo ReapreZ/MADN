@@ -1,8 +1,6 @@
-package model.MeshComponent.MeshBase
+package model.meshComponent.meshBase
 import scala.collection.mutable.ListBuffer
-import model.FieldComponent.FieldBase.Field
-import model.HouseComponent.HouseBase.House
-import model.FinishComponent.FinishBase.Finish
+import model.meshComponent.meshBase._
 import model.FieldFactory
 import scala.io.StdIn.readLine
 import scala.util.{Try,Success,Failure}

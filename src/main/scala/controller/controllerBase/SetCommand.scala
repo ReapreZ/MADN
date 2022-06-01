@@ -2,8 +2,8 @@ package controller
 
 import controller._
 import util.Command
-import model.MeshComponent.MeshBase.Mesh
-import model.GameComponent.GameBase.Game
+import model.meshComponent.meshBase.Mesh
+import model.gameComponent.gameBase.Game
 import model.Move
 
 

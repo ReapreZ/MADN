@@ -1,4 +1,4 @@
-package model.FieldComponent.FieldBase
+package model.meshComponent.meshBase
 import model.FieldFactory
 
 final case class Field(Cell: Int, Player: Int) extends FieldFactory {
