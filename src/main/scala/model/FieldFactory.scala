@@ -13,9 +13,9 @@ trait FieldFactory() {
 }
 
 object FieldFactory {
-    def apply(kind: String, Cell:Int, Player:Int) = kind match {
-        case "field" => new Field(Cell, Player)
-        case "house" => new House(Cell, Player)
-        case "finish" => new Finish(Cell, Player)
+    def apply(kind: String, Player:Int) = kind match {
+        case "field" => new Field(Player)
+        case "house" => new House(Player)
+        case "finish" => new Finish(Player)
     }
 }

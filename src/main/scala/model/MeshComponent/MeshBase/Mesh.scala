@@ -5,12 +5,12 @@ import model.FieldFactory
 import scala.io.StdIn.readLine
 import scala.util.{Try,Success,Failure}
 
-final case class Mesh(Cell: Int, Player: Int, Housenumber: Int){
-    val field1 = FieldFactory("field",Cell, Player)
-    val house1 = FieldFactory("house",Housenumber, Player)
-    val finish1 = FieldFactory("finish",Housenumber, Player)
-    val piecepos = fillArr(Player, Housenumber)
-    val stepsdone = fillArr(Player, Housenumber)
+final case class Mesh(Player: Int) {
+    val field1 = FieldFactory("field", Player)
+    val house1 = FieldFactory("house", Player)
+    val finish1 = FieldFactory("finish", Player)
+    val piecepos = fillArr(Player, 4)
+    val stepsdone = fillArr(Player, 4)
     
     def mesh():String = field1.toString() + house1.toString() + finish1.toString()
 
@@ -33,12 +33,8 @@ final case class Mesh(Cell: Int, Player: Int, Housenumber: Int){
         if input.toInt < 1 && input.toInt > 4 then return Failure(NotImplementedError("Too Many/Few Player"))
         else 
             val playeramount = input.toInt
-            println("Amount of Houses:")
-            val houseamount = readLine()
-            println("Amount of Cells per Player:")
-            val cellamount = readLine()
             println("Press 'r' to roll the dice\n")
-            return Success(Mesh(cellamount.toInt, playeramount.toInt, houseamount.toInt))
+            return Success(Mesh(playeramount.toInt))
     }
 
 }

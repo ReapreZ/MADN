@@ -14,7 +14,7 @@ import scala.util.{Try,Success,Failure}
 object MADN {
     def main(args: Array[String]): Unit = {
         var input: String = ""
-        var mesh = new Mesh(0,0,0)
+        var mesh = new Mesh(0)
         val piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)
         val meshtry = mesh.startgame()
         meshtry match {

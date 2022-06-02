@@ -15,7 +15,7 @@ import scala.util.{Try,Success,Failure}
 
 class Controller(var game: Game) extends ControllerInterface{
     val undoManager = new UndoManager[Game]
-    var mesh1 = new Mesh(0,0,0)
+    var mesh1 = new Mesh(0)
     var gamestatus: GameStatus = IDLE
 
     /*def doAndPublish(doThis: (Move) => Game,move:Move) = {

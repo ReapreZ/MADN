@@ -24,7 +24,6 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
     preferredSize = new Dimension(1024, 720)
     val piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)
     val game: Game = new Game(1, mesh,piecesOutMap)
-    val circle = Toolkit.getDefaultToolkit.getImage("C:/Software-Engineering/MADN-1/Bilder/Kreis.jpg")
     val infoLabel = new TextField("Put in the amount of Players/Houses/Cells to start the game")
     val rollDiceB = new Button("Roll the Dice")
     listenTo(rollDiceB)
@@ -42,8 +41,11 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
     listenTo(undoB)
     val redoB = new Button("Redo")
     listenTo(redoB)
-
-    var mesh: Mesh = new Mesh(0,0,0)
+    var circle = new Label { 
+        icon = new ImageIcon("C:/Software-Engineering/MADN-1/src/main/resources/Icons/Kreis.png") 
+        preferredSize = new Dimension(100,100)
+    }
+    var mesh: Mesh = new Mesh(0)
     val dice1 = new Dice
     var fieldLabel = new Label
     var houseLabel = new Label
@@ -62,19 +64,20 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
             contents += rollDiceB
             contents += rollMagicDiceB
             playeramountTF.preferredSize = new Dimension(100,30)
-            houseamoutTF.preferredSize = new Dimension(100,30)
-            cellamountTF.preferredSize = new Dimension(100,30)
+            //houseamoutTF.preferredSize = new Dimension(100,30)
+            //cellamountTF.preferredSize = new Dimension(100,30)
+            //contents += circle
             contents += playeramountTF
-            contents += houseamoutTF
-            contents += cellamountTF
+            //contents += houseamoutTF
+            //contents += cellamountTF
             contents += new Button("Start Game") {
                 reactions += {
                     case event.ButtonClicked(_) =>
                         mesh = startGame()
-                        val controller2 = new Controller(game.copy(1, mesh, piecesOutMap))
+                        controller.game = game.copy(1, mesh, piecesOutMap)
                         controller.game.pieceChooser = 0
                         updateField()
-                        infoLabel.text = "Press the roll Button to roll"
+                        infoLabel.text = "Press the roll Button to roll the dice"
                 }
             }
         }
@@ -157,7 +160,7 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
         add(leftPanel, BorderPanel.Position.West)
         }
     def startGame(): Mesh = {
-        return Mesh(cellamountTF.text.toInt, playeramountTF.text.toInt, houseamoutTF.text.toInt)
+        return Mesh(playeramountTF.text.toInt)
     }
     def movePiece(rolledDice: Int): Unit = {
             controller.doAndPublish(controller.move1 , rolledDice)
