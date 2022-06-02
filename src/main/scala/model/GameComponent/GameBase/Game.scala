@@ -34,20 +34,18 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 				return copy(piecesOutMap = changeMap(playerturn - 1))
 			else // Mehrere draußen und keine 6
 				println("Which Piece should move?")
-				println("pieceChooser: " + pieceChooser)
 				if(pieceChooser == -1)
 					input = readLine()
 				else
 					input = getPiece()
-					//pieceChooser = 0
-					val game1 = movePiece(rolledDice, input.toInt)
-					if(playerturn == mesh10.Player)
-						return copy(playerturn = 1)
-					else
-						val playerturn1 = playerturn + 1 
-						return copy(playerturn = playerturn1)
-					return game1
-				return copy()
+				val game1 = movePiece(rolledDice, input.toInt)
+				if(playerturn == mesh10.Player)
+					return copy(playerturn = 1)
+				else
+					val playerturn1 = playerturn + 1 
+					return copy(playerturn = playerturn1)
+				return game1
+			return copy()
 		else // Wenn eine 6 gewürfelt wird
 			if(piecesOutMap(playerturn - 1) == 0)
 				return movePieceOut()
@@ -59,7 +57,7 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 				else
 					input = getPiece()
 					//pieceChooser = 0
-				if(input.toInt <= mesh10.Housenumber)
+				if(input.toInt <= 4)
 				piecesOutMap.get(playerturn - 1) match {
 					case Some(piece) => return moveOrGetOut(input.toInt, piece)
 					case None => return move(rolledDice)
@@ -103,11 +101,11 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 	}
 	
 	def movePieceOut(): Game = {
-		val nextPlayer = mesh10.Player * mesh10.Cell + 1
-		val nextHouse = mesh10.Housenumber + 2
+		val nextPlayer = 10
+		val nextHouse = 4 + 2
 		playerturn match {
 			case 1 =>
-				if(piecesOutMap(0) <= mesh10.Housenumber) {
+				if(piecesOutMap(0) <=4) {
 					mesh10.stepsdone(0)(piecesOutMap(0)) = 0
 					mesh10.piecepos(0)(piecesOutMap(0)) = 0
 					mesh10.field1.Arr(0) = 'A'
@@ -116,7 +114,7 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 				} else 
 					return move(6)
 			case 2 =>
-				if(piecesOutMap(1) <= mesh10.Housenumber) {
+				if(piecesOutMap(1) <= 4) {
 					mesh10.stepsdone(1)(piecesOutMap(1)) = 0
 					mesh10.piecepos(1)(piecesOutMap(1)) = nextPlayer
 					mesh10.field1.Arr(nextPlayer) = 'B'
@@ -125,7 +123,7 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 				} else
 					return move(6)
 			case 3 => 
-				if(piecesOutMap(2) <= mesh10.Housenumber) {
+				if(piecesOutMap(2) <= 4) {
 					mesh10.stepsdone(2)(piecesOutMap(2)) = 0
 					mesh10.piecepos(2)(piecesOutMap(2)) = nextPlayer * 2
 					mesh10.field1.Arr(nextPlayer * 2) = 'C'
@@ -134,7 +132,7 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 				} else 
 					return move(6)
 			case 4 =>
-				if(piecesOutMap(3) <= mesh10.Housenumber) {
+				if(piecesOutMap(3) <= 4) {
 					mesh10.stepsdone(3)(piecesOutMap(3)) = 0
 					mesh10.piecepos(3)(piecesOutMap(3)) = nextPlayer * 3
 					mesh10.field1.Arr(nextPlayer * 3) = 'D'
@@ -146,7 +144,7 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 	}
 
 	def moveOrGetOut(piece:Int, piecesOut:Int): Game = {
-		if(piece > piecesOut && piece != mesh10.Housenumber + 1)
+		if(piece > piecesOut && piece != 4 + 1)
 			return movePieceOut()
 		else return 
 			movePiece(6,piece)
@@ -175,5 +173,5 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 		return pieceChooser.toString
 	}
 	}
-
+// Am Anfang 3x würfeln
 // Wenn einer draußen ist sollte nicht ein anderer rauskommen können
