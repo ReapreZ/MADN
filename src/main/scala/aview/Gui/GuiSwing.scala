@@ -17,17 +17,14 @@ import model.gameComponent.gameBase.Game
 import scala.language.postfixOps
 
 class GuiSwing(controller: Controller) extends MainFrame with Observer{
-    //listenTo(controller)
     controller.add(this)
     var oldDice: Int = 0
     var playerturnC = ' '
     title = "Mensch ärgere dich nicht!"
-    preferredSize = new Dimension(1024, 720)
+    preferredSize = new Dimension(1440, 720)
     var piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)
     val game: Game = new Game(1, mesh,piecesOutMap)
-
     var infoLabel = new TextField("Put in the amount of Players/Houses/Cells to start the game") {
-        //icon = new ImageIcon("C:/Software-Engineering/MADN-1/src/main/resources/Icons/infoBoxTest.png")
         background = java.awt.Color.GRAY
         foreground = java.awt.Color.WHITE
         font = new Font("Arial Black", 0, 12)
@@ -48,81 +45,64 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
     listenTo(undoB)
     val redoB = new Button("Redo")
     listenTo(redoB)
-    var PC1H = new Label { 
-        icon = new ImageIcon("C:/Software-Engineering/MADN-1/src/main/resources/Icons/PlayerCHome.png") 
-        //preferredSize = new Dimension(50,50)
-    }
-    var PC2H = new Label { 
-        icon = new ImageIcon("C:/Software-Engineering/MADN-1/src/main/resources/Icons/PlayerCHome.png") 
-        //preferredSize = new Dimension(50,50)
-    }
-    var PC3H = new Label { 
-        icon = new ImageIcon("C:/Software-Engineering/MADN-1/src/main/resources/Icons/PlayerCHome.png") 
-        //preferredSize = new Dimension(50,50)
-    }
-    var PC4H = new Label { 
-        icon = new ImageIcon("C:/Software-Engineering/MADN-1/src/main/resources/Icons/PlayerCHome.png") 
-        //preferredSize = new Dimension(50,50)
-    }
-    var PD1H = new Label { 
-        icon = new ImageIcon("C:/Software-Engineering/MADN-1/src/main/resources/Icons/PlayerDHome.png") 
-        //preferredSize = new Dimension(50,50)
-    }
-    var PD2H = new Label { 
-        icon = new ImageIcon("C:/Software-Engineering/MADN-1/src/main/resources/Icons/PlayerDHome.png") 
-        //preferredSize = new Dimension(50,50)
-    }
-    var PD3H = new Label { 
-        icon = new ImageIcon("C:/Software-Engineering/MADN-1/src/main/resources/Icons/PlayerDHome.png") 
-        //preferredSize = new Dimension(50,50)
-    }
-    var PD4H = new Label {
-        icon = new ImageIcon("C:/Software-Engineering/MADN-1/src/main/resources/Icons/PlayerDHome.png") 
-        //preferredSize = new Dimension(50,50)
-    }
-    var PA1H = new Label { 
-        icon = new ImageIcon("C:/Software-Engineering/MADN-1/src/main/resources/Icons/PlayerAHome.png") 
-        //preferredSize = new Dimension(50,50)
-    }
-    var PA1 = new Label { 
-        icon = new ImageIcon("C:/Software-Engineering/MADN-1/src/main/resources/Icons/PlayerA.png") 
-        //preferredSize = new Dimension(50,50)
-    }
-    var PA2H = new Label { 
-        icon = new ImageIcon("C:/Software-Engineering/MADN-1/src/main/resources/Icons/PlayerAHome.png") 
-        //preferredSize = new Dimension(50,50)
-    }
-    var PA3H = new Label { 
-        icon = new ImageIcon("C:/Software-Engineering/MADN-1/src/main/resources/Icons/PlayerAHome.png") 
-        //preferredSize = new Dimension(50,50)
-    }
-    var PA4H = new Label { 
-        icon = new ImageIcon("C:/Software-Engineering/MADN-1/src/main/resources/Icons/PlayerAHome.png") 
-        //preferredSize = new Dimension(50,50)
-    }
-    var PB1H = new Label { 
-        icon = new ImageIcon("C:/Software-Engineering/MADN-1/src/main/resources/Icons/PlayerBHome.png") 
-        //preferredSize = new Dimension(50,50)
-    }
-    var PB2H = new Label { 
-        icon = new ImageIcon("C:/Software-Engineering/MADN-1/src/main/resources/Icons/PlayerBHome.png") 
-        //preferredSize = new Dimension(50,50)
-    }
-    var PB3H = new Label { 
-        icon = new ImageIcon("C:/Software-Engineering/MADN-1/src/main/resources/Icons/PlayerBHome.png") 
-        //preferredSize = new Dimension(50,50)
-    }
-    var PB4H = new Label { 
-        icon = new ImageIcon("C:/Software-Engineering/MADN-1/src/main/resources/Icons/PlayerBHome.png") 
-        //preferredSize = new Dimension(50,50)
-    }
-        var circle = new Label { 
-        icon = new ImageIcon("C:/Software-Engineering/MADN-1/src/main/resources/Icons/EmptyKreis.png") 
-        //preferredSize = new Dimension(50,50)
-    }
-    var circle2 = new Label
-    Icon icon1 = new ImageIcon("C:/Software-Engineering/MADN-1/src/main/resources/Icons/EmptyKreis.png") 
-    circle2.icon = icon1
+    val PC1H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerCHome.png") }
+    val PC2H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerCHome.png") }
+    val PC3H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerCHome.png") }
+    val PC4H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerCHome.png") }
+    val PD1H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerDHome.png") }
+    val PD2H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerDHome.png") }
+    val PD3H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerDHome.png") }
+    val PD4H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerDHome.png") }
+    val PA1H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerAHome.png") }
+    val PlayerA = new ImageIcon("src/main/resources/Icons/PlayerA.png")
+    val PA1 = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerA.png") }
+    val PA2H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerAHome.png") }
+    val PA3H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerAHome.png") }
+    val PA4H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerAHome.png") }
+    val PB1H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerBHome.png") }
+    val PB2H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerBHome.png") }
+    val PB3H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerBHome.png") }
+    val PB4H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerBHome.png") }
+    val kreis = new ImageIcon("src/main/resources/Icons/EmptyKreis.png")
+    val circle1 = new Label { icon = kreis }
+    val circle2 = new Label { icon = kreis }
+    val circle3 = new Label { icon = kreis }
+    val circle4 = new Label { icon = kreis }
+    val circle5 = new Label { icon = kreis }
+    val circle6 = new Label { icon = kreis }
+    val circle7 = new Label { icon = kreis }
+    val circle8 = new Label { icon = kreis }
+    val ziel = new ImageIcon("src/main/resources/Icons/EmptyFinish.png")
+    val fin1 = new Label { icon = ziel}
+    val fin2 = new Label { icon = ziel}
+    val fin3 = new Label { icon = ziel}
+    val fin4 = new Label { icon = ziel}
+    val fin5 = new Label { icon = ziel}
+    val fin6 = new Label { icon = ziel}
+    val fin7 = new Label { icon = ziel}
+    val fin8 = new Label { icon = ziel}
+    val fin9 = new Label { icon = ziel}
+    val fin10 = new Label { icon = ziel}
+    val fin11 = new Label { icon = ziel}
+    val fin12 = new Label { icon = ziel}
+    val fin13 = new Label { icon = ziel}
+    val fin14 = new Label { icon = ziel}
+    val fin15 = new Label { icon = ziel}
+    val fin16 = new Label { icon = ziel}
+    val platzhalter = new Label("       ")
+    val platzhalter1 = new Label("       ")
+    val feld = new ImageIcon("src/main/resources/Icons/NormalField.png")
+    val field = Array(new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label)
+    var i = 1
+    while (i < 40)
+        field(i).icon = feld
+        i = i + 1
+    val feldAStart = new ImageIcon("src/main/resources/Icons/PlayerAStartField.png")
+    field(0) = new Label { icon = feldAStart }
+
+
+
+
     var mesh: Mesh = new Mesh(0)
     val dice1 = new Dice
     var fieldLabel = new Label
@@ -144,6 +124,14 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
         }
         contents += undoB
         contents += redoB
+        contents += piece1B
+        contents += piece2B
+        contents += piece3B
+        contents += piece4B
+        piece1B.preferredSize = new Dimension(50,30)
+        piece2B.preferredSize = new Dimension(50,30)
+        piece3B.preferredSize = new Dimension(50,30)
+        piece4B.preferredSize = new Dimension(50,30)
     }
     def bottomPanel = new FlowPanel {
         infoLabel.preferredSize = new Dimension(560,50)
@@ -158,13 +146,17 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
         contents += PD4H
     }
     def topPanel = new FlowPanel {
-        contents += circle
-        circle.visible = false
+        contents += circle1
+        circle1.visible = false
         contents += PA1H
         contents+= circle2
-        circle.visible = false
+        circle2.visible = false
         contents += PA2H
+        contents += circle3
+        circle3.visible = false
         contents += PA3H
+        contents += circle4
+        circle4.visible = false
         contents += PA4H
         contents += rollDiceB
         rollDiceB.preferredSize = new Dimension(140,30)
@@ -187,32 +179,54 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
                     infoLabel.text = "Press the roll Button to roll the dice"
             }
         }
+        contents += circle5
+        circle5.visible = false
         contents += PB1H
+        contents += circle6
+        circle6.visible = false
         contents += PB2H
+        contents += circle7
+        circle7.visible = false
         contents += PB3H
+        contents += circle8
+        circle8.visible = false
         contents += PB4H
     }
-    def rightPanel = new GridPanel(4,1) {
-        contents += piece1B
-        contents += piece2B
-        contents += piece3B
-        contents += piece4B
-        piece1B.preferredSize = new Dimension(50,30)
-        piece2B.preferredSize = new Dimension(50,30)
-        piece3B.preferredSize = new Dimension(50,30)
-        piece4B.preferredSize = new Dimension(50,30)
+    def rightPanel = new GridPanel(9,1) {
+        contents += fin9
+        contents += fin10
+        contents += fin11
+        contents += fin12
+        contents += platzhalter1
+        contents += fin13
+        contents += fin14
+        contents += fin15
+        contents += fin16
     }
-    def centerPanel = new GridPanel(4,3) {
-        contents += fieldLabel
-        contents += houseLabel
-        contents += finishLabel
-        fieldLabel.font = new Font("Arial", 0, 20)
-        houseLabel.font = new Font("Arial", 0, 20)
-        finishLabel.font = new Font("Arial", 0, 20)
+    def centerPanel = new GridPanel(4,10) {
+        //contents += fieldLabel
+        contents += field(0)
+        i = 1
+        while(i < 40)
+            contents += field(i)
+            i = i + 1
+        //contents += houseLabel
+        //contents += finishLabel
+        //fieldLabel.font = new Font("Arial", 0, 20)
+        //houseLabel.font = new Font("Arial", 0, 20)
+        //finishLabel.font = new Font("Arial", 0, 20)
     }
-    def leftPanel = new GridPanel(4,1) {
-        //contents += undoB
-        //contents += redoB
+    def leftPanel = new GridPanel(9,1) {
+        contents += fin1
+        contents += fin2
+        contents += fin3
+        contents += fin4
+        contents += platzhalter
+        contents += fin5
+        contents += fin6
+        contents += fin7
+        contents += fin8
+
     }
     reactions += {
         case event.ButtonClicked(`rollDiceB`) =>
@@ -248,12 +262,10 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
             else 
                 movePiece(rolledDice)
                 //infoLabel.text = "Press the roll Button to roll"
-        case event.ButtonClicked(`piece1B`) => 
-            controller.game.pieceChooser = 1
-            println("GUI PieceChooser: " + controller.game.pieceChooser)
-        case event.ButtonClicked(`piece2B`) => 
-            controller.game.pieceChooser = 2
-            println("GUI PieceChooser: " + controller.game.pieceChooser)
+        case event.ButtonClicked(`piece1B`) => controller.game.pieceChooser = 1
+        case event.ButtonClicked(`piece2B`) => controller.game.pieceChooser = 2
+        case event.ButtonClicked(`piece3B`) => controller.game.pieceChooser = 3
+        case event.ButtonClicked(`piece4B`) => controller.game.pieceChooser = 4
         case event.ButtonClicked(`undoB`) =>
             controller.doAndPublish(controller.undo)
             updateField()
@@ -278,39 +290,58 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
     }
     def updateField() : Unit = {
         fieldLabel.text = controller.game.mesh10.field1.toString
-        houseLabel.text = controller.game.mesh10.house1.toString
-        finishLabel.text = controller.game.mesh10.finish1.toString
+        //houseLabel.text = controller.game.mesh10.house1.toString
+        //finishLabel.text = controller.game.mesh10.finish1.toString
         if(piecesOutMap != controller.game.piecesOutMap)
             var i = 0
             //while (i < 4)
                 if(piecesOutMap(0) != controller.game.piecesOutMap(0))
                     controller.game.piecesOutMap(0) match {
-                        case 0 => circle.visible = false
+                        case 0 => circle1.visible = false
                         case 1 => 
                             PA1H.visible = false
-                            circle.visible = true
+                            circle1.visible = true
                         case 2 =>
                             PA2H.visible = false
                             circle2.visible = true
                         case 3 =>
                             PA3H.visible = false
+                            circle3.visible = true
                         case 4 =>
                             PA4H.visible = false
-
+                            circle4.visible = true
+                    }
+                if(piecesOutMap(1) != controller.game.piecesOutMap(1))
+                    controller.game.piecesOutMap(1) match {
+                        case 0 => circle5.visible = false
+                        case 1 => 
+                            PB1H.visible = false
+                            circle5.visible = true
+                        case 2 =>
+                            PB2H.visible = false
+                            circle6.visible = true
+                        case 3 =>
+                            PB3H.visible = false
+                            circle7.visible = true
+                        case 4 =>
+                            PB4H.visible = false
+                            circle8.visible = true
                     }
         piecesOutMap = controller.game.piecesOutMap
     }
     def checkForPieceChoosing(rolledDice: Int): Unit = {
-        if(rolledDice.toInt != 6 && (controller.game.piecesOutMap(controller.game.playerturn - 1) != 1 && controller.game.piecesOutMap(controller.game.playerturn - 1) != 0))
+        if(rolledDice.toInt == 6 && controller.game.piecesOutMap(controller.game.playerturn - 1) == 0)
+            field(0).icon = PlayerA
+        else if(rolledDice.toInt != 6 && (controller.game.piecesOutMap(controller.game.playerturn - 1) != 1 && controller.game.piecesOutMap(controller.game.playerturn - 1) != 0))
             infoLabel.text = infoLabel.text + "     Which Piece should move? After choosing, roll again to confirm"
             if(controller.game.pieceChooser != 0 && controller.game.pieceChooser != -1)
                 movePiece(rolledDice)
                 //infoLabel.text = "Press the roll Button to roll"
         else if(rolledDice.toInt == 6 && controller.game.piecesOutMap(controller.game.playerturn - 1) != 0)
-                infoLabel.text = infoLabel.text + "    Which Piece should move or get out? After choosing, roll again to confirm"
-                if(controller.game.pieceChooser != 0 && controller.game.pieceChooser != -1)
-                        movePiece(rolledDice)
-                        //infoLabel.text = "Press the roll Button to roll"
+            infoLabel.text = infoLabel.text + "    Which Piece should move or get out? After choosing, roll again to confirm"
+            if(controller.game.pieceChooser != 0 && controller.game.pieceChooser != -1)
+                movePiece(rolledDice)
+                //infoLabel.text = "Press the roll Button to roll"
         else 
             movePiece(rolledDice)
             //infoLabel.text = "Press the roll Button to roll"
