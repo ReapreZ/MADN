@@ -12,7 +12,7 @@ final case class Dice() extends DiceStrategy{
             case Failure(e) => return 0
         }
     }*/
-    override def diceRandom(num: Int=6): Int = {
+    override def diceRandom(num: Int=5): Int = {
         val r = scala.util.Random
         (1 + r.nextInt(num))
     }

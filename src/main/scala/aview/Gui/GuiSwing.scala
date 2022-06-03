@@ -24,7 +24,7 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
     preferredSize = new Dimension(1440, 720)
     var piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)
     val game: Game = new Game(1, mesh,piecesOutMap)
-    var infoLabel = new TextField("Put in the amount of Players/Houses/Cells to start the game") {
+    var infoLabel = new TextField("Put in the amount of Players to start the game") {
         background = java.awt.Color.GRAY
         foreground = java.awt.Color.WHITE
         font = new Font("Arial Black", 0, 12)
@@ -46,10 +46,12 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
     val redoB = new Button("Redo")
     listenTo(redoB)
     val PC1H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerCHome.png") }
+    val PlayerC = new ImageIcon("src/main/resources/Icons/PlayerC.png")
     val PC2H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerCHome.png") }
     val PC3H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerCHome.png") }
     val PC4H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerCHome.png") }
     val PD1H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerDHome.png") }
+    val PlayerD = new ImageIcon("src/main/resources/Icons/PlayerD.png")
     val PD2H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerDHome.png") }
     val PD3H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerDHome.png") }
     val PD4H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerDHome.png") }
@@ -60,6 +62,7 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
     val PA3H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerAHome.png") }
     val PA4H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerAHome.png") }
     val PB1H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerBHome.png") }
+    val PlayerB = new ImageIcon("src/main/resources/Icons/PlayerB.png")
     val PB2H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerBHome.png") }
     val PB3H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerBHome.png") }
     val PB4H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerBHome.png") }
@@ -245,23 +248,14 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
                 checkForPieceChoosing(oldDice)
                 oldDice = 0
         case event.ButtonClicked(`rollMagicDiceB`) =>
-            println(controller.game.pieceChooser.toString)
+            //println(controller.game.pieceChooser.toString)
             val rolledDice = dice1.magicDice(6)
             controller.game.getTurnC(controller.game.playerturn) match {
                 case Success(v) => playerturnC = v
                 case Failure(e) => println(e.getMessage)
             }
-            if(oldDice == 0)
-                infoLabel.text = "It is Player's " + playerturnC + " and you rolled a " + rolledDice.toString
-            //infoLabel.text = "You rolled a " + rolledDice.toString
-            if(controller.game.piecesOutMap(controller.game.playerturn - 1) != 0)
-                infoLabel.text = infoLabel.text + "    Which Piece should move or get out? After choosing, roll again to confirm"
-                if(controller.game.pieceChooser != 0 && controller.game.pieceChooser != -1)
-                    movePiece(rolledDice)
-                    //infoLabel.text = "Press the roll Button to roll"
-            else 
-                movePiece(rolledDice)
-                //infoLabel.text = "Press the roll Button to roll"
+            infoLabel.text = "It is Player's " + playerturnC + " and you rolled a " + rolledDice.toString
+            checkForPieceChoosing(rolledDice)
         case event.ButtonClicked(`piece1B`) => controller.game.pieceChooser = 1
         case event.ButtonClicked(`piece2B`) => controller.game.pieceChooser = 2
         case event.ButtonClicked(`piece3B`) => controller.game.pieceChooser = 3
@@ -283,10 +277,36 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
     def startGame(): Mesh = {
         return Mesh(playeramountTF.text.toInt)
     }
-    def movePiece(rolledDice: Int): Unit = {
+    def move(rolledDice: Int): Unit = {
             controller.doAndPublish(controller.move1 , rolledDice)
+            //field(controller.game.mesh10.piecepos(controller.game.playerturn - 1)(controller.game.pieceChooser - 1)).icon = feld
+            //field((controller.game.mesh10.piecepos(controller.game.playerturn - 1)(controller.game.pieceChooser - 1)) + rolledDice).icon = PlayerA
             controller.game.pieceChooser = 0
             updateField()
+    }
+    def movePiece(rolledDice: Int): Unit = {
+        controller.game.playerturn match {
+            case 1 => 
+                field(controller.game.mesh10.piecepos(controller.game.playerturn - 1)(1 - 1)).icon = feld
+                field((controller.game.mesh10.piecepos(controller.game.playerturn - 1)(1 - 1)) + rolledDice).icon = PlayerA
+            case 2 =>
+                field(controller.game.mesh10.piecepos(controller.game.playerturn - 1)(1 - 1)).icon = feld
+                field((controller.game.mesh10.piecepos(controller.game.playerturn - 1)(1 - 1)) + rolledDice).icon = PlayerB
+            case 3 =>
+                field(controller.game.mesh10.piecepos(controller.game.playerturn - 1)(1 - 1)).icon = feld
+                field((controller.game.mesh10.piecepos(controller.game.playerturn - 1)(1 - 1)) + rolledDice).icon = PlayerC
+            case 4 =>
+                field(controller.game.mesh10.piecepos(controller.game.playerturn - 1)(1 - 1)).icon = feld
+                field((controller.game.mesh10.piecepos(controller.game.playerturn - 1)(1 - 1)) + rolledDice).icon = PlayerD
+        }
+    }
+    def movePieceOut(): Unit = {
+        controller.game.playerturn match {
+            case 1 => field(0).icon = PlayerA
+            case 2 => field(10).icon = PlayerB
+            case 3 => field(20).icon = PlayerC
+            case 4 => field(30).icon = PlayerD
+        }
     }
     def updateField() : Unit = {
         fieldLabel.text = controller.game.mesh10.field1.toString
@@ -331,19 +351,27 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
     }
     def checkForPieceChoosing(rolledDice: Int): Unit = {
         if(rolledDice.toInt == 6 && controller.game.piecesOutMap(controller.game.playerturn - 1) == 0)
-            field(0).icon = PlayerA
+            movePieceOut()
+            move(rolledDice)
         else if(rolledDice.toInt != 6 && (controller.game.piecesOutMap(controller.game.playerturn - 1) != 1 && controller.game.piecesOutMap(controller.game.playerturn - 1) != 0))
             infoLabel.text = infoLabel.text + "     Which Piece should move? After choosing, roll again to confirm"
-            if(controller.game.pieceChooser != 0 && controller.game.pieceChooser != -1)
+            if(controller.game.pieceChooser > 0)
                 movePiece(rolledDice)
-                //infoLabel.text = "Press the roll Button to roll"
-        else if(rolledDice.toInt == 6 && controller.game.piecesOutMap(controller.game.playerturn - 1) != 0)
+                move(rolledDice)
+        else if(rolledDice.toInt == 6 && controller.game.piecesOutMap(controller.game.playerturn - 1) > 0)
             infoLabel.text = infoLabel.text + "    Which Piece should move or get out? After choosing, roll again to confirm"
-            if(controller.game.pieceChooser != 0 && controller.game.pieceChooser != -1)
+            if(controller.game.pieceChooser > 0)
+                if(controller.game.pieceChooser > controller.game.piecesOutMap(controller.game.playerturn - 1))
+                    movePieceOut()
+                else
+                    movePiece(rolledDice)
                 movePiece(rolledDice)
-                //infoLabel.text = "Press the roll Button to roll"
-        else 
+        else if(rolledDice.toInt != 6 && controller.game.piecesOutMap(controller.game.playerturn -1) == 1)
             movePiece(rolledDice)
+            move(rolledDice)
+
+        else 
+            move(rolledDice)
             //infoLabel.text = "Press the roll Button to roll"
     }
     override def closeOperation() = 
