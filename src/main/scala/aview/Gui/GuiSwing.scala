@@ -14,16 +14,18 @@ import controller.Controller
 import model.diceComponent.diceBase.Dice
 import model.meshComponent.meshBase.Mesh
 import model.gameComponent.gameBase.Game
+import model.gameComponent.GameInterface
 import scala.language.postfixOps
+import controller.ControllerInterface
 
-class GuiSwing(controller: Controller) extends MainFrame with Observer{
+class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
     controller.add(this)
     var oldDice: Int = 0
     var playerturnC = ' '
     title = "Mensch ärgere dich nicht!"
     preferredSize = new Dimension(1440, 720)
     var piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)
-    val game: Game = new Game(1, mesh,piecesOutMap)
+    val game2 = new Game(1, mesh,piecesOutMap)
     var infoLabel = new TextField("Put in the amount of Players to start the game") {
         background = java.awt.Color.GRAY
         foreground = java.awt.Color.WHITE
@@ -176,7 +178,7 @@ class GuiSwing(controller: Controller) extends MainFrame with Observer{
             reactions += {
                 case event.ButtonClicked(_) =>
                     mesh = startGame()
-                    controller.game = game.copy(1, mesh, piecesOutMap)
+                    //controller.game = game.copy(1, mesh, piecesOutMap)
                     controller.game.pieceChooser = 0
                     updateField()
                     infoLabel.text = "Press the roll Button to roll the dice"

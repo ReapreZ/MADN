@@ -1,11 +1,13 @@
 package model.meshComponent.meshBase
 import scala.collection.mutable.ListBuffer
-import model.meshComponent.meshBase._
+import model.meshComponent.MeshInterface
 import model.FieldFactory
 import scala.io.StdIn.readLine
 import scala.util.{Try,Success,Failure}
+import com.google.inject.name.{Named, Names}
+import com.google.inject.{Guice, Inject}
 
-final case class Mesh(Player: Int) {
+final case class Mesh @Inject() (@Named("DefaultMesh") Player: Int) extends MeshInterface {
     val field1 = FieldFactory("field", Player)
     val house1 = FieldFactory("house", Player)
     val finish1 = FieldFactory("finish", Player)
@@ -30,8 +32,8 @@ final case class Mesh(Player: Int) {
     def startgame(): Try[Mesh] = {
         println("Amount of Players:")
         val input = readLine()
-        if input.toInt < 1 && input.toInt > 4 then return Failure(NotImplementedError("Too Many/Few Player"))
-        else 
+        if (input.toInt < 1 && input.toInt > 4) then return Failure(NotImplementedError("Too Many/Few Player"))
+        else
             val playeramount = input.toInt
             println("Press 'r' to roll the dice\n")
             return Success(Mesh(playeramount.toInt))

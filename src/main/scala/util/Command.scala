@@ -1,6 +1,6 @@
 package util
 
-import model.gameComponent.gameBase.Game
+import model.gameComponent.GameInterface
 
 trait Command[T]:
   def noStep(t: T): T

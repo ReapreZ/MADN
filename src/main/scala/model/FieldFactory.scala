@@ -2,7 +2,7 @@ package model
 
 import model.meshComponent.meshBase._
 
-trait FieldFactory() {
+trait FieldFactory {
     
     val Arr = ("").toArray
     val eol = sys.props("line.separator")

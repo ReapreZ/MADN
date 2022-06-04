@@ -5,11 +5,12 @@ import model.diceComponent.diceBase.Dice
 import scala.io.StdIn.readLine
 import model.diceComponent.diceBase.DiceStrategy
 import controller.Controller
+import controller.ControllerInterface
 import util.Observer
 import scala.util.{Try,Success,Failure}
 import model.Move
 
-class Tui(controller: Controller) extends Observer:
+class Tui(controller: ControllerInterface) extends Observer:
 
     controller.add(this)
     
