@@ -7,7 +7,7 @@ import com.google.inject.{Guice, Inject}
 import com.google.inject.name.{Named, Names}
 
 
-case class Game @Inject() (playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)) extends GameInterface {
+case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)) extends GameInterface {
 	var out: Int = -1
 	var pieceChooser: Int = -1
 	var input = " "

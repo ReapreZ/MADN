@@ -15,7 +15,7 @@ import com.google.inject.name.{Named, Names}
 import com.google.inject.{Guice, Inject}
 
 
-class Controller @Inject()(var game: GameInterface) extends ControllerInterface {
+class Controller @Inject()(@Named("DefaultGameType")var game: GameInterface) extends ControllerInterface {
     val undoManager = new UndoManager[GameInterface]
     var mesh1 = new Mesh(0)
     var gamestatus: GameStatus = IDLE
