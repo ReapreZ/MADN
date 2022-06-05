@@ -19,8 +19,7 @@ class MADNModule extends AbstractModule {
         val game = new Game(0,mesh, piecesOutMap)
         bind(classOf[ControllerInterface]).to(classOf[Controller])
         bind(classOf[GameInterface]).annotatedWith(Names.named("DefaultGameType")).toInstance(game)
-        bind(classOf[GameInterface]).toInstance(new Game(0,mesh,piecesOutMap))
-        //bind(classOf[GameInterface]).annotatedWith(Names.named("DefaultGame")).toInstance(game)
-        //bind(classOf[MeshInterface]).annotatedWith(Names.named("DefaultMesh")).toInstance(mesh)
+        bind(classOf[GameInterface]).toInstance(new Game(1,mesh,piecesOutMap))
+        
     }
 }

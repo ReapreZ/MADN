@@ -20,10 +20,11 @@ class Controller @Inject()(@Named("DefaultGameType")var game: GameInterface) ext
     var mesh1 = new Mesh(0)
     var gamestatus: GameStatus = IDLE
 
-    /*def doAndPublish(doThis: (Move) => Game,move:Move) = {
-        game = doThis(move)
-        notifyObservers
-    }*/
+    val meshtry = game.startgame
+        meshtry match {
+            case Success(v) => game = v
+            case Failure(e) => print(e.getMessage)
+        }
 
     def doAndPublish(doThis: (Int) => GameInterface,rolledDice:Int) = {
         game = doThis(rolledDice)

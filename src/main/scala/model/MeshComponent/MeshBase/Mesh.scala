@@ -29,14 +29,5 @@ final case class Mesh @Inject() (@Named("DefaultMesh") Player: Int) extends Mesh
         return arr
     }
 
-    def startgame(): Try[Mesh] = {
-        println("Amount of Players:")
-        val input = readLine()
-        if (input.toInt < 1 && input.toInt > 4) then return Failure(NotImplementedError("Too Many/Few Player"))
-        else
-            val playeramount = input.toInt
-            println("Press 'r' to roll the dice\n")
-            return Success(Mesh(playeramount.toInt))
-    }
 
 }

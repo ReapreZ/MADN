@@ -174,6 +174,16 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 			getPiece()
 		return pieceChooser.toString
 	}
+	def startgame: Try[Game] = {
+		println("Amount of Players:")
+		val input = readLine()
+		if(input.toInt < 1 && input.toInt > 4) then return Failure(NotImplementedError("To Many/Few Player"))
+		else
+			val playeramount = input.toInt
+			println("Press 'r' to roll the dice")
+			return Success(copy(playerturn = 1,mesh10 = new Mesh(playeramount.toInt)))
+	}
+
 	}
 // Am Anfang 3x würfeln
 // Wenn einer draußen ist sollte nicht ein anderer rauskommen können
