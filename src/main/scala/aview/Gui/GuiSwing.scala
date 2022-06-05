@@ -15,8 +15,9 @@ import model.diceComponent.diceBase.Dice
 import model.meshComponent.meshBase.Mesh
 import model.gameComponent.gameBase.Game
 import scala.language.postfixOps
+import controller.ControllerInterface
 
-class GuiSwing(controller: Controller) extends MainFrame with Observer{
+class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
     controller.add(this)
     var oldDice: Int = 0
     var playerturnC = ' '

@@ -11,10 +11,12 @@ import util.Command
 import GameStatus._
 import model.Move
 import scala.util.{Try,Success,Failure}
+import com.google.inject.Inject
+import model.gameComponent.GameInterface
 
 
-class Controller(var game: Game) extends ControllerInterface{
-    val undoManager = new UndoManager[Game]
+class Controller @Inject() (var game: GameInterface) extends ControllerInterface{
+    val undoManager = new UndoManager[GameInterface]
     var mesh1 = new Mesh(0)
     var gamestatus: GameStatus = IDLE
 
@@ -23,15 +25,15 @@ class Controller(var game: Game) extends ControllerInterface{
         notifyObservers
     }*/
 
-    def doAndPublish(doThis: (Int) => Game,rolledDice:Int) = {
+    def doAndPublish(doThis: (Int) => GameInterface,rolledDice:Int) = {
         game = doThis(rolledDice)
         notifyObservers
     }
-    def doAndPublish(doThis: => Game) = {
+    def doAndPublish(doThis: => GameInterface) = {
         game = doThis
         notifyObservers
     }
-    def move1(rolledDice:Int): Game = {
+    def move1(rolledDice:Int): GameInterface = {
         game = put(Move(rolledDice, game.playerturn, 1))
         //game.move(rolledDice)
         //game = game.move(rolledDice)
@@ -47,16 +49,16 @@ class Controller(var game: Game) extends ControllerInterface{
     def getTurnC1(playerturn: Int) : Try[Char] = {
         game.getTurnC(playerturn)
     }
-    def put(move:Move): Game = undoManager.doStep(game, SetCommand(move))
+    def put(move:Move): GameInterface = undoManager.doStep(game, SetCommand(move))
     
-    def undo: Game = {
+    def undo: GameInterface = {
         gamestatus = UNDO
         print(gamestatus.map(gamestatus))
         game = undoManager.undoStep(game)
         game
     }
    
-    def redo: Game = {
+    def redo: GameInterface = {
         gamestatus = REDO
         print(gamestatus.map(gamestatus))
         undoManager.redoStep(game)

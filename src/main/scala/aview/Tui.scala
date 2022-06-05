@@ -8,8 +8,9 @@ import controller.Controller
 import util.Observer
 import scala.util.{Try,Success,Failure}
 import model.Move
+import controller.ControllerInterface
 
-class Tui(controller: Controller) extends Observer:
+class Tui(controller: ControllerInterface) extends Observer:
 
     controller.add(this)
     
