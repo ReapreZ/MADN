@@ -23,7 +23,7 @@ object MADN {
         val piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)
         val meshtry = mesh.startgame()
         meshtry match {
-            case Success(v) => mesh = v
+            case Success(v) => controller.game.mesh10 = v//mesh = v
             case Failure(e) => print(e.getMessage)
         }
         //val controller = new Controller(new Game(1, mesh,piecesOutMap))

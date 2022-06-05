@@ -4,9 +4,9 @@ import model.gameComponent.gameBase._
 import scala.util.{Try,Success,Failure}
 
 trait GameInterface {
-    val playerturn: Int
-    val mesh10: Mesh
-    val piecesOutMap: Map[Int,Int]
+    var playerturn: Int
+    var mesh10: Mesh
+    var piecesOutMap: Map[Int,Int]
     var pieceChooser: Int
     def move(rolledDice:Int): Game
     def getTurnC(playerturn: Int): Try[Char]

@@ -24,7 +24,11 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
     title = "Mensch ärgere dich nicht!"
     preferredSize = new Dimension(1440, 720)
     var piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)
-    val game: Game = new Game(1, mesh,piecesOutMap)
+    val game: Game = new Game
+    game.playerturn = 1
+    game.mesh10 = mesh
+    game.piecesOutMap = piecesOutMap
+    //val game: Game = new Game(1, mesh,piecesOutMap)
     var infoLabel = new TextField("Put in the amount of Players to start the game") {
         background = java.awt.Color.GRAY
         foreground = java.awt.Color.WHITE
@@ -93,6 +97,10 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
     val fin14 = new Label { icon = ziel}
     val fin15 = new Label { icon = ziel}
     val fin16 = new Label { icon = ziel}
+    val game2: Game = new Game
+    game2.mesh10 = mesh
+    game2.playerturn = 1
+    game2.piecesOutMap = piecesOutMap
     val platzhalter = new Label("       ")
     val platzhalter1 = new Label("       ")
     val feld = new ImageIcon("src/main/resources/Icons/NormalField.png")
@@ -177,7 +185,11 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
             reactions += {
                 case event.ButtonClicked(_) =>
                     mesh = startGame()
-                    controller.game = game.copy(1, mesh, piecesOutMap)
+                    game2.mesh10 = mesh
+                    game2.playerturn = 1
+                    game2.piecesOutMap = piecesOutMap
+                    controller.game = game2
+                    //controller.game = game.copy(1, mesh, piecesOutMap)
                     controller.game.pieceChooser = 0
                     updateField()
                     infoLabel.text = "Press the roll Button to roll the dice"

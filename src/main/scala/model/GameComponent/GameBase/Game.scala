@@ -6,10 +6,15 @@ import scala.util.{Try,Success,Failure}
 import com.google.inject.Inject
 
 
-case class Game @Inject()(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)) extends GameInterface {
+class Game @Inject()/*(playerturn: Int,mesh10: Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0))*/ extends GameInterface {
 	var out: Int = -1
 	var pieceChooser: Int = -1
 	var input = " "
+	var mesh10 = new Mesh(0)
+	var playerturn = 1
+	//var playerturn: Int
+	//var mesh10: Mesh
+	var piecesOutMap = Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)
 
 	def move(rolledDice: Int): Game = {
 		println("A: " + piecesOutMap(0) + " B: " + piecesOutMap(1) + " C: " + piecesOutMap(2) + " playerturn: " + playerturn)
@@ -22,17 +27,25 @@ case class Game @Inject()(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=M
 			if(piecesOutMap(playerturn - 1) == 1) // Nur einer draußen und keine 6
 				val game1 = movePiece(rolledDice, 1)
 				if(playerturn == mesh10.Player)
-					return copy(playerturn = 1)
+					playerturn = 1
+					return this
+					//return copy(playerturn = 1)
 				else
 					val playerturn1 = playerturn + 1 
-					return copy(playerturn = playerturn1)
+					playerturn = playerturn1
+					//return copy(playerturn = playerturn1)
 			else if(piecesOutMap(playerturn - 1) == 0) // Keiner draußen und keine 6
 				if(playerturn == mesh10.Player)
-					return copy(playerturn = 1)
+					playerturn = 1
+					return this
+					//return copy(playerturn = 1)
 				else
 					val playerturn1 = playerturn + 1 
-					return copy(playerturn = playerturn1)
-				return copy(piecesOutMap = changeMap(playerturn - 1))
+					playerturn = playerturn1
+					return this
+					//return copy(playerturn = playerturn1)
+				piecesOutMap = changeMap(playerturn - 1)
+				//return copy(piecesOutMap = changeMap(playerturn - 1))
 			else // Mehrere draußen und keine 6
 				println("Which Piece should move?")
 				if(pieceChooser == -1)
@@ -41,12 +54,17 @@ case class Game @Inject()(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=M
 					input = getPiece()
 				val game1 = movePiece(rolledDice, input.toInt)
 				if(playerturn == mesh10.Player)
-					return copy(playerturn = 1)
+					playerturn = 1
+					return this
+					//return copy(playerturn = 1)
 				else
-					val playerturn1 = playerturn + 1 
-					return copy(playerturn = playerturn1)
+					val playerturn1 = playerturn + 1
+					playerturn = playerturn1
+					return this
+					//return copy(playerturn = playerturn1)
 				return game1
-			return copy()
+			return this
+			//return copy()
 		else // Wenn eine 6 gewürfelt wird
 			if(piecesOutMap(playerturn - 1) == 0)
 				return movePieceOut()
@@ -75,7 +93,8 @@ case class Game @Inject()(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=M
 		}
 		mesh10.stepsdone(playerturnt - 1)(piece - 1) = (mesh10.stepsdone(playerturnt - 1)(piece - 1)) + rolledDice
 		mesh10.piecepos(playerturnt - 1)(piece - 1) = (mesh10.piecepos(playerturnt - 1)(piece - 1)) + rolledDice
-		return copy()
+		return this
+		//return copy()
 	}
 
 	def getTurnC(playerturn: Int): Try[Char] = {
@@ -98,7 +117,8 @@ case class Game @Inject()(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=M
 		}
 		mesh10.stepsdone(playerturn - 1)(piece - 1) = (mesh10.stepsdone(playerturn - 1)(piece - 1)) + rolledDice
 		mesh10.piecepos(playerturn - 1)(piece - 1) = (mesh10.piecepos(playerturn - 1)(piece - 1)) + rolledDice
-		return copy()
+		return this
+		//return copy()
 	}
 	
 	def movePieceOut(): Game = {
@@ -111,7 +131,9 @@ case class Game @Inject()(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=M
 					mesh10.piecepos(0)(piecesOutMap(0)) = 0
 					mesh10.field1.Arr(0) = 'A'
 					mesh10.house1.Arr(piecesOutMap(0)) = 'H'
-					return copy(piecesOutMap = changeMap(0))
+					piecesOutMap = changeMap(0)
+					return  this
+					//return copy(piecesOutMap = changeMap(0))
 				} else 
 					return move(6)
 			case 2 =>
@@ -120,7 +142,9 @@ case class Game @Inject()(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=M
 					mesh10.piecepos(1)(piecesOutMap(1)) = nextPlayer
 					mesh10.field1.Arr(nextPlayer) = 'B'
 					mesh10.house1.Arr(nextHouse + piecesOutMap(1)) = 'H'
-					return copy(piecesOutMap = changeMap(1))
+					piecesOutMap = changeMap(1)
+					return this
+					//return copy(piecesOutMap = changeMap(1))
 				} else
 					return move(6)
 			case 3 => 
@@ -129,7 +153,9 @@ case class Game @Inject()(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=M
 					mesh10.piecepos(2)(piecesOutMap(2)) = nextPlayer * 2
 					mesh10.field1.Arr(nextPlayer * 2) = 'C'
 					mesh10.house1.Arr(nextHouse*2 + piecesOutMap(2)) = 'H'
-					return copy(piecesOutMap = changeMap(2))
+					piecesOutMap = changeMap(2)
+					return this
+					//return copy(piecesOutMap = changeMap(2))
 				} else 
 					return move(6)
 			case 4 =>
@@ -138,7 +164,9 @@ case class Game @Inject()(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=M
 					mesh10.piecepos(3)(piecesOutMap(3)) = nextPlayer * 3
 					mesh10.field1.Arr(nextPlayer * 3) = 'D'
 					mesh10.house1.Arr(nextHouse*3 + piecesOutMap(3)) = 'H'
-					return copy(piecesOutMap = changeMap(3))
+					piecesOutMap = changeMap(3)
+					return this
+					//return copy(piecesOutMap = changeMap(3))
 				} else 
 					return move(6)
 		}
@@ -153,10 +181,15 @@ case class Game @Inject()(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=M
 
 	def changePlayerTurn(playerturnT: Int) : Game = {
 		if(playerturnT == mesh10.Player)
-				return copy(playerturn = 1)
+				playerturn = 1
+				return this
+				//return copy(playerturn = 1)
 		else
 			val playerturn1 = playerturnT + 1 
-			return copy(playerturn = playerturn1)
+			playerturn = playerturn1
+			return this
+			
+			//return copy(playerturn = playerturn1)
 	}
 
 	def changeMap(stelle:Int): Map[Int,Int] = {
@@ -165,7 +198,8 @@ case class Game @Inject()(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=M
 		return changedMap.toMap
 	}
 	def put(game: Game): Game = {
-		return game.copy()
+		return this
+		//return game.copy()
 	}
 
 	def getPiece(): String = {
