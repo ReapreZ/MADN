@@ -4,7 +4,7 @@ import model.meshComponent.meshBase._
 
 trait FieldFactory {
     
-    val Arr = ("").toArray
+    var Arr = ("").toArray
     val eol = sys.props("line.separator")
 
     override def toString(): String =  {

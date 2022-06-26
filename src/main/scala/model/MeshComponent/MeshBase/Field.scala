@@ -12,5 +12,5 @@ final case class Field(Player: Int) extends FieldFactory {
         case 3 => Arr2 = (("x" + ("_" * 9)) * 3 + ("_" * 10)).toArray
         case 4 => Arr2 = (("x" + ("_" * 9)) * 4).toArray
     }
-    override val Arr = Arr2
+    Arr = Arr2
 }
