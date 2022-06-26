@@ -20,8 +20,8 @@ lazy val root = project
     JacocoThresholds(),
     Seq(JacocoReportFormats.ScalaHTML, JacocoReportFormats.XML), // note XML formatter
     "utf-8"),
-    libraryDependencies += "org.scala-lang.modules" % "scala-xml" % "1.1.1",
-    libraryDependencies += "com.typesafe.play" %% "play-json" % "2.6.6"
+    libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % "2.0.1",
+    libraryDependencies += ("com.typesafe.play" %% "play-json" % "2.10.0-RC5")
 
 
     //coverageExcludePackages := "C:/Software-Engineering/MADN/src/main/scala/controller",
