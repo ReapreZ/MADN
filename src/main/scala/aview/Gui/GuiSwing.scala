@@ -273,7 +273,6 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
             }
             if(oldDice == 0)
                 infoLabel.text = "It is Player's " + playerturnC + " and you rolled a " + rolledDice.toString
-                oldDice = rolledDice
                 checkForPieceChoosing(rolledDice)
             else 
                 infoLabel.text = "It is Player's " + playerturnC + " and you rolled a " + oldDice.toString
@@ -395,9 +394,12 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
             if(controller.game.pieceChooser > 0)
                 if(controller.game.pieceChooser > controller.game.piecesOutMap(controller.game.playerturn - 1))
                     movePieceOut()
+                    move(rolledDice)
                 else
                     movePiece(rolledDice)
-                movePiece(rolledDice)
+                    move(rolledDice)
+                else oldDice = rolledDice
+                //movePiece(rolledDice)
         else if(rolledDice.toInt != 6 && controller.game.piecesOutMap(controller.game.playerturn -1) == 1)
             movePiece(rolledDice)
             move(rolledDice)
