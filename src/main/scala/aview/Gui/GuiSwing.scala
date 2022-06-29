@@ -47,27 +47,31 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
     listenTo(undoB)
     val redoB = new Button("Redo")
     listenTo(redoB)
-    val PC1H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerCHome.png") }
+    val houseAIcon = new ImageIcon("src/main/resources/Icons/PlayerAHome.png")
+    val houseBIcon = new ImageIcon("src/main/resources/Icons/PlayerBHome.png")
+    val houseCIcon = new ImageIcon("src/main/resources/Icons/PlayerCHome.png")
+    val houseDIcon = new ImageIcon("src/main/resources/Icons/PlayerDHome.png")
+    //val PC1H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerCHome.png") }
     val PlayerC = new ImageIcon("src/main/resources/Icons/PlayerC.png")
-    val PC2H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerCHome.png") }
+    /*val PC2H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerCHome.png") }
     val PC3H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerCHome.png") }
     val PC4H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerCHome.png") }
-    val PD1H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerDHome.png") }
+    val PD1H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerDHome.png") }*/
     val PlayerD = new ImageIcon("src/main/resources/Icons/PlayerD.png")
-    val PD2H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerDHome.png") }
+    /*val PD2H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerDHome.png") }
     val PD3H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerDHome.png") }
     val PD4H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerDHome.png") }
-    val PA1H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerAHome.png") }
+    val PA1H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerAHome.png") }*/
     val PlayerA = new ImageIcon("src/main/resources/Icons/PlayerA.png")
     val PA1 = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerA.png") }
-    val PA2H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerAHome.png") }
+    /*val PA2H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerAHome.png") }
     val PA3H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerAHome.png") }
     val PA4H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerAHome.png") }
-    val PB1H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerBHome.png") }
+    val PB1H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerBHome.png") }*/
     val PlayerB = new ImageIcon("src/main/resources/Icons/PlayerB.png")
-    val PB2H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerBHome.png") }
+    /*val PB2H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerBHome.png") }
     val PB3H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerBHome.png") }
-    val PB4H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerBHome.png") }
+    val PB4H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerBHome.png") }*/
     val kreis = new ImageIcon("src/main/resources/Icons/EmptyKreis.png")
     val circle1 = new Label { icon = kreis }
     val circle2 = new Label { icon = kreis }
@@ -78,35 +82,33 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
     val circle7 = new Label { icon = kreis }
     val circle8 = new Label { icon = kreis }
     val ziel = new ImageIcon("src/main/resources/Icons/EmptyFinish.png")
-    val fin1 = new Label { icon = ziel}
-    val fin2 = new Label { icon = ziel}
-    val fin3 = new Label { icon = ziel}
-    val fin4 = new Label { icon = ziel}
-    val fin5 = new Label { icon = ziel}
-    val fin6 = new Label { icon = ziel}
-    val fin7 = new Label { icon = ziel}
-    val fin8 = new Label { icon = ziel}
-    val fin9 = new Label { icon = ziel}
-    val fin10 = new Label { icon = ziel}
-    val fin11 = new Label { icon = ziel}
-    val fin12 = new Label { icon = ziel}
-    val fin13 = new Label { icon = ziel}
-    val fin14 = new Label { icon = ziel}
-    val fin15 = new Label { icon = ziel}
-    val fin16 = new Label { icon = ziel}
+    val fin = Array(new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label)
+    var i = 0
+    while (i < 16)
+        fin(i).icon = ziel
+        i = i + 1
+    val house = Array(new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label)
+    i = 0
+    while (i < 16)
+        if(i <= 3)
+            house(i).icon = houseAIcon
+        else if(i <= 7 && i >= 4)
+            house(i).icon = houseBIcon
+        else if(i <= 11 && i >= 8)
+            house(i).icon = houseCIcon
+        else
+            house(i).icon = houseDIcon
+        i = i + 1
     val platzhalter = new Label("       ")
     val platzhalter1 = new Label("       ")
     val feld = new ImageIcon("src/main/resources/Icons/NormalField.png")
     val field = Array(new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label)
-    var i = 1
+    i = 1
     while (i < 40)
         field(i).icon = feld
         i = i + 1
     val feldAStart = new ImageIcon("src/main/resources/Icons/PlayerAStartField.png")
     field(0) = new Label { icon = feldAStart }
-
-
-
 
     var mesh: Mesh = new Mesh(0)
     val dice1 = new Dice
@@ -120,12 +122,32 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 
 
     menuBar = new MenuBar {
-        contents ++= Seq{
-            new Menu("Game") {
-                contents ++= Seq {
-                    MenuItem(Action("Undo")({controller.doAndPublish(controller.undo)}))
+        contents += new Menu("Game") {
+            contents += MenuItem(Action("Save"){
+                controller.doAndPublish(controller.save)
+            })
+            contents += MenuItem(Action("Load"){
+                controller.doAndPublish(controller.load)
+                var j = 0
+                while (j < 40) {
+                    controller.game.mesh10.field1.Arr(j) match {
+                        case '_' => field(j).icon = feld
+                        case 'A' => field(j).icon = PlayerA
+                        case 'B' => field(j).icon = PlayerB
+                        case 'C' => field(j).icon = PlayerC
+                        case 'D' => field(j).icon = PlayerD
+                        case 'x' => field(j).icon = feld
+                    }
+                    j = j + 1
                 }
-            }
+                j = 0
+                while (j < 16)
+                    controller.game.mesh10.finish1.Arr(j) match {
+                        case '-' => fin(j).icon = ziel
+                        //case 'A' => fin(j).icon = 
+                    }
+                    j = j + 1
+            })
         }
         contents += undoB
         contents += redoB
@@ -140,29 +162,37 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
     }
     def bottomPanel = new FlowPanel {
         infoLabel.preferredSize = new Dimension(560,50)
-        contents += PC1H
-        contents += PC2H
-        contents += PC3H
-        contents += PC4H
+        i = 7
+        contents += house(8)
+        contents += house(9)
+        contents += house(10)
+        contents += house(11)
+        //while(i < 11)
+        //    contents += house(i)
+        //    i = i + 1
         contents += infoLabel
-        contents += PD1H
-        contents += PD2H
-        contents += PD3H
-        contents += PD4H
+        contents += house(12)
+        contents += house(13)
+        contents += house(14)
+        contents += house(15)
+        //i = 0
+        //while(i < 15)
+        //    contents += house(i)
+        //    i = i + 1
     }
     def topPanel = new FlowPanel {
         contents += circle1
         circle1.visible = false
-        contents += PA1H
+        contents += house(0)
         contents+= circle2
         circle2.visible = false
-        contents += PA2H
+        contents += house(1)
         contents += circle3
         circle3.visible = false
-        contents += PA3H
+        contents += house(2)
         contents += circle4
         circle4.visible = false
-        contents += PA4H
+        contents += house(3)
         contents += rollDiceB
         rollDiceB.preferredSize = new Dimension(140,30)
         contents += rollMagicDiceB
@@ -186,27 +216,27 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
         }
         contents += circle5
         circle5.visible = false
-        contents += PB1H
+        contents += house(4)
         contents += circle6
         circle6.visible = false
-        contents += PB2H
+        contents += house(5)
         contents += circle7
         circle7.visible = false
-        contents += PB3H
+        contents += house(6)
         contents += circle8
         circle8.visible = false
-        contents += PB4H
+        contents += house(7)
     }
     def rightPanel = new GridPanel(9,1) {
-        contents += fin9
-        contents += fin10
-        contents += fin11
-        contents += fin12
+        contents += fin(8)
+        contents += fin(9)
+        contents += fin(10)
+        contents += fin(11)
         contents += platzhalter1
-        contents += fin13
-        contents += fin14
-        contents += fin15
-        contents += fin16
+        contents += fin(12)
+        contents += fin(13)
+        contents += fin(14)
+        contents += fin(15)
     }
     def centerPanel = new GridPanel(4,10) {
         //contents += fieldLabel
@@ -222,15 +252,15 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
         //finishLabel.font = new Font("Arial", 0, 20)
     }
     def leftPanel = new GridPanel(9,1) {
-        contents += fin1
-        contents += fin2
-        contents += fin3
-        contents += fin4
+        contents += fin(0)
+        contents += fin(1)
+        contents += fin(2)
+        contents += fin(3)
         contents += platzhalter
-        contents += fin5
-        contents += fin6
-        contents += fin7
-        contents += fin8
+        contents += fin(4)
+        contents += fin(5)
+        contents += fin(6)
+        contents += fin(7)
 
     }
     reactions += {
@@ -321,32 +351,32 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
                     controller.game.piecesOutMap(0) match {
                         case 0 => circle1.visible = false
                         case 1 => 
-                            PA1H.visible = false
+                            house(0).visible = false
                             circle1.visible = true
                         case 2 =>
-                            PA2H.visible = false
+                            house(1).visible = false
                             circle2.visible = true
                         case 3 =>
-                            PA3H.visible = false
+                            house(2).visible = false
                             circle3.visible = true
                         case 4 =>
-                            PA4H.visible = false
+                            house(3).visible = false
                             circle4.visible = true
                     }
                 if(piecesOutMap(1) != controller.game.piecesOutMap(1))
                     controller.game.piecesOutMap(1) match {
                         case 0 => circle5.visible = false
                         case 1 => 
-                            PB1H.visible = false
+                            house(4).visible = false
                             circle5.visible = true
                         case 2 =>
-                            PB2H.visible = false
+                            house(5).visible = false
                             circle6.visible = true
                         case 3 =>
-                            PB3H.visible = false
+                            house(6).visible = false
                             circle7.visible = true
                         case 4 =>
-                            PB4H.visible = false
+                            house(7).visible = false
                             circle8.visible = true
                     }
         piecesOutMap = controller.game.piecesOutMap

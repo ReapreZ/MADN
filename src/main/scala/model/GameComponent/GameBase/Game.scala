@@ -13,7 +13,7 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 	var input = " "
 
 	def move(rolledDice: Int): Game = {
-		println("A: " + piecesOutMap(0) + " B: " + piecesOutMap(1) + " C: " + piecesOutMap(2) + " playerturn: " + playerturn)
+		//println("A: " + piecesOutMap(0) + " B: " + piecesOutMap(1) + " C: " + piecesOutMap(2) + " playerturn: " + playerturn)
 		val playerTurnC = getTurnC(playerturn)
 		playerTurnC match {
 				case Success(v) => out = mesh10.field1.Arr.indexOf(v.toChar)
@@ -53,7 +53,6 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 				return movePieceOut()
 			else
 				println("Which Piece should move or get out?")
-				println("pieceChooser: " + pieceChooser)
 				if(pieceChooser == -1)
 					input = readLine()
 				else

@@ -2,6 +2,8 @@ package model.gameComponent
 import model.meshComponent.meshBase.Mesh
 import model.gameComponent.gameBase._
 import scala.util.{Try,Success,Failure}
+import model.fileIOComponent.fileIOJsonImpl.FileIO
+import model.fileIOComponent.FileIOInterface
 
 trait GameInterface {
 
