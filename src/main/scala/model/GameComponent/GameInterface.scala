@@ -18,9 +18,10 @@ trait GameInterface {
     def movePieceOut(): Game
     def moveOrGetOut(piece: Int, piecesOut: Int): Game
     def changePlayerTurn(playerturnT: Int): Game
-    def changeMap(stelle: Int): Map[Int,Int]
+    def changeMap(stelle: Int, amount: Int): Map[Int,Int]
     def put(game: Game): Game
     def getPiece(): String
+    def isFieldOccupied(rolledDice: Int, piece:Int): Game
     val playerturn: Int
     val mesh10: Mesh
     val piecesOutMap: Map[Int,Int]

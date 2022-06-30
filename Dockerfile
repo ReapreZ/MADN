@@ -1,5 +1,10 @@
-FROM hseeberger/scala-sbt:17.0.2_1.6.2_3.1.1
+FROM hseeberger/scala-sbt:8u222_1.3.5_2.13.1
 ENV DISPLAY=host.docker.internal:0.0
-WORKDIR /madn-2
-ADD . /madn-2
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends openjfx && \
+    rm -rf /var/lib/apt/lists/* && \
+    apt-get install -y sbt libxrender1 libxtst6 libxi6
+WORKDIR /madn
+ADD . /madn
+EXPOSE 8080
 CMD sbt run
