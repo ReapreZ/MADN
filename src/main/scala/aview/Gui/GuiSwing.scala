@@ -51,27 +51,11 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
     val houseBIcon = new ImageIcon("src/main/resources/Icons/PlayerBHome.png")
     val houseCIcon = new ImageIcon("src/main/resources/Icons/PlayerCHome.png")
     val houseDIcon = new ImageIcon("src/main/resources/Icons/PlayerDHome.png")
-    //val PC1H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerCHome.png") }
     val PlayerC = new ImageIcon("src/main/resources/Icons/PlayerC.png")
-    /*val PC2H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerCHome.png") }
-    val PC3H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerCHome.png") }
-    val PC4H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerCHome.png") }
-    val PD1H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerDHome.png") }*/
     val PlayerD = new ImageIcon("src/main/resources/Icons/PlayerD.png")
-    /*val PD2H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerDHome.png") }
-    val PD3H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerDHome.png") }
-    val PD4H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerDHome.png") }
-    val PA1H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerAHome.png") }*/
     val PlayerA = new ImageIcon("src/main/resources/Icons/PlayerA.png")
     val PA1 = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerA.png") }
-    /*val PA2H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerAHome.png") }
-    val PA3H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerAHome.png") }
-    val PA4H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerAHome.png") }
-    val PB1H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerBHome.png") }*/
     val PlayerB = new ImageIcon("src/main/resources/Icons/PlayerB.png")
-    /*val PB2H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerBHome.png") }
-    val PB3H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerBHome.png") }
-    val PB4H = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerBHome.png") }*/
     val kreis = new ImageIcon("src/main/resources/Icons/EmptyKreis.png")
     val circle1 = new Label { icon = kreis }
     val circle2 = new Label { icon = kreis }
@@ -112,10 +96,10 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 
     var mesh: Mesh = new Mesh(0)
     val dice1 = new Dice
+
     var fieldLabel = new Label
     var houseLabel = new Label
     var finishLabel = new Label
-
     val playeramountTF = new TextField()
     val houseamoutTF = new TextField()
     val cellamountTF = new TextField()

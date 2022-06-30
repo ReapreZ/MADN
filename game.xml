@@ -1,0 +1,15 @@
+<game>
+    <playerturn>2</playerturn>
+    <piecesOutMap0>1</piecesOutMap0>
+    <piecesOutMap1>1</piecesOutMap1>
+    <piecesOutMap2>0</piecesOutMap2>
+    <piecesOutMap3>0</piecesOutMap3>
+    <mesh>
+        <mesh-String>__A_____________B_______________________</mesh-String>
+        <playeramount>2</playeramount>
+        <house-array>HAAA  BHBB  </house-array>
+        <finish-array>----  ----  </finish-array>
+        <piecepos>2-1-1-1!16-1-1-1</piecepos>
+        <stepsdone>2-1-1-1!6-1-1-1</stepsdone>
+    </mesh>
+</game>
