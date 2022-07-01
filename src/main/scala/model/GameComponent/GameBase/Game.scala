@@ -5,15 +5,28 @@ import scala.io.StdIn.readLine
 import scala.util.{Try,Success,Failure}
 import com.google.inject.{Guice, Inject}
 import com.google.inject.name.{Named, Names}
+import model.diceComponent.diceBase.DiceStrategy
+import model.diceComponent.diceBase.Dice
 
 
 case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)) extends GameInterface {
 	var out: Int = -1
 	var pieceChooser: Int = -1
 	var input = " "
-
+	val dice = new Dice
 	def move(rolledDice: Int): Game = {
 		//println("A: " + piecesOutMap(0) + " B: " + piecesOutMap(1) + " C: " + piecesOutMap(2) + " playerturn: " + playerturn)
+		var i = 1
+		if(piecesOutMap(playerturn - 1) == 0 && rolledDice != 6)
+			while(i < 3)
+				println("Which Dice? 1 = RandomDice 2 = MagicDice")
+				val diceread = readLine()
+				val rolledDice2 = scala.util.Random
+				var r2 = (1 + rolledDice2.nextInt(6))
+				println("\nYou rolled a " + r2.toString + "\n")
+				if(r2 == 6)
+					return movePieceOut()
+				i = i + 1
 		val playerTurnC = getTurnC(playerturn)
 		playerTurnC match {
 				case Success(v) => out = mesh10.field1.Arr.indexOf(v.toChar)
@@ -207,7 +220,7 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 	}
 	def startgame: Try[Game] = {
 		println("Amount of Players:")
-		val input = 2 //readLine()
+		val input = readLine()
 		if(input.toInt < 1 && input.toInt > 4) then return Failure(NotImplementedError("To Many/Few Player"))
 		else
 			val playeramount = input.toInt

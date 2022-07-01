@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage
 import scala.util.{Try, Success, Failure}
 import java.io.File
 import scala.swing.event._
+import scala.io.StdIn.readLine
 import controller.Controller
 import model.diceComponent.diceBase.Dice
 import model.meshComponent.meshBase.Mesh
@@ -148,18 +149,11 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 		contents += house(9)
 		contents += house(10)
 		contents += house(11)
-		//while(i < 11)
-		//    contents += house(i)
-		//    i = i + 1
 		contents += infoLabel
 		contents += house(12)
 		contents += house(13)
 		contents += house(14)
 		contents += house(15)
-		//i = 0
-		//while(i < 15)
-		//    contents += house(i)
-		//    i = i + 1
 	}
 	def topPanel = new FlowPanel {
 		contents += circle(0)
@@ -246,7 +240,7 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 	}
 	reactions += {
 		case event.ButtonClicked(`rollDiceB`) =>
-			println(controller.game.pieceChooser.toString)
+			//println(controller.game.pieceChooser.toString)
 			val rolledDice = dice1.diceRandom()
 			print("You rolled a " + rolledDice.toString + "\n")
 			controller.game.getTurnC(controller.game.playerturn) match {
@@ -272,16 +266,7 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 			else 
 				infoLabel.text = "Player " + playerturnC + " rolled a " + rolledDice.toString
 				checkForPieceChoosing(rolledDice)
-
-			/*if(oldDice == 0)
-				infoLabel.text = "It is Player's " + playerturnC + " and you rolled a " + rolledDice.toString
-				checkForPieceChoosing(rolledDice)
-			else 
-				infoLabel.text = "It is Player's " + playerturnC + " and you rolled a " + oldDice.toString
-				checkForPieceChoosing(oldDice)
-				oldDice = 0*/
 		case event.ButtonClicked(`rollMagicDiceB`) =>
-			//println(controller.game.pieceChooser.toString)
 			val rolledDice = dice1.magicDice(6)
 			print("You rolled a " + rolledDice.toString + "\n")
 			controller.game.getTurnC(controller.game.playerturn) match {
@@ -290,6 +275,7 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 			}
 			infoLabel.text = "Player " + playerturnC + " rolled a " + rolledDice.toString
 			checkForPieceChoosing(rolledDice)
+			controller.game.pieceChooser = 0
 		case event.ButtonClicked(`piece1B`) => controller.game.pieceChooser = 1
 		case event.ButtonClicked(`piece2B`) => controller.game.pieceChooser = 2
 		case event.ButtonClicked(`piece3B`) => controller.game.pieceChooser = 3
@@ -399,13 +385,17 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 			while(j < 4)
 				if(controller.game.mesh10.piecepos(i)(j) == newPos && controller.game.playerturn - 1 != i) //nicht der selbe
 					i match {
-						case 0 => house(piecesOutMap(i) - 1).visible = false 
+						case 0 => 
+							house(piecesOutMap(i) - 1).visible = false 
 							circle(piecesOutMap(i) - 1).visible = true
-						case 1 => house(piecesOutMap(i) - 1 + nextHouse).visible = false
+						case 1 => 
+							house(piecesOutMap(i) - 1 + nextHouse).visible = false
 							circle(piecesOutMap(i) - 1 + nextHouse).visible = true
-						case 2 => house(piecesOutMap(i) - 1 + nextHouse*2).visible = false
+						case 2 => 
+							house(piecesOutMap(i) - 1 + nextHouse*2).visible = false
 							circle(piecesOutMap(i) - 1 + nextHouse*2).visible = true
-						case 3 => house(piecesOutMap(i) - 1 + nextHouse*3).visible = false
+						case 3 => 
+							house(piecesOutMap(i) - 1 + nextHouse*3).visible = false
 							circle(piecesOutMap(i) - 1 + nextHouse*3).visible = true
 					}
 				else if(controller.game.mesh10.piecepos(i)(j) == newPos && controller.game.playerturn - 1 == i)  //der selbe
