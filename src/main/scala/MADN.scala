@@ -21,3 +21,4 @@ object MADN {
         gui.closeOperation()
     }
 }
+//docker run --rm -it -e DISPLAY=172.20.156.25:0.0 madn

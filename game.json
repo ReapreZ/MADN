@@ -1,0 +1,17 @@
+{
+  "game" : {
+    "playerturn" : 2,
+    "piecesOutMap0" : 1,
+    "piecesOutMap1" : 0,
+    "piecesOutMap2" : 0,
+    "piecesOutMap3" : 0,
+    "mesh" : {
+      "mesh-String" : "___A______x_____________________________\r\n",
+      "playeramount" : 2,
+      "house-array" : "HAAA  BBBB  ",
+      "finish-array" : "----  ----  ",
+      "piecepos" : "3-1-1-1!-1-1-1-1",
+      "stepsdone" : "3-1-1-1!-1-1-1-1"
+    }
+  }
+}

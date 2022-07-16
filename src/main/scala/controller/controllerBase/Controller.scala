@@ -13,12 +13,16 @@ import model.Move
 import scala.util.{Try,Success,Failure}
 import com.google.inject.name.{Named, Names}
 import com.google.inject.{Guice, Inject}
+import model.fileIOComponent.fileIOJsonImpl.FileIO
+import model.fileIOComponent._
+import model.fileIOComponent.FileIOInterface
 
 
 class Controller @Inject()(@Named("DefaultGameType")var game: GameInterface) extends ControllerInterface {
     val undoManager = new UndoManager[GameInterface]
     var mesh1 = new Mesh(0)
     var gamestatus: GameStatus = IDLE
+    val file:FileIOInterface = new fileIOJsonImpl.FileIO
 
     val meshtry = game.startgame
         meshtry match {
@@ -63,6 +67,18 @@ class Controller @Inject()(@Named("DefaultGameType")var game: GameInterface) ext
         gamestatus = REDO
         print(gamestatus.map(gamestatus))
         game = undoManager.redoStep(game)
+        game
+    }
+    def save: GameInterface = {
+        gamestatus = SAVED
+        print(gamestatus.map(gamestatus))
+        file.save(game)
+        game
+    }
+    def load: GameInterface = {
+        gamestatus = LOADED
+        print(gamestatus.map(gamestatus))
+        game = file.load
         game
     }
 }
