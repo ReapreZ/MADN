@@ -17,7 +17,7 @@ trait GameInterface {
     def movePiece(rolledDice: Int, piece: Int) : Game
     def movePieceOut(): Game
     def moveOrGetOut(piece: Int, piecesOut: Int): Game
-    def changePlayerTurn(playerturnT: Int): Game
+    //def changePlayerTurn(playerturnT: Int): Game
     def changeMap(stelle: Int, amount: Int): Map[Int,Int]
     def put(game: Game): Game
     def getPiece(): String

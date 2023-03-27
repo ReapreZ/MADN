@@ -9,76 +9,71 @@ import model.diceComponent.diceBase.DiceStrategy
 import model.diceComponent.diceBase.Dice
 
 
-case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)) extends GameInterface {
+case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0),
+								timesPlayerRolled:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)) extends GameInterface {
 	var out: Int = -1
 	var pieceChooser: Int = -1
 	var input = " "
-	val dice = new Dice
+
 	def move(rolledDice: Int): Game = {
 		//println("A: " + piecesOutMap(0) + " B: " + piecesOutMap(1) + " C: " + piecesOutMap(2) + " playerturn: " + playerturn)
-		var i = 1
-		if(piecesOutMap(playerturn - 1) == 0 && rolledDice != 6)
-			while(i < 3)
-				println("Which Dice? 1 = RandomDice 2 = MagicDice")
-				val diceread = readLine()
-				val rolledDice2 = scala.util.Random
-				var r2 = (1 + rolledDice2.nextInt(6))
-				println("\nYou rolled a " + r2.toString + "\n")
-				if(r2 == 6)
-					return movePieceOut()
-				i = i + 1
-		val playerTurnC = getTurnC(playerturn)
-		playerTurnC match {
-				case Success(v) => out = mesh10.field1.Arr.indexOf(v.toChar)
+		getTurnC(playerturn) match {
+				case Success(v) => out = mesh10.field1.Arr.indexOf(v)
 				case Failure(e) => println(e.getMessage)
 			}
 		if(rolledDice != 6) // Wenn keine 6 gewürfelt wird
-			if(piecesOutMap(playerturn - 1) == 1) // Nur einer draußen und keine 6)
-				val game1 = movePiece(rolledDice, 1)
-				if(playerturn == mesh10.Player)
-					return game1.copy(playerturn = 1)
-				else
-					val playerturn1 = playerturn + 1 
-					return game1.copy(playerturn = playerturn1)
-			else if(piecesOutMap(playerturn - 1) == 0) // Keiner draußen und keine 6
-				if(playerturn == mesh10.Player)
-					return copy(playerturn = 1)
-				else
-					val playerturn1 = playerturn + 1 
-					return copy(playerturn = playerturn1)
-				return copy(piecesOutMap = changeMap(playerturn - 1, 1))
-			else // Mehrere draußen und keine 6
-				println("Which Piece should move?")
-				if(pieceChooser == -1)
-					input = readLine()
-				else
-					input = getPiece()
-				val game1 = movePiece(rolledDice, input.toInt)
-				if(playerturn == mesh10.Player)
-					return copy(playerturn = 1)
-				else
-					val playerturn1 = playerturn + 1 
-					return copy(playerturn = playerturn1)
-				return game1
-			return copy()
+			 rolledDiceIsNotSix(rolledDice)
 		else // Wenn eine 6 gewürfelt wird
-			if(piecesOutMap(playerturn - 1) == 0)
-				return movePieceOut()
-			else
-				println("Which Piece should move or get out?")
-				if(pieceChooser == -1)
-					input = readLine()
-				else
-					input = getPiece()
-					//pieceChooser = 0
-				if(input.toInt <= 4)
-				piecesOutMap.get(playerturn - 1) match {
-					case Some(piece) => return moveOrGetOut(input.toInt, piece)
-					case None => return move(rolledDice)
-				}
-				else move(rolledDice)
+		   rolledDiceIsSix()
 
 	}
+
+	private def rolledDiceIsSix(): Game = {
+		if (piecesOutMap(playerturn - 1) == 0)
+			return movePieceOut()
+		else
+			println("Which Piece should move or get out?")
+		if (pieceChooser == -1)
+			input = readLine()
+		else
+			input = getPiece()
+		//pieceChooser = 0
+		if (input.toInt <= 4)
+			piecesOutMap.get(playerturn - 1) match {
+				case Some(piece) => moveOrGetOut(input.toInt, piece)
+				case None => move(6)
+			}
+		else move(6)
+	}
+
+	private def rolledDiceIsNotSix(rolledDice: Int): Game = {
+		if (piecesOutMap(playerturn - 1) == 1) // Nur einer draußen und keine 6
+			val game1 = movePiece(rolledDice, 1)
+			if (playerturn == mesh10.Player)
+				return game1.copy(playerturn = 1)
+			else
+				return game1.copy(playerturn = playerturn + 1)
+		else if(piecesOutMap(playerturn - 1) == 0 && timesPlayerRolled(playerturn - 1) != 2) // Keiner draußen und keine 6
+			rollAgain(rolledDice)
+		else if(piecesOutMap(playerturn - 1) == 0 && timesPlayerRolled(playerturn - 1) == 2)
+			if (playerturn == mesh10.Player)
+				return copy(playerturn = 1, timesPlayerRolled = changeMap(playerturn - 1, 0))
+			else
+				return copy(playerturn = playerturn + 1, timesPlayerRolled = changeMap(playerturn - 1, 0))
+
+		else // Mehrere draußen und keine 6
+			println("Which Piece should move?")
+			if (pieceChooser == -1)
+				input = readLine()
+			else
+				input = getPiece()
+			val game1 = movePiece(rolledDice, input.toInt)
+			if (playerturn == mesh10.Player)
+				return copy(playerturn = 1)
+			else
+				return copy(playerturn = playerturn + 1)
+	}
+
 	def undoMove(rolledDice: Int, playerturnt: Int, piece: Int): Game = {
 		val playerTurnC = getTurnC(playerturnt)
 		mesh10.field1.Arr(mesh10.piecepos(playerturnt - 1)(piece - 1)) = ('_')
@@ -181,7 +176,7 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 						case 2 => mesh10.house1.Arr(piecesOutMap(i) - 1 + nextHouse*2) = 'C'
 						case 3 => mesh10.house1.Arr(piecesOutMap(i) - 1 + nextHouse*3) = 'D'
 					}
-					return copy(piecesOutMap = changeMap2(i))
+					return copy(piecesOutMap = changeMap(i, -1))
 				else if(mesh10.piecepos(i)(j) == newPos && playerturn - 1 == i)  //der selbe
 					print("You cant kick out your own Piece\n")
 					return copy()
@@ -191,22 +186,16 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 		copy()
 	}
 
-	def changePlayerTurn(playerturnT: Int) : Game = {
+	/*def changePlayerTurn(playerturnT: Int) : Game = {
 		if(playerturnT == mesh10.Player)
 				return copy(playerturn = 1)
 		else
-			val playerturn1 = playerturnT + 1 
-			return copy(playerturn = playerturn1)
-	}
+			return copy(playerturn = playerturn + 1)
+	}*/
 
 	def changeMap(stelle:Int, amount:Int): Map[Int,Int] = {
 		var changedMap: scala.collection.mutable.Map[Int,Int] = scala.collection.mutable.Map(piecesOutMap.toSeq: _*)
 		changedMap(stelle) = piecesOutMap(stelle) + amount
-		return changedMap.toMap
-	}
-	def changeMap2(stelle:Int): Map[Int,Int] = {
-		var changedMap: scala.collection.mutable.Map[Int,Int] = scala.collection.mutable.Map(piecesOutMap.toSeq: _*)
-		changedMap(stelle) = piecesOutMap(stelle) - 1
 		return changedMap.toMap
 	}
 	def put(game: Game): Game = {
@@ -228,6 +217,11 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 			return Success(copy(playerturn = 1,mesh10 = new Mesh(playeramount.toInt)))
 	}
 
+	def rollAgain(rolledDice: Int): Game = {
+		if (rolledDice == 6)
+			 movePieceOut()
+		else copy(timesPlayerRolled = changeMap(playerturn - 1, timesPlayerRolled(playerturn - 1) + 1))
 	}
-// Am Anfang 3x würfeln
+
+	}
 // Wenn einer draußen ist sollte nicht ein anderer rauskommen können

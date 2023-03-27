@@ -406,15 +406,15 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 	}
 
 	def checkForPieceChoosing(rolledDice: Int): Unit = {
-		if(rolledDice.toInt == 6 && controller.game.piecesOutMap(controller.game.playerturn - 1) == 0)
+		if(rolledDice == 6 && controller.game.piecesOutMap(controller.game.playerturn - 1) == 0)
 			movePieceOut()
 			move(rolledDice)
-		else if(rolledDice.toInt != 6 && (controller.game.piecesOutMap(controller.game.playerturn - 1) > 1))
+		else if(rolledDice != 6 && (controller.game.piecesOutMap(controller.game.playerturn - 1) > 1))
 			//infoLabel.text = infoLabel.text + " Which Piece should move? roll again to confirm"
 			if(controller.game.pieceChooser > 0)
 				movePiece(rolledDice)
 				move(rolledDice)
-		else if(rolledDice.toInt == 6 && controller.game.piecesOutMap(controller.game.playerturn - 1) > 0)
+		else if(rolledDice == 6 && controller.game.piecesOutMap(controller.game.playerturn - 1) > 0)
 			//infoLabel.text = infoLabel.text + " Which Piece should move/get out? Roll again to confirm"
 			if(controller.game.pieceChooser > 0)
 				if(controller.game.pieceChooser > controller.game.piecesOutMap(controller.game.playerturn - 1))
@@ -425,7 +425,7 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 					move(rolledDice)
 				else oldDice = rolledDice
 				//movePiece(rolledDice)
-		else if(rolledDice.toInt != 6 && controller.game.piecesOutMap(controller.game.playerturn -1) == 1)
+		else if(rolledDice != 6 && controller.game.piecesOutMap(controller.game.playerturn -1) == 1)
 			movePiece(rolledDice)
 			move(rolledDice)
 
