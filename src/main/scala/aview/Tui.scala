@@ -16,11 +16,9 @@ class Tui(controller: ControllerInterface) extends Observer:
     
     override def update = println(controller.game.mesh10.mesh())
     val dice1 = new Dice
-    //var file: FileIO
     def inputLoop(): Unit = {
         val output = readLine()
-        if (output == "q")
-            return
+        if (output == "q") return
         processInputLine(output) match
             case None   => 
             case Some(rolledDice) => controller.doAndPublish(controller.move1,rolledDice)

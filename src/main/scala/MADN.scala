@@ -11,10 +11,6 @@ object MADN {
     def main(args: Array[String]): Unit = {
         val injector = Guice.createInjector(new MADNModule)
         val controller = injector.getInstance(classOf[ControllerInterface])
-        var input: String = ""
-        var mesh = new Mesh(0)
-        val piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)
-    
         val tui = new Tui(controller) 
         val gui = new GuiSwing(controller)
         tui.inputLoop()

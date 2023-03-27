@@ -6,10 +6,8 @@ import model.fileIOComponent.fileIOJsonImpl.FileIO
 import model.fileIOComponent.FileIOInterface
 
 trait GameInterface {
-
-    var out: Int
+    
     var pieceChooser: Int
-    var input: String
 
     def move(rolledDice:Int): Game
     def getTurnC(playerturn: Int): Try[Char]

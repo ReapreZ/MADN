@@ -299,8 +299,6 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 	}
 	def move(rolledDice: Int): Unit = {
 			controller.doAndPublish(controller.move1 , rolledDice)
-			//field(controller.game.mesh10.piecepos(controller.game.playerturn - 1)(controller.game.pieceChooser - 1)).icon = feld
-			//field((controller.game.mesh10.piecepos(controller.game.playerturn - 1)(controller.game.pieceChooser - 1)) + rolledDice).icon = PlayerA
 			controller.game.pieceChooser = 0
 			updateField()
 	}
