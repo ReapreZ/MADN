@@ -96,11 +96,7 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 	val dice1 = new Dice
 
 	var fieldLabel = new Label
-	var houseLabel = new Label
-	var finishLabel = new Label
 	val playeramountTF = new TextField()
-	val houseamoutTF = new TextField()
-	val cellamountTF = new TextField()
 
 
 	menuBar = new MenuBar {
@@ -303,14 +299,16 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 			updateField()
 	}
 	def movePiece(rolledDice: Int): Unit = {
-		var pieceToMove = 1
 		if(controller.game.piecesOutMap(controller.game.playerturn - 1) > 1 && controller.game.pieceChooser > 0)
-			pieceToMove = controller.game.pieceChooser
+			changePiecePos(rolledDice, controller.game.pieceChooser)
 		else
-			pieceToMove = 1
+			changePiecePos(rolledDice, 1)
+	}
+
+	private def changePiecePos(rolledDice: Int, pieceToMove: Int): Unit =  {
 		isFieldOccupied(rolledDice, pieceToMove)
 		controller.game.playerturn match {
-			case 1 => 
+			case 1 =>
 				field(controller.game.mesh10.piecepos(controller.game.playerturn - 1)(pieceToMove - 1)).icon = feld
 				field((controller.game.mesh10.piecepos(controller.game.playerturn - 1)(pieceToMove - 1)) + rolledDice).icon = PlayerA
 			case 2 =>
