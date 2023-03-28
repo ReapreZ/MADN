@@ -9,6 +9,8 @@ trait GameInterface {
     
     var pieceChooser: Int
 
+    
+
     def move(rolledDice:Int): Game
     def getTurnC(playerturn: Int): Try[Char]
     def undoMove(rolledDice: Int, playerturnt: Int, piece: Int): Game
