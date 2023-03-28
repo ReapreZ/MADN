@@ -12,7 +12,6 @@ import model.diceComponent.diceBase.Dice
 case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0),
 								timesPlayerRolled:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)) extends GameInterface {
 	var pieceChooser: Int = -1
-
 	private def decrement1(num1: Int, num2: Int): Int = num1 - num2
 	private val decrement: Int => Int = decrement1(_: Int, 1)
 	private def increment1(num1: Int, num2: Int): Int = num1 + num2
@@ -25,7 +24,6 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 	}
 	private def rolledDiceIsSix(): Game = {
 		if (piecesOutMap(decrement(playerturn)) == 0)
-			println(piecesOutMap(decrement(playerturn)))
 			return movePieceOut()
 		else
 			println("Which Piece should move or get out?")
@@ -49,7 +47,6 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 				copy(playerturn = 1, timesPlayerRolled = changeMap(decrement(playerturn), 0))
 			else
 				copy(increment(playerturn), timesPlayerRolled = changeMap(decrement(playerturn), 0))
-
 		else // Mehrere draußen und keine 6
 			println("Which Piece should move?")
 			if (pieceChooser == -1)
@@ -93,7 +90,6 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 		game.mesh10.piecepos(decrement(playerturn))(decrement(piece)) = (mesh10.piecepos(decrement(playerturn))(decrement(piece))) + rolledDice
 		game.copy()
 	}
-
 	private def piecesOutLessThanFour(player:Int, nextPlayerField:Int, playerCharacter:Char, nextPlayerHouse:Int) : Game = {
 		if (piecesOutMap(player) <= 4) {
 			mesh10.stepsdone(player)(piecesOutMap(player)) = 0
@@ -105,34 +101,28 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 			move(6)
 		}
 	}
-	def movePieceOut(): Game = {
+	def movePieceOut(): Game = { 
 		playerturn match {
-			case 1 =>
-				piecesOutLessThanFour(0, 0, 'A', 0)
-			case 2 =>
-				piecesOutLessThanFour(1, 10, 'B', 6)
-			case 3 =>
-				piecesOutLessThanFour(2, 20, 'C', 12)
-			case 4 =>
-				piecesOutLessThanFour(3, 30, 'D', 18)
+			case 1 => piecesOutLessThanFour(0, 0, 'A', 0)
+			case 2 => piecesOutLessThanFour(1, 10, 'B', 6)
+			case 3 => piecesOutLessThanFour(2, 20, 'C', 12)
+			case 4 => piecesOutLessThanFour(3, 30, 'D', 18)
 		}
 	}
+	def isFieldOccupied(rolledDice: Int, piece:Int): Game = { checkForPlayer(0,0, determineNewPos(rolledDice)(piece))
+		//var i, j = 0
+		//return checkForPlayer(0,0, determineNewPos(rolledDice, piece))
 
-
-	def isFieldOccupied(rolledDice: Int, piece:Int): Game = {
-		val nextHouse = 6
-		val newPos = mesh10.piecepos(decrement(playerturn))(decrement(piece)) + rolledDice
-		var i, j = 0
-		while(i < mesh10.Player)
+		/*while(i < mesh10.Player)
 			while(j < 4)
 				if(mesh10.piecepos(i)(j) == newPos && decrement(playerturn) != i) //nicht der selbe
 					mesh10.piecepos(i)(j) = -1
 					mesh10.stepsdone(i)(j) = -1
 					i match {
-						case 0 => mesh10.house1.Arr(decrement(piecesOutMap(i))) = 'A'
-						case 1 => mesh10.house1.Arr(decrement(piecesOutMap(i)) + nextHouse) = 'B'
-						case 2 => mesh10.house1.Arr(decrement(piecesOutMap(i)) + nextHouse*2) = 'C'
-						case 3 => mesh10.house1.Arr(decrement(piecesOutMap(i)) + nextHouse*3) = 'D'
+						case 0 => setHouseInMesh('A', 0, i)
+						case 1 => setHouseInMesh('B', 6, i)
+						case 2 => setHouseInMesh('C', 12, i)
+						case 3 => setHouseInMesh('D', 18, i)
 					}
 					return copy(piecesOutMap = changeMap(i, -1))
 				else if(mesh10.piecepos(i)(j) == newPos && decrement(playerturn) == i)  //der selbe
@@ -141,7 +131,33 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 				j = increment(j)
 			j = 0
 			i = increment(i)
+		copy()*/
+	}
+	def checkForPlayer(counter: Int, counter2: Int, newPos: Int): Game = {
+		if(counter != mesh10.Player)
+			checkForField(counter, counter2, newPos)
+			checkForPlayer(increment(counter), counter2, newPos)
 		copy()
+	}
+	def checkForField(counter: Int, counter2: Int, newPos: Int): Game = {
+		if(counter2 != 4)
+			if (mesh10.piecepos(counter)(counter2) == newPos && decrement(playerturn) != counter)
+				mesh10.piecepos(counter)(counter2) = -1
+				mesh10.stepsdone(counter)(counter2) = -1
+				counter match {
+					case 0 => setHouseInMesh('A', 0, counter)
+					case 1 => setHouseInMesh('B', 6, counter)
+					case 2 => setHouseInMesh('C', 12, counter)
+					case 3 => setHouseInMesh('D', 18, counter)
+				}
+				return copy(piecesOutMap = changeMap(counter, -1))
+			else if (mesh10.piecepos(counter)(counter2) == newPos && decrement(playerturn) == counter)
+				print("You cant kick out your own Piece\n")
+			else checkForField(counter:Int, increment(counter2), newPos)
+		copy()
+	}
+	def determineNewPos(rolledDice: Int) = (piece: Int) => { mesh10.piecepos(decrement(playerturn))(decrement(piece)) + rolledDice }
+	def setHouseInMesh(houseChar: Char, housePosition: Int,piecePosition: Int) : Unit = { mesh10.house1.Arr(decrement(piecesOutMap(piecePosition)) + housePosition) = houseChar
 	}
 	def changeMap(stelle:Int, amount:Int): Map[Int,Int] = {
 		val changedMap: scala.collection.mutable.Map[Int,Int] = scala.collection.mutable.Map(piecesOutMap.toSeq: _*)

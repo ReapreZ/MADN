@@ -364,34 +364,47 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 		}
 	}
 
-	def isFieldOccupied(rolledDice: Int, piece: Int): Unit = {
-		val nextHouse = 4
-		val newPos = controller.game.mesh10.piecepos(decrement(controller.game.playerturn))(decrement(piece)) + rolledDice
+	def isFieldOccupied(rolledDice: Int, piece: Int): Unit = { checkForPlayer(0, 0, determineNewPos(rolledDice, piece))
+		/*val newPos = determineNewPos(rolledDice, piece)
 		var i = 0
 		var j = 0
 		while(i < controller.game.mesh10.Player)
 			while(j < 4)
 				if(controller.game.mesh10.piecepos(i)(j) == newPos && decrement(controller.game.playerturn) != i) //nicht der selbe
 					i match {
-						case 0 => 
-							house(decrement(controller.game.piecesOutMap(i))).visible = false
-							circle(decrement(controller.game.piecesOutMap(i))).visible = true
-						case 1 => 
-							house(decrement(controller.game.piecesOutMap(i)) + nextHouse).visible = false
-							circle(decrement(controller.game.piecesOutMap(i)) + nextHouse).visible = true
-						case 2 => 
-							house(decrement(controller.game.piecesOutMap(i)) + nextHouse*2).visible = false
-							circle(decrement(controller.game.piecesOutMap(i)) + nextHouse*2).visible = true
-						case 3 => 
-							house(decrement(controller.game.piecesOutMap(i)) + nextHouse*3).visible = false
-							circle(decrement(controller.game.piecesOutMap(i)) + nextHouse*3).visible = true
+						case 0 => setHouseInvisibleCircleVisible(i, 0)
+						case 1 => setHouseInvisibleCircleVisible(i, 4)
+						case 2 => setHouseInvisibleCircleVisible(i, 8)
+						case 3 => setHouseInvisibleCircleVisible(i, 12)
 					}
 				else if(controller.game.mesh10.piecepos(i)(j) == newPos && decrement(controller.game.playerturn) == i)  //der selbe
 					infoLabel.text = "You cant kick out your own Piece"
 				j = increment(j)
 			j = 0
-			i = increment(i)
+			i = increment(i)*/
 	}
+	def checkForPlayer(counter: Int, counter2: Int, newPos: Int): Unit = {
+		if (counter != controller.game.mesh10.Player)
+			checkForField(counter, counter2, newPos)
+			checkForPlayer(increment(counter), counter2, newPos)
+	}
+	def checkForField(counter: Int, counter2: Int, newPos: Int): Unit = {
+		if (counter2 != 4)
+			if (controller.game.mesh10.piecepos(counter)(counter2) == newPos && decrement(controller.game.playerturn) != counter)
+				counter match {
+					case 0 => setHouseInvisibleCircleVisible(i, 0)
+					case 1 => setHouseInvisibleCircleVisible(i, 4)
+					case 2 => setHouseInvisibleCircleVisible(i, 8)
+					case 3 => setHouseInvisibleCircleVisible(i, 12)
+				}
+			else if(controller.game.mesh10.piecepos(counter)(counter2) == newPos && decrement(controller.game.playerturn) == counter)
+				infoLabel.text = "You cant kick out your own Piece"
+			else checkForField(counter:Int, increment(counter2), newPos)
+	}
+	def determineNewPos(rolledDice: Int, piece: Int) : Int = { controller.game.mesh10.piecepos(decrement(controller.game.playerturn))(decrement(piece)) + rolledDice }
+	def setHouseInvisibleCircleVisible(counter: Int, nextPlayerHouse: Int) : Unit = { setHouseInvisible(counter, nextPlayerHouse); setCircleVisible(counter, nextPlayerHouse) }
+	def setHouseInvisible(counter: Int, nextPlayerHouse: Int) : Unit = { house(decrement(controller.game.piecesOutMap(counter)) + nextPlayerHouse).visible = false }
+	def setCircleVisible(counter: Int, nextPlayerHouse: Int) : Unit = { circle(decrement(controller.game.piecesOutMap(counter)) + nextPlayerHouse).visible = true }
 
 	def checkForPieceChoosing(rolledDice: Int): Unit = {
 		if(rolledDice == 6 && controller.game.piecesOutMap(decrement(controller.game.playerturn)) == 0)
