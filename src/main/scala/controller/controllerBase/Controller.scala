@@ -40,8 +40,6 @@ class Controller @Inject()(@Named("DefaultGameType")var game: GameInterface) ext
     }
     def move1(rolledDice:Int): GameInterface = {
         game = put(Move(rolledDice, game.playerturn, 1))
-        //game.move(rolledDice)
-        //game = game.move(rolledDice)
         printPlayerTurn()
         game
         }

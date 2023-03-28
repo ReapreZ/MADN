@@ -11,8 +11,8 @@ import model.diceComponent.diceBase.Dice
 
 case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0),
 								timesPlayerRolled:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)) extends GameInterface {
-	var pieceChooser: Int = -1
 
+	var pieceChooser: Int = -1
 	private def decrement1(num1: Int, num2: Int): Int = num1 - num2
 	private val decrement: Int => Int = decrement1(_: Int, 1)
 	private def increment1(num1: Int, num2: Int): Int = num1 + num2
@@ -97,47 +97,28 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 		game2.mesh10.piecepos(decrement(playerturn))(decrement(piece)) = (mesh10.piecepos(decrement(playerturn))(decrement(piece))) + rolledDice
 		return game2.copy()
 	}
-	
+
+	private def piecesOutLessThanFour(x:Int, y:Int, z:Char) : Game = {
+		if (piecesOutMap(x) <= 4) {
+			mesh10.stepsdone(x)(piecesOutMap(x)) = 0
+			mesh10.piecepos(x)(piecesOutMap(x)) = y
+			mesh10.field1.Arr(x) = z
+			mesh10.house1.Arr(piecesOutMap(x)) = 'H'
+			copy(piecesOutMap = changeMap(x, 1))
+		} else {
+			move(6)
+		}
+	}
 	def movePieceOut(): Game = {
-		val nextPlayer = 10
-		val nextHouse = 4 + 2
 		playerturn match {
 			case 1 =>
-				if(piecesOutMap(0) <=4) {
-					mesh10.stepsdone(0)(piecesOutMap(0)) = 0
-					mesh10.piecepos(0)(piecesOutMap(0)) = 0
-					mesh10.field1.Arr(0) = 'A'
-					mesh10.house1.Arr(piecesOutMap(0)) = 'H'
-					copy(piecesOutMap = changeMap(0,1))
-				} else 
-					move(6)
+				piecesOutLessThanFour(0,0,'A')
 			case 2 =>
-				if(piecesOutMap(1) <= 4) {
-					mesh10.stepsdone(1)(piecesOutMap(1)) = 0
-					mesh10.piecepos(1)(piecesOutMap(1)) = nextPlayer
-					mesh10.field1.Arr(nextPlayer) = 'B'
-					mesh10.house1.Arr(nextHouse + piecesOutMap(1)) = 'H'
-					copy(piecesOutMap = changeMap(1,1))
-				} else
-					move(6)
-			case 3 => 
-				if(piecesOutMap(2) <= 4) {
-					mesh10.stepsdone(2)(piecesOutMap(2)) = 0
-					mesh10.piecepos(2)(piecesOutMap(2)) = nextPlayer * 2
-					mesh10.field1.Arr(nextPlayer * 2) = 'C'
-					mesh10.house1.Arr(nextHouse*2 + piecesOutMap(2)) = 'H'
-					copy(piecesOutMap = changeMap(2,1))
-				} else 
-					move(6)
+				piecesOutLessThanFour(1,10,'B')
+			case 3 =>
+				piecesOutLessThanFour(2,20,'C')
 			case 4 =>
-				if(piecesOutMap(3) <= 4) {
-					mesh10.stepsdone(3)(piecesOutMap(3)) = 0
-					mesh10.piecepos(3)(piecesOutMap(3)) = nextPlayer * 3
-					mesh10.field1.Arr(nextPlayer * 3) = 'D'
-					mesh10.house1.Arr(nextHouse*3 + piecesOutMap(3)) = 'H'
-					copy(piecesOutMap = changeMap(3, 1))
-				} else 
-					move(6)
+				piecesOutLessThanFour(3,30,'D')
 		}
 	}
 
