@@ -290,9 +290,7 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 	add(rightPanel, BorderPanel.Position.East)
 	add(leftPanel, BorderPanel.Position.West)
 	}
-	def startGame(): Mesh = {
-		return Mesh(playeramountTF.text.toInt)
-	}
+	def startGame(): Mesh = { return Mesh(playeramountTF.text.toInt) }
 	def move(rolledDice: Int): Unit = {
 			controller.doAndPublish(controller.move1 , rolledDice)
 			controller.game.pieceChooser = 0
@@ -332,9 +330,7 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 	}
 	def updateField() : Unit = {
 		fieldLabel.text = controller.game.mesh10.field1.toString
-
 		if(piecesOutMap != controller.game.piecesOutMap)
-
 				if(piecesOutMap(0) != controller.game.piecesOutMap(0))
 					controller.game.piecesOutMap(0) match {
 						case 0 => circle(0).visible = false
@@ -404,12 +400,10 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 			movePieceOut()
 			move(rolledDice)
 		else if(rolledDice != 6 && (controller.game.piecesOutMap(decrement(controller.game.playerturn)) > 1))
-			//infoLabel.text = infoLabel.text + " Which Piece should move? roll again to confirm"
 			if(controller.game.pieceChooser > 0)
 				movePiece(rolledDice)
 				move(rolledDice)
 		else if(rolledDice == 6 && controller.game.piecesOutMap(decrement(controller.game.playerturn)) > 0)
-			//infoLabel.text = infoLabel.text + " Which Piece should move/get out? Roll again to confirm"
 			if(controller.game.pieceChooser > 0)
 				if(controller.game.pieceChooser > controller.game.piecesOutMap(decrement(controller.game.playerturn)))
 					movePieceOut()
@@ -422,13 +416,10 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 		else if(rolledDice != 6 && controller.game.piecesOutMap(decrement(controller.game.playerturn)) == 1)
 			movePiece(rolledDice)
 			move(rolledDice)
-
 		else 
 			move(rolledDice)
-			//infoLabel.text = "Press the roll Button to roll"
 	}
-	override def closeOperation() = 
-		this.close()
+	override def closeOperation() = this.close()
 	override def update = println()
 	pack()
 	centerOnScreen()

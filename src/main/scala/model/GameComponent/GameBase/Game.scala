@@ -11,8 +11,8 @@ import model.diceComponent.diceBase.Dice
 
 case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0),
 								timesPlayerRolled:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)) extends GameInterface {
-
 	var pieceChooser: Int = -1
+
 	private def decrement1(num1: Int, num2: Int): Int = num1 - num2
 	private val decrement: Int => Int = decrement1(_: Int, 1)
 	private def increment1(num1: Int, num2: Int): Int = num1 + num2
@@ -71,7 +71,7 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 		}
 		mesh10.stepsdone(decrement(playerturnt))(decrement(piece)) = (mesh10.stepsdone(decrement(playerturnt))(decrement(piece))) + rolledDice
 		mesh10.piecepos(decrement(playerturnt))(decrement(piece)) = (mesh10.piecepos(decrement(playerturnt))(decrement(piece))) + rolledDice
-		return copy()
+		copy()
 	}
 
 	def getTurnC(playerturn: Int): Try[Char] = {
@@ -98,13 +98,13 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 		return game2.copy()
 	}
 
-	private def piecesOutLessThanFour(x:Int, y:Int, z:Char) : Game = {
-		if (piecesOutMap(x) <= 4) {
-			mesh10.stepsdone(x)(piecesOutMap(x)) = 0
-			mesh10.piecepos(x)(piecesOutMap(x)) = y
-			mesh10.field1.Arr(x) = z
-			mesh10.house1.Arr(piecesOutMap(x)) = 'H'
-			copy(piecesOutMap = changeMap(x, 1))
+	private def piecesOutLessThanFour(player:Int, nextPlayerField:Int, playerCharacter:Char, nextPlayerHouse:Int) : Game = {
+		if (piecesOutMap(player) <= 4) {
+			mesh10.stepsdone(player)(piecesOutMap(player)) = 0
+			mesh10.piecepos(player)(piecesOutMap(player)) = nextPlayerField
+			mesh10.field1.Arr(nextPlayerField) = playerCharacter
+			mesh10.house1.Arr(nextPlayerHouse + piecesOutMap(player)) = 'H'
+			copy(piecesOutMap = changeMap(player, 1))
 		} else {
 			move(6)
 		}
@@ -112,28 +112,22 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 	def movePieceOut(): Game = {
 		playerturn match {
 			case 1 =>
-				piecesOutLessThanFour(0,0,'A')
+				piecesOutLessThanFour(0, 0, 'A', 0)
 			case 2 =>
-				piecesOutLessThanFour(1,10,'B')
+				piecesOutLessThanFour(1, 10, 'B', 6)
 			case 3 =>
-				piecesOutLessThanFour(2,20,'C')
+				piecesOutLessThanFour(2, 20, 'C', 12)
 			case 4 =>
-				piecesOutLessThanFour(3,30,'D')
+				piecesOutLessThanFour(3, 30, 'D', 18)
 		}
 	}
 
-	def moveOrGetOut(piece:Int, piecesOut:Int): Game = {
-		if(piece > piecesOut && piece != 4 + 1)
-			movePieceOut()
-		else 
-			movePiece(6,piece)
-	}
+	def moveOrGetOut(piece:Int, piecesOut:Int): Game = { if(piece > piecesOut && piece != 4 + 1) movePieceOut() else movePiece(6,piece)}
 
 	def isFieldOccupied(rolledDice: Int, piece:Int): Game = {
 		val nextHouse = 6
 		val newPos = mesh10.piecepos(decrement(playerturn))(decrement(piece)) + rolledDice
-		var i = 0
-		var j = 0
+		var i,j = 0
 		while(i < mesh10.Player)
 			while(j < 4)
 				if(mesh10.piecepos(i)(j) == newPos && decrement(playerturn) != i) //nicht der selbe
@@ -167,14 +161,9 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 		changedMap(stelle) = piecesOutMap(stelle) + amount
 		changedMap.toMap
 	}
-	def put(game: Game): Game = {
-		game.copy()
-	}
+	def put(game: Game): Game = { game.copy() }
 
-	def getPiece(): String = {
-		if(pieceChooser == 0)
-			getPiece()
-		pieceChooser.toString
+	def getPiece(): String = { if(pieceChooser == 0) getPiece(); pieceChooser.toString
 	}
 	def startgame: Try[Game] = {
 		println("Amount of Players:")
@@ -207,4 +196,3 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 	}
 
 	}
-// Wenn einer draußen ist sollte nicht ein anderer rauskommen können

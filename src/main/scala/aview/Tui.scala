@@ -40,6 +40,5 @@ class Tui(controller: ControllerInterface) extends Observer:
             case "redo" => controller.doAndPublish(controller.redo);None
             //case "save" => file.save(controller.game);None
             case _ => None
-            //case _ => return -1
         }
     }
