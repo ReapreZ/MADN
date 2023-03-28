@@ -22,11 +22,8 @@ import controller.ControllerInterface
 class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 	controller.add(this)
 	var oldDice: Int = 0
-	var playerturnC = ' '
 	title = "Mensch ärgere dich nicht!"
 	preferredSize = new Dimension(1440, 720)
-	var piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)
-	val game2 = new Game(1, mesh,piecesOutMap)
 	var infoLabel = new TextField("Put in the amount of Players to start the game") {
 		background = java.awt.Color.GRAY
 		foreground = java.awt.Color.WHITE
@@ -254,7 +251,7 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 			else 
 				infoLabel.text = "Player " + getPlayerturnAsChar() + " rolled a " + rolledDice.toString
 				checkForPieceChoosing(rolledDice)
-				
+
 		case event.ButtonClicked(`rollMagicDiceB`) =>
 			val rolledDice = dice1.magicDice(6)
 			print("You rolled a " + rolledDice.toString + "\n")
@@ -285,7 +282,7 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 			controller.game.pieceChooser = 0
 			updateField()
 	}
-	
+
 	def getPlayerturnAsChar() : Char = {
 		controller.game.playerturn match {
 			case 1 => 'A'
@@ -328,40 +325,38 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 	}
 	def updateField() : Unit = {
 		fieldLabel.text = controller.game.mesh10.field1.toString
-		if(piecesOutMap != controller.game.piecesOutMap)
-				if(piecesOutMap(0) != controller.game.piecesOutMap(0))
-					controller.game.piecesOutMap(0) match {
-						case 0 => circle(0).visible = false
-						case 1 => 
-							house(0).visible = false
-							circle(0).visible = true
-						case 2 =>
-							house(1).visible = false
-							circle(1).visible = true
-						case 3 =>
-							house(2).visible = false
-							circle(2).visible = true
-						case 4 =>
-							house(3).visible = false
-							circle(3).visible = true
+		controller.game.piecesOutMap(0) match {
+			case 0 =>
+				circle(0).visible = false
+			case 1 =>
+				house(0).visible = false
+				circle(0).visible = true
+			case 2 =>
+				house(1).visible = false
+				circle(1).visible = true
+			case 3 =>
+				house(2).visible = false
+				circle(2).visible = true
+			case 4 =>
+				house(3).visible = false
+				circle(3).visible = true
 					}
-				if(piecesOutMap(1) != controller.game.piecesOutMap(1))
-					controller.game.piecesOutMap(1) match {
-						case 0 => circle(4).visible = false
-						case 1 => 
-							house(4).visible = false
-							circle(4).visible = true
-						case 2 =>
-							house(5).visible = false
-							circle(5).visible = true
-						case 3 =>
-							house(6).visible = false
-							circle(6).visible = true
-						case 4 =>
-							house(7).visible = false
-							circle(7).visible = true
-					}
-		piecesOutMap = controller.game.piecesOutMap
+		controller.game.piecesOutMap(1) match {
+			case 0 =>
+				circle(4).visible = false
+			case 1 =>
+				house(4).visible = false
+				circle(4).visible = true
+			case 2 =>
+				house(5).visible = false
+				circle(5).visible = true
+			case 3 =>
+				house(6).visible = false
+				circle(6).visible = true
+			case 4 =>
+				house(7).visible = false
+				circle(7).visible = true
+		}
 	}
 
 	def isFieldOccupied(rolledDice: Int, piece: Int): Unit = {
@@ -374,17 +369,17 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 				if(controller.game.mesh10.piecepos(i)(j) == newPos && decrement(controller.game.playerturn) != i) //nicht der selbe
 					i match {
 						case 0 => 
-							house(decrement(piecesOutMap(i))).visible = false
-							circle(decrement(piecesOutMap(i))).visible = true
+							house(decrement(controller.game.piecesOutMap(i))).visible = false
+							circle(decrement(controller.game.piecesOutMap(i))).visible = true
 						case 1 => 
-							house(decrement(piecesOutMap(i)) + nextHouse).visible = false
-							circle(decrement(piecesOutMap(i)) + nextHouse).visible = true
+							house(decrement(controller.game.piecesOutMap(i)) + nextHouse).visible = false
+							circle(decrement(controller.game.piecesOutMap(i)) + nextHouse).visible = true
 						case 2 => 
-							house(decrement(piecesOutMap(i)) + nextHouse*2).visible = false
-							circle(decrement(piecesOutMap(i)) + nextHouse*2).visible = true
+							house(decrement(controller.game.piecesOutMap(i)) + nextHouse*2).visible = false
+							circle(decrement(controller.game.piecesOutMap(i)) + nextHouse*2).visible = true
 						case 3 => 
-							house(decrement(piecesOutMap(i)) + nextHouse*3).visible = false
-							circle(decrement(piecesOutMap(i)) + nextHouse*3).visible = true
+							house(decrement(controller.game.piecesOutMap(i)) + nextHouse*3).visible = false
+							circle(decrement(controller.game.piecesOutMap(i)) + nextHouse*3).visible = true
 					}
 				else if(controller.game.mesh10.piecepos(i)(j) == newPos && decrement(controller.game.playerturn) == i)  //der selbe
 					infoLabel.text = "You cant kick out your own Piece"

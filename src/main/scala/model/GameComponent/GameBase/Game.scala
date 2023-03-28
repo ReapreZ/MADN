@@ -17,16 +17,12 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 	private val decrement: Int => Int = decrement1(_: Int, 1)
 	private def increment1(num1: Int, num2: Int): Int = num1 + num2
 	private val increment: Int => Int = increment1(_: Int, 1)
-
 	def move(rolledDice: Int): Game = {
-		//println("A: " + piecesOutMap(0) + " B: " + piecesOutMap(1) + " C: " + piecesOutMap(2) + " playerturn: " + playerturn)
 		if(rolledDice != 6) // Wenn keine 6 gewürfelt wird
 			 rolledDiceIsNotSix(rolledDice)
 		else // Wenn eine 6 gewürfelt wird
 		   rolledDiceIsSix()
-
 	}
-
 	private def rolledDiceIsSix(): Game = {
 		if (piecesOutMap(decrement(playerturn)) == 0)
 			println(piecesOutMap(decrement(playerturn)))
@@ -41,18 +37,18 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 
 	private def rolledDiceIsNotSix(rolledDice: Int): Game = {
 		if (piecesOutMap(decrement(playerturn)) == 1) // Nur einer draußen und keine 6
-			val game1 = movePiece(rolledDice, 1)
+			val game = movePiece(rolledDice, 1)
 			if (playerturn == mesh10.Player)
-				return game1.copy(playerturn = 1)
+				game.copy(playerturn = 1)
 			else
-				return game1.copy(increment(playerturn))
+				game.copy(increment(playerturn))
 		else if(piecesOutMap(decrement(playerturn)) == 0 && timesPlayerRolled(decrement(playerturn)) != 2) // Keiner draußen und keine 6
 			rollAgain()
 		else if(piecesOutMap(decrement(playerturn)) == 0 && timesPlayerRolled(decrement(playerturn)) == 2)
 			if (playerturn == mesh10.Player)
-				return copy(playerturn = 1, timesPlayerRolled = changeMap(decrement(playerturn), 0))
+				copy(playerturn = 1, timesPlayerRolled = changeMap(decrement(playerturn), 0))
 			else
-				return copy(increment(playerturn), timesPlayerRolled = changeMap(decrement(playerturn), 0))
+				copy(increment(playerturn), timesPlayerRolled = changeMap(decrement(playerturn), 0))
 
 		else // Mehrere draußen und keine 6
 			println("Which Piece should move?")
@@ -126,7 +122,7 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 	def isFieldOccupied(rolledDice: Int, piece:Int): Game = {
 		val nextHouse = 6
 		val newPos = mesh10.piecepos(decrement(playerturn))(decrement(piece)) + rolledDice
-		var i,j = 0
+		var i, j = 0
 		while(i < mesh10.Player)
 			while(j < 4)
 				if(mesh10.piecepos(i)(j) == newPos && decrement(playerturn) != i) //nicht der selbe
@@ -147,23 +143,13 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 			i = increment(i)
 		copy()
 	}
-
-	/*def changePlayerTurn(playerturnT: Int) : Game = {
-		if(playerturnT == mesh10.Player)
-				return copy(playerturn = 1)
-		else
-			return copy(playerturn = playerturn + 1)
-	}*/
-
 	def changeMap(stelle:Int, amount:Int): Map[Int,Int] = {
 		val changedMap: scala.collection.mutable.Map[Int,Int] = scala.collection.mutable.Map(piecesOutMap.toSeq: _*)
 		changedMap(stelle) = piecesOutMap(stelle) + amount
 		changedMap.toMap
 	}
 	def put(game: Game): Game = { game.copy() }
-
-	def getPiece(): String = { if(pieceChooser == 0) getPiece(); pieceChooser.toString
-	}
+	def getPiece(): String = { if(pieceChooser == 0) getPiece(); pieceChooser.toString }
 	def startgame: Try[Game] = {
 		println("Amount of Players:")
 		val input = readLine()
@@ -173,8 +159,7 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 			println("Press 'r' to roll the dice")
 			Success(copy(playerturn = 1,mesh10 = Mesh(playeramount)))
 	}
-	def rollAgain(): Game = { copy(timesPlayerRolled = changeMap(decrement(playerturn), increment(timesPlayerRolled(decrement(playerturn)))))
-	}
+	def rollAgain(): Game = { copy(timesPlayerRolled = changeMap(decrement(playerturn), increment(timesPlayerRolled(decrement(playerturn))))) }
 	def moveChosenPiece(chosenPiece: Int): Game = {
 		if (chosenPiece <= 4)
 			piecesOutMap.get(decrement(playerturn)) match {
