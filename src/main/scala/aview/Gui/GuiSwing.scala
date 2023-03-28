@@ -175,7 +175,6 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 		rollDiceB.preferredSize = new Dimension(140,30)
 		contents += rollMagicDiceB
 		rollMagicDiceB.preferredSize = new Dimension(140,30)
-
 		contents += playeramountTF
 		playeramountTF.preferredSize = new Dimension(140,30)
 
@@ -214,13 +213,11 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 		contents += fin(15)
 	}
 	def centerPanel = new GridPanel(4,10) {
-
 		contents += field(0)
 		i = 1
 		while(i < 40)
 			contents += field(i)
 			i = increment(i)
-
 	}
 	def leftPanel = new GridPanel(9,1) {
 		contents += fin(0)
@@ -236,40 +233,32 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 	}
 	reactions += {
 		case event.ButtonClicked(`rollDiceB`) =>
-
 			val rolledDice = dice1.diceRandom()
 			print("You rolled a " + rolledDice.toString + "\n")
-			controller.game.getTurnC(controller.game.playerturn) match {
-				case Success(v) => playerturnC = v
-				case Failure(e) => println(e.getMessage)
-			}
 			if(controller.game.piecesOutMap(decrement(controller.game.playerturn)) == 1 && (rolledDice == 6 || oldDice == 6))
 				if(controller.game.pieceChooser != 0)
-					infoLabel.text = "Player: " + playerturnC + " rolled a " + oldDice.toString + " Which piece should move/get out? Roll again to confirm"
+					infoLabel.text = "Player: " + getPlayerturnAsChar() + " rolled a " + oldDice.toString + " Which piece should move/get out? Roll again to confirm"
 					checkForPieceChoosing(6)
 					oldDice = 0
 				else
 					oldDice = 6
-					infoLabel.text = "Player: " + playerturnC + " rolled a " + oldDice.toString + " Which piece should move/get out? Roll again to confirm"
+					infoLabel.text = "Player: " + getPlayerturnAsChar() + " rolled a " + oldDice.toString + " Which piece should move/get out? Roll again to confirm"
 			else if(controller.game.piecesOutMap(decrement(controller.game.playerturn)) > 1)
 				if(controller.game.pieceChooser != 0)
-					infoLabel.text = "Player: " + playerturnC + " rolled a " + oldDice.toString + " Which piece should move? Roll again to confirm"
+					infoLabel.text = "Player: " + getPlayerturnAsChar() + " rolled a " + oldDice.toString + " Which piece should move? Roll again to confirm"
 					checkForPieceChoosing(oldDice)
 					oldDice = 0
 				else 
 					oldDice = rolledDice
-					infoLabel.text = "Player: " + playerturnC + " rolled a " + rolledDice.toString + " Which piece should move? Roll again to confirm"
+					infoLabel.text = "Player: " + getPlayerturnAsChar() + " rolled a " + rolledDice.toString + " Which piece should move? Roll again to confirm"
 			else 
-				infoLabel.text = "Player " + playerturnC + " rolled a " + rolledDice.toString
+				infoLabel.text = "Player " + getPlayerturnAsChar() + " rolled a " + rolledDice.toString
 				checkForPieceChoosing(rolledDice)
+				
 		case event.ButtonClicked(`rollMagicDiceB`) =>
 			val rolledDice = dice1.magicDice(6)
 			print("You rolled a " + rolledDice.toString + "\n")
-			controller.game.getTurnC(controller.game.playerturn) match {
-				case Success(v) => playerturnC = v
-				case Failure(e) => println(e.getMessage)
-			}
-			infoLabel.text = "Player " + playerturnC + " rolled a " + rolledDice.toString
+			infoLabel.text = "Player " + getPlayerturnAsChar() + " rolled a " + rolledDice.toString
 			checkForPieceChoosing(rolledDice)
 			controller.game.pieceChooser = 0
 		case event.ButtonClicked(`piece1B`) => controller.game.pieceChooser = 1
@@ -295,6 +284,15 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 			controller.doAndPublish(controller.move1 , rolledDice)
 			controller.game.pieceChooser = 0
 			updateField()
+	}
+	
+	def getPlayerturnAsChar() : Char = {
+		controller.game.playerturn match {
+			case 1 => 'A'
+			case 2 => 'B'
+			case 3 => 'C'
+			case 4 => 'D'
+		}
 	}
 	def movePiece(rolledDice: Int): Unit = {
 		if(controller.game.piecesOutMap(decrement(controller.game.playerturn)) > 1 && controller.game.pieceChooser > 0)

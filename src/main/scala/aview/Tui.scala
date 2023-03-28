@@ -34,7 +34,6 @@ class Tui(controller: ControllerInterface) extends Observer:
                 val rolledDice = dice1.dicestra(diceread.toInt)
                 println("\nYou rolled a " + rolledDice + "\n")
                 Some(rolledDice)
-                
             case "q" => None
             case "undo" => controller.doAndPublish(controller.undo);None
             case "redo" => controller.doAndPublish(controller.redo);None

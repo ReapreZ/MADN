@@ -26,7 +26,7 @@ final case class Mesh @Inject() (@Named("DefaultMesh") Player: Int) extends Mesh
                 arr(temp)(temp2) = -1
                 temp2 = temp2 + 1
             temp = temp + 1
-        return arr
+        arr
     }
 
 

@@ -32,7 +32,6 @@ class Controller @Inject()(@Named("DefaultGameType")var game: GameInterface) ext
     def getTurnC1(playerturn: Int) : Try[Char] = { game.getTurnC(playerturn) }
     def put(move:Move): GameInterface = undoManager.doStep(game, SetCommand(move))
     def undo: GameInterface = { game = undoManager.undoStep(game); game }
-   
     def redo: GameInterface = { game = undoManager.redoStep(game) ; game }
     def save: GameInterface = { file.save(game); game }
     def load: GameInterface = { game = file.load; game }

@@ -88,14 +88,14 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 	def movePiece(rolledDice:Int,piece:Int) : Game = {
 		val playerTurnC = getTurnC(playerturn)
 		mesh10.field1.Arr(mesh10.piecepos(decrement(playerturn))(decrement(piece))) = ('_')
-		val game2 = isFieldOccupied(rolledDice, piece)
+		val game = isFieldOccupied(rolledDice, piece)
 		playerTurnC match {
-			case Success(v) => game2.mesh10.field1.Arr((mesh10.piecepos(decrement(playerturn))(decrement(piece))) + rolledDice) = v.toChar
+			case Success(v) => game.mesh10.field1.Arr((mesh10.piecepos(decrement(playerturn))(decrement(piece))) + rolledDice) = v
 			case Failure(e) => println(e.getMessage)
 		}
-		game2.mesh10.stepsdone(decrement(playerturn))(decrement(piece)) = (mesh10.stepsdone(decrement(playerturn))(decrement(piece))) + rolledDice
-		game2.mesh10.piecepos(decrement(playerturn))(decrement(piece)) = (mesh10.piecepos(decrement(playerturn))(decrement(piece))) + rolledDice
-		return game2.copy()
+		game.mesh10.stepsdone(decrement(playerturn))(decrement(piece)) = (mesh10.stepsdone(decrement(playerturn))(decrement(piece))) + rolledDice
+		game.mesh10.piecepos(decrement(playerturn))(decrement(piece)) = (mesh10.piecepos(decrement(playerturn))(decrement(piece))) + rolledDice
+		game.copy()
 	}
 
 	private def piecesOutLessThanFour(player:Int, nextPlayerField:Int, playerCharacter:Char, nextPlayerHouse:Int) : Game = {
@@ -122,7 +122,6 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 		}
 	}
 
-	def moveOrGetOut(piece:Int, piecesOut:Int): Game = { if(piece > piecesOut && piece != 4 + 1) movePieceOut() else movePiece(6,piece)}
 
 	def isFieldOccupied(rolledDice: Int, piece:Int): Game = {
 		val nextHouse = 6
@@ -172,21 +171,18 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 		else
 			val playeramount = input.toInt
 			println("Press 'r' to roll the dice")
-			Success(copy(playerturn = 1,mesh10 = new Mesh(playeramount.toInt)))
+			Success(copy(playerturn = 1,mesh10 = Mesh(playeramount)))
 	}
-
 	def rollAgain(): Game = { copy(timesPlayerRolled = changeMap(decrement(playerturn), increment(timesPlayerRolled(decrement(playerturn)))))
 	}
-
 	def moveChosenPiece(chosenPiece: Int): Game = {
 		if (chosenPiece <= 4)
 			piecesOutMap.get(decrement(playerturn)) match {
-				case Some(piece) => moveOrGetOut(chosenPiece, piece)
+				case Some(chosenPiece) => movePieceOut()
 				case None => move(6)
 			}
 		else move(6)
 	}
-
 	def chosePieceToMove(rolledDice: Int, chosenPiece: Int): Game = {
 		movePiece(rolledDice, chosenPiece)
 		if (playerturn == mesh10.Player)
@@ -194,5 +190,4 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 		else
 			copy(increment(playerturn))
 	}
-
-	}
+}
