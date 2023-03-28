@@ -20,89 +20,95 @@ import scala.language.postfixOps
 import controller.ControllerInterface
 
 class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
+
 	controller.add(this)
 	var oldDice: Int = 0
-	title = "Mensch ärgere dich nicht!"
-	preferredSize = new Dimension(1440, 720)
-	var infoLabel = new TextField("Put in the amount of Players to start the game") {
-		background = java.awt.Color.GRAY
-		foreground = java.awt.Color.WHITE
-		font = new Font("Arial Black", 0, 12)
-	}
+	var mesh: Mesh = new Mesh(0)
+	val dice = new Dice
 
+	//DECREMENT & INCREMENT COUNT
 	private def decrement1(num1: Int, num2: Int): Int = num1 - num2
 	private val decrement: Int => Int = decrement1(_: Int, 1)
+
 	private def increment1(num1: Int, num2: Int): Int = num1 + num2
 	private val increment: Int => Int = increment1(_: Int, 1)
 
+	//GUI OUTLINE LOOK
+	title = "Mensch ärgere dich nicht!"
+	preferredSize = new Dimension(1440, 720)
+	val infoLabel = new TextField("Put in the amount of Players to start the game") { background = java.awt.Color.GRAY; foreground = java.awt.Color.WHITE; font = new Font("Arial Black", 0, 12) }
+	val fieldLabel = new Label
+	val playeramountTF = new TextField()
 
-	val rollDiceB = new Button("Roll the Dice")
-	listenTo(rollDiceB)
-	val rollMagicDiceB = new Button("Magic Dice")
-	listenTo(rollMagicDiceB)
-	val piece1B = new Button("1")
-	listenTo(piece1B)
-	val piece2B = new Button("2")
-	listenTo(piece2B)
-	val piece3B = new Button("3")
-	listenTo(piece3B)
-	val piece4B = new Button("4")
-	listenTo(piece4B)
-	val undoB = new Button("Undo")
-	listenTo(undoB)
-	val redoB = new Button("Redo")
-	listenTo(redoB)
+	//BUTTONS & LISTEN TO
+	val rollDiceB = new Button("Roll the Dice"); listenTo(rollDiceB)
+	val rollMagicDiceB = new Button("Magic Dice"); listenTo(rollMagicDiceB)
+	val piece1B = new Button("1"); listenTo(piece1B)
+	val piece2B = new Button("2"); listenTo(piece2B)
+	val piece3B = new Button("3"); listenTo(piece3B)
+	val piece4B = new Button("4"); listenTo(piece4B)
+	val undoB = new Button("Undo"); listenTo(undoB)
+	val redoB = new Button("Redo"); listenTo(redoB)
+
+	//PLAYER PIECE ICONS
+	val PlayerA = new ImageIcon("src/main/resources/Icons/PlayerA.png")
+	val PlayerB = new ImageIcon("src/main/resources/Icons/PlayerB.png")
+	val PlayerC = new ImageIcon("src/main/resources/Icons/PlayerC.png")
+	val PlayerD = new ImageIcon("src/main/resources/Icons/PlayerD.png")
+
+	//PLAYER HOUSE ICONS
 	val houseAIcon = new ImageIcon("src/main/resources/Icons/PlayerAHome.png")
 	val houseBIcon = new ImageIcon("src/main/resources/Icons/PlayerBHome.png")
 	val houseCIcon = new ImageIcon("src/main/resources/Icons/PlayerCHome.png")
 	val houseDIcon = new ImageIcon("src/main/resources/Icons/PlayerDHome.png")
-	val PlayerC = new ImageIcon("src/main/resources/Icons/PlayerC.png")
-	val PlayerD = new ImageIcon("src/main/resources/Icons/PlayerD.png")
-	val PlayerA = new ImageIcon("src/main/resources/Icons/PlayerA.png")
-	val PA1 = new Label { icon = new ImageIcon("src/main/resources/Icons/PlayerA.png") }
-	val PlayerB = new ImageIcon("src/main/resources/Icons/PlayerB.png")
-	val kreisIcon = new ImageIcon("src/main/resources/Icons/EmptyKreis.png")
+
+	//START,FIELD,END
+	val circleIcon = new ImageIcon("src/main/resources/Icons/EmptyKreis.png")
+	val finishIcon = new ImageIcon("src/main/resources/Icons/EmptyFinish.png")
+	val normalFieldIcon = new ImageIcon("src/main/resources/Icons/NormalField.png")
+	val startFieldIcon = new ImageIcon("src/main/resources/Icons/PlayerAStartField.png")
+
+	//ICON LABELS
 	val circle = Array(new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label)
-	val ziel = new ImageIcon("src/main/resources/Icons/EmptyFinish.png")
 	val fin = Array(new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label)
+	val house = Array(new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label)
+	val field = Array(new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label)
+
+	//PLACEHOLDER
+	val platzhalter = new Label("       ")
+	val platzhalter1 = new Label("       ")
+
+	//SET FINISH FIELDS
 	var i = 0
 	while (i < 16)
-		fin(i).icon = ziel
+		fin(i).icon = finishIcon
 		i = increment(i)
-	val house = Array(new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label, new Label)
 	i = 0
+
+	//SET HOUSE FIELDS
 	while (i < 16)
 		if(i <= 3)
 			house(i).icon = houseAIcon
-			circle(i).icon = kreisIcon
+			circle(i).icon = circleIcon
 		else if(i <= 7 && i >= 4)
 			house(i).icon = houseBIcon
-			circle(i).icon = kreisIcon
+			circle(i).icon = circleIcon
 		else if(i <= 11 && i >= 8)
 			house(i).icon = houseCIcon
-			circle(i).icon = kreisIcon
+			circle(i).icon = circleIcon
 		else
 			house(i).icon = houseDIcon
-			circle(i).icon = kreisIcon
+			circle(i).icon = circleIcon
 		i = increment(i)
-	val platzhalter = new Label("       ")
-	val platzhalter1 = new Label("       ")
-	val feld = new ImageIcon("src/main/resources/Icons/NormalField.png")
-	val field = Array(new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label,new Label, new Label, new Label, new Label)
+
+	//SET NORMAL FIELDS
 	i = 1
 	while (i < 40)
-		field(i).icon = feld
+		field(i).icon = normalFieldIcon
 		i = increment(i)
-	val feldAStart = new ImageIcon("src/main/resources/Icons/PlayerAStartField.png")
-	field(0) = new Label { icon = feldAStart }
+	field(0) = new Label { icon = startFieldIcon }
 
-	var mesh: Mesh = new Mesh(0)
-	val dice1 = new Dice
-
-	var fieldLabel = new Label
-	val playeramountTF = new TextField()
-
-
+	//MENUBAR
 	menuBar = new MenuBar {
 		contents += new Menu("Game") {
 			contents += MenuItem(Action("Save"){
@@ -113,20 +119,19 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 				var j = 0
 				while (j < 40) {
 					controller.game.mesh10.field1.Arr(j) match {
-						case '_' => field(j).icon = feld
+						case '_' => field(j).icon = normalFieldIcon
 						case 'A' => field(j).icon = PlayerA
 						case 'B' => field(j).icon = PlayerB
 						case 'C' => field(j).icon = PlayerC
 						case 'D' => field(j).icon = PlayerD
-						case 'x' => field(j).icon = feld
+						case 'x' => field(j).icon = normalFieldIcon
 					}
 					j = increment(j)
 				}
 				j = 0
 				while (j < 16)
 					controller.game.mesh10.finish1.Arr(j) match {
-						case '-' => fin(j).icon = ziel
-						//case 'A' => fin(j).icon = 
+						case '-' => fin(j).icon = finishIcon
 					}
 					j = increment(j)
 			})
@@ -142,9 +147,10 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 		piece3B.preferredSize = new Dimension(50,30)
 		piece4B.preferredSize = new Dimension(50,30)
 	}
+
+	//PANELS & REACTIONS
 	def bottomPanel = new FlowPanel {
 		infoLabel.preferredSize = new Dimension(560,50)
-		i = 7
 		contents += house(8)
 		contents += house(9)
 		contents += house(10)
@@ -203,7 +209,7 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 		contents += fin(9)
 		contents += fin(10)
 		contents += fin(11)
-		contents += platzhalter1
+		contents += platzhalter
 		contents += fin(12)
 		contents += fin(13)
 		contents += fin(14)
@@ -221,7 +227,7 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 		contents += fin(1)
 		contents += fin(2)
 		contents += fin(3)
-		contents += platzhalter
+		contents += platzhalter1
 		contents += fin(4)
 		contents += fin(5)
 		contents += fin(6)
@@ -230,44 +236,40 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 	}
 	reactions += {
 		case event.ButtonClicked(`rollDiceB`) =>
-			val rolledDice = dice1.diceRandom()
+			val rolledDice = dice.diceRandom()
 			print("You rolled a " + rolledDice.toString + "\n")
 			if(controller.game.piecesOutMap(decrement(controller.game.playerturn)) == 1 && (rolledDice == 6 || oldDice == 6))
 				if(controller.game.pieceChooser != 0)
-					infoLabel.text = "Player: " + getPlayerturnAsChar() + " rolled a " + oldDice.toString + " Which piece should move/get out? Roll again to confirm"
+					infoLabel.text = "Player: " + getPlayerturnAsChar() + " rolled a " + oldDice.toString + " Which piece should move/get out? Roll again to confirm";
 					checkForPieceChoosing(6)
 					oldDice = 0
 				else
 					oldDice = 6
-					infoLabel.text = "Player: " + getPlayerturnAsChar() + " rolled a " + oldDice.toString + " Which piece should move/get out? Roll again to confirm"
+					infoLabel.text = "Player: " + getPlayerturnAsChar() + " rolled a " + oldDice.toString + " Which piece should move/get out? Roll again to confirm";
 			else if(controller.game.piecesOutMap(decrement(controller.game.playerturn)) > 1)
 				if(controller.game.pieceChooser != 0)
-					infoLabel.text = "Player: " + getPlayerturnAsChar() + " rolled a " + oldDice.toString + " Which piece should move? Roll again to confirm"
+					infoLabel.text = "Player: " + getPlayerturnAsChar() + " rolled a " + oldDice.toString + " Which piece should move/get out? Roll again to confirm";
 					checkForPieceChoosing(oldDice)
 					oldDice = 0
 				else 
 					oldDice = rolledDice
-					infoLabel.text = "Player: " + getPlayerturnAsChar() + " rolled a " + rolledDice.toString + " Which piece should move? Roll again to confirm"
+					infoLabel.text = "Player: " + getPlayerturnAsChar() + " rolled a " + oldDice.toString + " Which piece should move/get out? Roll again to confirm";
 			else 
-				infoLabel.text = "Player " + getPlayerturnAsChar() + " rolled a " + rolledDice.toString
+				infoLabel.text = "Player " + getPlayerturnAsChar() + " rolled a " + rolledDice.toString;
 				checkForPieceChoosing(rolledDice)
 
 		case event.ButtonClicked(`rollMagicDiceB`) =>
-			val rolledDice = dice1.magicDice(6)
+			val rolledDice = dice.magicDice(6)
 			print("You rolled a " + rolledDice.toString + "\n")
-			infoLabel.text = "Player " + getPlayerturnAsChar() + " rolled a " + rolledDice.toString
+			infoLabel.text = "Player " + getPlayerturnAsChar() + " rolled a " + rolledDice.toString;
 			checkForPieceChoosing(rolledDice)
 			controller.game.pieceChooser = 0
 		case event.ButtonClicked(`piece1B`) => controller.game.pieceChooser = 1
 		case event.ButtonClicked(`piece2B`) => controller.game.pieceChooser = 2
 		case event.ButtonClicked(`piece3B`) => controller.game.pieceChooser = 3
 		case event.ButtonClicked(`piece4B`) => controller.game.pieceChooser = 4
-		case event.ButtonClicked(`undoB`) =>
-			controller.doAndPublish(controller.undo)
-			updateField()
-		case event.ButtonClicked(`redoB`) =>
-			controller.doAndPublish(controller.redo)
-			updateField()
+		case event.ButtonClicked(`undoB`) => controller.doAndPublish(controller.undo); updateField();
+		case event.ButtonClicked(`redoB`) => controller.doAndPublish(controller.redo); updateField();
 	}
 	contents = new BorderPanel {
 	add(bottomPanel, BorderPanel.Position.South)
@@ -276,7 +278,9 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 	add(rightPanel, BorderPanel.Position.East)
 	add(leftPanel, BorderPanel.Position.West)
 	}
-	def startGame(): Mesh = { return Mesh(playeramountTF.text.toInt) }
+
+	def startGame(): Mesh = { Mesh(playeramountTF.text.toInt) }
+
 	def move(rolledDice: Int): Unit = {
 			controller.doAndPublish(controller.move1 , rolledDice)
 			controller.game.pieceChooser = 0
@@ -298,20 +302,21 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 			changePiecePos(rolledDice, 1)
 	}
 
+	//CHANGE GUI ICONS WHILE PLAYING
 	private def changePiecePos(rolledDice: Int, pieceToMove: Int): Unit =  {
 		isFieldOccupied(rolledDice, pieceToMove)
 		controller.game.playerturn match {
 			case 1 =>
-				field(controller.game.mesh10.piecepos(decrement(controller.game.playerturn))(decrement(pieceToMove))).icon = feld
+				field(controller.game.mesh10.piecepos(decrement(controller.game.playerturn))(decrement(pieceToMove))).icon = normalFieldIcon
 				field((controller.game.mesh10.piecepos(decrement(controller.game.playerturn))(decrement(pieceToMove))) + rolledDice).icon = PlayerA
 			case 2 =>
-				field(controller.game.mesh10.piecepos(decrement(controller.game.playerturn))(decrement(pieceToMove))).icon = feld
+				field(controller.game.mesh10.piecepos(decrement(controller.game.playerturn))(decrement(pieceToMove))).icon = normalFieldIcon
 				field((controller.game.mesh10.piecepos(decrement(controller.game.playerturn))(decrement(pieceToMove))) + rolledDice).icon = PlayerB
 			case 3 =>
-				field(controller.game.mesh10.piecepos(decrement(controller.game.playerturn))(decrement(pieceToMove))).icon = feld
+				field(controller.game.mesh10.piecepos(decrement(controller.game.playerturn))(decrement(pieceToMove))).icon = normalFieldIcon
 				field((controller.game.mesh10.piecepos(decrement(controller.game.playerturn))(decrement(pieceToMove))) + rolledDice).icon = PlayerC
 			case 4 =>
-				field(controller.game.mesh10.piecepos(decrement(controller.game.playerturn))(decrement(pieceToMove))).icon = feld
+				field(controller.game.mesh10.piecepos(decrement(controller.game.playerturn))(decrement(pieceToMove))).icon = normalFieldIcon
 				field((controller.game.mesh10.piecepos(decrement(controller.game.playerturn))(decrement(pieceToMove))) + rolledDice).icon = PlayerD
 		}
 	}
