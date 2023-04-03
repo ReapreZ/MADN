@@ -14,12 +14,12 @@ import model.meshComponent.MeshInterface
 class MADNModule extends AbstractModule {
 
     override def configure(): Unit = {
-        val mesh = new Mesh(0)
+        val mesh = Mesh(0)
         val piecesOutMap:Map[Int,Int] =Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)
-        val game = new Game(0,mesh, piecesOutMap)
+        val game = Game(0,mesh, piecesOutMap)
         bind(classOf[ControllerInterface]).to(classOf[Controller])
         bind(classOf[GameInterface]).annotatedWith(Names.named("DefaultGameType")).toInstance(game)
-        bind(classOf[GameInterface]).toInstance(new Game(1,mesh,piecesOutMap))
+        bind(classOf[GameInterface]).toInstance(Game(1,mesh,piecesOutMap))
         
     }
 }

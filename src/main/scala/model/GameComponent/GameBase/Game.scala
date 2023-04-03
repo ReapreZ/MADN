@@ -7,7 +7,7 @@ import com.google.inject.{Guice, Inject}
 import com.google.inject.name.{Named, Names}
 import model.diceComponent.diceBase.DiceStrategy
 import model.diceComponent.diceBase.Dice
-import model.PlayerComponent.Player
+import model.PlayerComponent.PlayerBase.Player
 
 //PLAYER MODEL EINBAUEN
 //TYPISIERUNG VON MAPS ÄNDERN 2LISTEN UND COLLECTABLE
@@ -21,6 +21,7 @@ import model.PlayerComponent.Player
 case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0),
 								timesPlayerRolled:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)) extends GameInterface {
 	var pieceChooser: Int = -1
+	val activePieces = List.fill(4)(Player)
 
 	private def decrement1(num1: Int, num2: Int): Int = num1 - num2
 	private val decrement: Int => Int = decrement1(_: Int, 1)
@@ -36,32 +37,36 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 	}
 
 	private def rolledDiceIsNotSix(rolledDice: Int): Game = {
-		if (piecesOutMap(decrement(playerturn)) == 1) // Nur einer draußen und keine 6
+		val currentPlayer = decrement(playerturn)
+		val piecesOut = piecesOutMap(currentPlayer)
+		val timesRolled = timesPlayerRolled(currentPlayer)
+		if (piecesOut == 1) {
 			val game = movePiece(rolledDice, 1)
 			if (playerturn == mesh10.Player) game.copy(playerturn = 1)
-			else game.copy(increment(playerturn))
-		else if(piecesOutMap(decrement(playerturn)) == 0 && timesPlayerRolled(decrement(playerturn)) != 2) // Keiner draußen und keine 6
+			else game.copy(playerturn = increment(playerturn))
+		} else if (piecesOut == 0 && timesRolled != 2) {
 			rollAgain()
-		else if(piecesOutMap(decrement(playerturn)) == 0 && timesPlayerRolled(decrement(playerturn)) == 2)
+		} else if (piecesOut == 0 && timesRolled == 2) {
 			if (playerturn == mesh10.Player)
-				copy(playerturn = 1, timesPlayerRolled = changeMap(decrement(playerturn), 0))
+				copy(playerturn = 1, timesPlayerRolled = changeMap(currentPlayer, 0))
 			else
-				copy(increment(playerturn), timesPlayerRolled = changeMap(decrement(playerturn), 0))
-		else // Mehrere draußen und keine 6
+				copy(playerturn = increment(playerturn), timesPlayerRolled = changeMap(currentPlayer, 0))
+		} else {
 			println("Which Piece should move?")
-			if (pieceChooser == -1) chosePieceToMove(rolledDice, readLine().toInt)
-			else chosePieceToMove(rolledDice, getPiece().toInt)
+			val chosenPiece = if (pieceChooser == -1) readLine().toInt else getPiece().toInt
+			chosePieceToMove(rolledDice, chosenPiece)
+		}
 	}
 
-	def undoMove(rolledDice: Int,playerturnt: Int,piece: Int): Game = {
-		val playerTurnC = getTurnC(playerturnt)
-		mesh10.field1.Arr(mesh10.piecepos(decrement(playerturnt))(decrement(piece))) = ('_')
+	def undoMove(rolledDice: Int,playerturn: Int,piece: Int): Game = {
+		val playerTurnC = getTurnC(playerturn)
+		mesh10.field1.Arr(mesh10.piecepos(decrement(playerturn))(decrement(piece))) = ('_')
 		playerTurnC match {
-			case Success(v) => mesh10.field1.Arr((mesh10.piecepos(decrement(playerturnt))(decrement(piece)) + rolledDice)) = v
+			case Success(v) => mesh10.field1.Arr((mesh10.piecepos(decrement(playerturn))(decrement(piece)) + rolledDice)) = v
 			case Failure(e) => println(e.getMessage)
 		}
-		mesh10.stepsdone(decrement(playerturnt))(decrement(piece)) = (mesh10.stepsdone(decrement(playerturnt))(decrement(piece))) + rolledDice
-		mesh10.piecepos(decrement(playerturnt))(decrement(piece)) = (mesh10.piecepos(decrement(playerturnt))(decrement(piece))) + rolledDice
+		mesh10.stepsdone(decrement(playerturn))(decrement(piece)) = (mesh10.stepsdone(decrement(playerturn))(decrement(piece))) + rolledDice
+		mesh10.piecepos(decrement(playerturn))(decrement(piece)) = (mesh10.piecepos(decrement(playerturn))(decrement(piece))) + rolledDice
 		copy()
 	}
 

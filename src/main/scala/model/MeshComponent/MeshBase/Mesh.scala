@@ -16,16 +16,19 @@ final case class Mesh @Inject() (@Named("DefaultMesh") Player: Int) extends Mesh
     
     def mesh():String = field1.toString() + house1.toString() + finish1.toString()
 
-    def fillArr(playeramount:Int, houseamount:Int): Array[Array[Int]] = {
-        var arr = Array.ofDim[Int](playeramount, houseamount)
-        var temp = 0
-        var temp2 = 0
-        while(temp < playeramount)
-            temp2 = 0
-            while(temp2 < houseamount)
-                arr(temp)(temp2) = -1
-                temp2 = temp2 + 1
-            temp = temp + 1
+    def fillArr(playeramount: Int, houseamount: Int): Array[Array[Int]] = {
+        def fill(arr: Array[Array[Int]], i: Int, j: Int): Unit = {
+            if (i < playeramount) {
+                if (j < houseamount) {
+                    arr(i)(j) = -1
+                    fill(arr, i, j + 1)
+                } else {
+                    fill(arr, i + 1, 0)
+                }
+            }
+        }
+        val arr = Array.ofDim[Int](playeramount, houseamount)
+        fill(arr, 0, 0)
         arr
     }
 
