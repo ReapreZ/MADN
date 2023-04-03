@@ -24,9 +24,7 @@ class Tui(controller: ControllerInterface) extends Observer:
             case Some(rolledDice) => controller.doAndPublish(controller.move1,rolledDice)
         inputLoop()
     }
-
     def processInputLine(input: String): Option[Int] = {
-
         input match {
             case "r" =>
                 println("Which Dice? 1 = RandomDice 2 = MagicDice")

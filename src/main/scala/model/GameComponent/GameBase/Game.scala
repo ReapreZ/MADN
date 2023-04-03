@@ -7,39 +7,39 @@ import com.google.inject.{Guice, Inject}
 import com.google.inject.name.{Named, Names}
 import model.diceComponent.diceBase.DiceStrategy
 import model.diceComponent.diceBase.Dice
+import model.PlayerComponent.Player
 
+//PLAYER MODEL EINBAUEN
+//TYPISIERUNG VON MAPS ÄNDERN 2LISTEN UND COLLECTABLE
+// PIECECHOOSER TYPISIERUNG (OPTION)
+// IF ELSE AUSBAUEN -> MONADEN VERBINDEN
+// GETPLAYERTURN ÄNDERN
+// WHILES AUSBAUEN
+//ALLES FUNKTIONALER GESTALTEN
+//ABGABE 2 TWO CHECK EINFÜHREN
 
 case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0),
 								timesPlayerRolled:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)) extends GameInterface {
 	var pieceChooser: Int = -1
+
 	private def decrement1(num1: Int, num2: Int): Int = num1 - num2
 	private val decrement: Int => Int = decrement1(_: Int, 1)
 	private def increment1(num1: Int, num2: Int): Int = num1 + num2
 	private val increment: Int => Int = increment1(_: Int, 1)
-	def move(rolledDice: Int): Game = {
-		if(rolledDice != 6) // Wenn keine 6 gewürfelt wird
-			 rolledDiceIsNotSix(rolledDice)
-		else // Wenn eine 6 gewürfelt wird
-		   rolledDiceIsSix()
-	}
+	def move(rolledDice: Int): Game = { if(rolledDice != 6) rolledDiceIsNotSix(rolledDice) else rolledDiceIsSix() }
 	private def rolledDiceIsSix(): Game = {
-		if (piecesOutMap(decrement(playerturn)) == 0)
-			return movePieceOut()
+		if (piecesOutMap(decrement(playerturn)) == 0) return movePieceOut()
 		else
 			println("Which Piece should move or get out?")
-		if (pieceChooser == -1)
-			moveChosenPiece(readLine().toInt)
-		else
-			moveChosenPiece(getPiece().toInt)
+		if (pieceChooser == -1) moveChosenPiece(readLine().toInt)
+		else moveChosenPiece(getPiece().toInt)
 	}
 
 	private def rolledDiceIsNotSix(rolledDice: Int): Game = {
 		if (piecesOutMap(decrement(playerturn)) == 1) // Nur einer draußen und keine 6
 			val game = movePiece(rolledDice, 1)
-			if (playerturn == mesh10.Player)
-				game.copy(playerturn = 1)
-			else
-				game.copy(increment(playerturn))
+			if (playerturn == mesh10.Player) game.copy(playerturn = 1)
+			else game.copy(increment(playerturn))
 		else if(piecesOutMap(decrement(playerturn)) == 0 && timesPlayerRolled(decrement(playerturn)) != 2) // Keiner draußen und keine 6
 			rollAgain()
 		else if(piecesOutMap(decrement(playerturn)) == 0 && timesPlayerRolled(decrement(playerturn)) == 2)
@@ -49,10 +49,8 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 				copy(increment(playerturn), timesPlayerRolled = changeMap(decrement(playerturn), 0))
 		else // Mehrere draußen und keine 6
 			println("Which Piece should move?")
-			if (pieceChooser == -1)
-				chosePieceToMove(rolledDice, readLine().toInt)
-			else
-				chosePieceToMove(rolledDice, getPiece().toInt)
+			if (pieceChooser == -1) chosePieceToMove(rolledDice, readLine().toInt)
+			else chosePieceToMove(rolledDice, getPiece().toInt)
 	}
 
 	def undoMove(rolledDice: Int,playerturnt: Int,piece: Int): Game = {
@@ -110,28 +108,6 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 		}
 	}
 	def isFieldOccupied(rolledDice: Int, piece:Int): Game = { checkForPlayer(0,0, determineNewPos(rolledDice)(piece))
-		//var i, j = 0
-		//return checkForPlayer(0,0, determineNewPos(rolledDice, piece))
-
-		/*while(i < mesh10.Player)
-			while(j < 4)
-				if(mesh10.piecepos(i)(j) == newPos && decrement(playerturn) != i) //nicht der selbe
-					mesh10.piecepos(i)(j) = -1
-					mesh10.stepsdone(i)(j) = -1
-					i match {
-						case 0 => setHouseInMesh('A', 0, i)
-						case 1 => setHouseInMesh('B', 6, i)
-						case 2 => setHouseInMesh('C', 12, i)
-						case 3 => setHouseInMesh('D', 18, i)
-					}
-					return copy(piecesOutMap = changeMap(i, -1))
-				else if(mesh10.piecepos(i)(j) == newPos && decrement(playerturn) == i)  //der selbe
-					print("You cant kick out your own Piece\n")
-					return copy()
-				j = increment(j)
-			j = 0
-			i = increment(i)
-		copy()*/
 	}
 	def checkForPlayer(counter: Int, counter2: Int, newPos: Int): Game = {
 		if(counter != mesh10.Player)
