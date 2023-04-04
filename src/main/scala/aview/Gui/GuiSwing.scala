@@ -118,7 +118,7 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 				controller.doAndPublish(controller.load)
 				var j = 0
 				while (j < 40) {
-					controller.game.mesh10.field1.Arr(j) match {
+					controller.game.mesh.field1.Arr(j) match {
 						case '_' => field(j).icon = normalFieldIcon
 						case 'A' => field(j).icon = PlayerA
 						case 'B' => field(j).icon = PlayerB
@@ -130,7 +130,7 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 				}
 				j = 0
 				while (j < 16)
-					controller.game.mesh10.finish1.Arr(j) match {
+					controller.game.mesh.finish1.Arr(j) match {
 						case '-' => fin(j).icon = finishIcon
 					}
 					j = increment(j)
@@ -307,17 +307,17 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 		isFieldOccupied(rolledDice, pieceToMove)
 		controller.game.playerturn match {
 			case 1 =>
-				field(controller.game.mesh10.piecepos(decrement(controller.game.playerturn))(decrement(pieceToMove))).icon = normalFieldIcon
-				field((controller.game.mesh10.piecepos(decrement(controller.game.playerturn))(decrement(pieceToMove))) + rolledDice).icon = PlayerA
+				field(controller.game.mesh.piecepos(decrement(controller.game.playerturn))(decrement(pieceToMove))).icon = normalFieldIcon
+				field((controller.game.mesh.piecepos(decrement(controller.game.playerturn))(decrement(pieceToMove))) + rolledDice).icon = PlayerA
 			case 2 =>
-				field(controller.game.mesh10.piecepos(decrement(controller.game.playerturn))(decrement(pieceToMove))).icon = normalFieldIcon
-				field((controller.game.mesh10.piecepos(decrement(controller.game.playerturn))(decrement(pieceToMove))) + rolledDice).icon = PlayerB
+				field(controller.game.mesh.piecepos(decrement(controller.game.playerturn))(decrement(pieceToMove))).icon = normalFieldIcon
+				field((controller.game.mesh.piecepos(decrement(controller.game.playerturn))(decrement(pieceToMove))) + rolledDice).icon = PlayerB
 			case 3 =>
-				field(controller.game.mesh10.piecepos(decrement(controller.game.playerturn))(decrement(pieceToMove))).icon = normalFieldIcon
-				field((controller.game.mesh10.piecepos(decrement(controller.game.playerturn))(decrement(pieceToMove))) + rolledDice).icon = PlayerC
+				field(controller.game.mesh.piecepos(decrement(controller.game.playerturn))(decrement(pieceToMove))).icon = normalFieldIcon
+				field((controller.game.mesh.piecepos(decrement(controller.game.playerturn))(decrement(pieceToMove))) + rolledDice).icon = PlayerC
 			case 4 =>
-				field(controller.game.mesh10.piecepos(decrement(controller.game.playerturn))(decrement(pieceToMove))).icon = normalFieldIcon
-				field((controller.game.mesh10.piecepos(decrement(controller.game.playerturn))(decrement(pieceToMove))) + rolledDice).icon = PlayerD
+				field(controller.game.mesh.piecepos(decrement(controller.game.playerturn))(decrement(pieceToMove))).icon = normalFieldIcon
+				field((controller.game.mesh.piecepos(decrement(controller.game.playerturn))(decrement(pieceToMove))) + rolledDice).icon = PlayerD
 		}
 	}
 	def movePieceOut(): Unit = {
@@ -329,7 +329,7 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 		}
 	}
 	def updateField() : Unit = {
-		fieldLabel.text = controller.game.mesh10.field1.toString
+		fieldLabel.text = controller.game.mesh.field1.toString
 		controller.game.piecesOutList(0) match {
 			case 0 =>
 				circle(0).visible = false
@@ -366,24 +366,24 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 
 	def isFieldOccupied(rolledDice: Int, piece: Int): Unit = { checkForPlayer(0, 0, determineNewPos(rolledDice, piece))}
 	def checkForPlayer(counter: Int, counter2: Int, newPos: Int): Unit = {
-		if (counter != controller.game.mesh10.Player)
+		if (counter != controller.game.mesh.Player)
 			checkForField(counter, counter2, newPos)
 			checkForPlayer(increment(counter), counter2, newPos)
 	}
 	def checkForField(counter: Int, counter2: Int, newPos: Int): Unit = {
 		if (counter2 != 4)
-			if (controller.game.mesh10.piecepos(counter)(counter2) == newPos && decrement(controller.game.playerturn) != counter)
+			if (controller.game.mesh.piecepos(counter)(counter2) == newPos && decrement(controller.game.playerturn) != counter)
 				counter match {
 					case 0 => setHouseInvisibleCircleVisible(i, 0)
 					case 1 => setHouseInvisibleCircleVisible(i, 4)
 					case 2 => setHouseInvisibleCircleVisible(i, 8)
 					case 3 => setHouseInvisibleCircleVisible(i, 12)
 				}
-			else if(controller.game.mesh10.piecepos(counter)(counter2) == newPos && decrement(controller.game.playerturn) == counter)
+			else if(controller.game.mesh.piecepos(counter)(counter2) == newPos && decrement(controller.game.playerturn) == counter)
 				infoLabel.text = "You cant kick out your own Piece"
 			else checkForField(counter:Int, increment(counter2), newPos)
 	}
-	def determineNewPos(rolledDice: Int, piece: Int) : Int = { controller.game.mesh10.piecepos(decrement(controller.game.playerturn))(decrement(piece)) + rolledDice }
+	def determineNewPos(rolledDice: Int, piece: Int) : Int = { controller.game.mesh.piecepos(decrement(controller.game.playerturn))(decrement(piece)) + rolledDice }
 	def setHouseInvisibleCircleVisible(counter: Int, nextPlayerHouse: Int) : Unit = { setHouseInvisible(counter, nextPlayerHouse); setCircleVisible(counter, nextPlayerHouse) }
 	def setHouseInvisible(counter: Int, nextPlayerHouse: Int) : Unit = { house(decrement(controller.game.piecesOutList(counter)) + nextPlayerHouse).visible = false }
 	def setCircleVisible(counter: Int, nextPlayerHouse: Int) : Unit = { circle(decrement(controller.game.piecesOutList(counter)) + nextPlayerHouse).visible = true }

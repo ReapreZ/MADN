@@ -21,48 +21,48 @@ class GameSpec extends AnyWordSpec with Matchers {
             "when rolledDice = 6 and its A's turn" in {
                 val game1 = game.copy()
                 val game2 = game.copy(playerturn = 1)
-                game1.mesh10.field1.Arr(0) = 'A'
-                game1.mesh10.house1.Arr(0) = 'H'
+                game1.mesh.field1.Arr(0) = 'A'
+                game1.mesh.house1.Arr(0) = 'H'
                 
                 game2.getOut(6,mesh) shouldBe (game1.copy(playerturn = 1,piecesOutA = game.piecesOutA + 1))
             }
             "when rolledDice = 6 and its A's turn and all Pieces out" in {
                 val game1 = game.copy()
                 val game2 = game.copy(playerturn = 1, piecesOutA = 3)
-                game1.mesh10.field1.Arr(6) = 'A'
-                game1.mesh10.field1.Arr(0) = '_'
+                game1.mesh.field1.Arr(6) = 'A'
+                game1.mesh.field1.Arr(0) = '_'
                 
                 game2.getOut(6,mesh) shouldBe (game1.copy(playerturn = 1, piecesOutA = 3))
             }
             "when rolledDice = 6 and its B's turn" in {
                 val game1 = game.copy()
                 val game2 = game.copy(playerturn = 2)
-                game1.mesh10.field1.Arr(22) = 'B'
-                game1.mesh10.house1.Arr(3) = 'H'
+                game1.mesh.field1.Arr(22) = 'B'
+                game1.mesh.house1.Arr(3) = 'H'
                 
                 game2.getOut(6,mesh) shouldBe (game1.copy(playerturn = 2,piecesOutB = game.piecesOutB + 1))
             }
             "when rolledDice = 6 and its B's turn and all Pieces out" in {
                 val game1 = game.copy()
                 val game2 = game.copy(playerturn = 2, piecesOutB = 3)
-                game1.mesh10.field1.Arr(28) = 'B'
-                game1.mesh10.field1.Arr(22) = '_'
+                game1.mesh.field1.Arr(28) = 'B'
+                game1.mesh.field1.Arr(22) = '_'
                 
                 game2.getOut(6,mesh) shouldBe (game1.copy(playerturn = 2, piecesOutB = 3))
             }
             "when rolledDice = 6 and its C's turn" in {
                 val game1 = game.copy()
                 val game2 = game.copy(playerturn = 3)
-                game1.mesh10.field1.Arr(44) = 'C'
-                game1.mesh10.house1.Arr(6) = 'H'
+                game1.mesh.field1.Arr(44) = 'C'
+                game1.mesh.house1.Arr(6) = 'H'
                 
                 game2.getOut(6,mesh) shouldBe (game1.copy(playerturn = 3,piecesOutC = game.piecesOutC + 1))
             }
             "when rolledDice = 6 and its C's turn and all Pieces out" in {
                 val game1 = game.copy()
                 val game2 = game.copy(playerturn = 3, piecesOutC = 3)
-                game1.mesh10.field1.Arr(50) = 'C'
-                game1.mesh10.field1.Arr(44) = '_'
+                game1.mesh.field1.Arr(50) = 'C'
+                game1.mesh.field1.Arr(44) = '_'
                 
                 game2.getOut(6,mesh) shouldBe (game1.copy(playerturn = 3, piecesOutC = 3))
             }
@@ -78,8 +78,8 @@ class GameSpec extends AnyWordSpec with Matchers {
         "move" should {
             "when a figure is out" in {
                 val game1 = new Game(0,new Mesh(7,3,1),0,0,0,0)
-                game1.mesh10.field1.Arr(0) = '_'
-                game1.mesh10.field1.Arr(1) = 'A'
+                game1.mesh.field1.Arr(0) = '_'
+                game1.mesh.field1.Arr(1) = 'A'
                 game.move(1, mesh) shouldBe (game1)
             }
             "when no figure is out" in {

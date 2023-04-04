@@ -22,7 +22,7 @@ trait GameInterface {
     def isFieldOccupied(rolledDice: Int, piece:Int): Game
 
     val playerturn: Int
-    val mesh10: Mesh
+    val mesh: Mesh
     val piecesOutList: List[Int]
     def startgame: Try[Game]
 }

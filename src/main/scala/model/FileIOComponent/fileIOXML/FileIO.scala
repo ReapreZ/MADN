@@ -30,13 +30,13 @@ class FileIO extends FileIOInterface{
         val stepsdone = (file \\ "game" \\ "mesh" \\ "stepsdone").text.toString.toCharArray
         val stepsdone2 = fillArr(stepsdone, playeramount)
         //stepsdone2 foreach { row => row foreach print; println }
-        var mesh10:Mesh = new Mesh(playeramount)
-        mesh10.field1.Arr = fieldArr
-        mesh10.house1.Arr = houseArr
-        mesh10.finish1.Arr = finishArr
-        val game: GameInterface = new Game(playerturn, mesh10, piecesOutList)
-        game.mesh10.piecepos = piecepos2
-        game.mesh10.stepsdone = stepsdone2
+        var mesh:Mesh = new Mesh(playeramount)
+        mesh.field1.Arr = fieldArr
+        mesh.house1.Arr = houseArr
+        mesh.finish1.Arr = finishArr
+        val game: GameInterface = new Game(playerturn, mesh, piecesOutList)
+        game.mesh.piecepos = piecepos2
+        game.mesh.stepsdone = stepsdone2
         game
     }
 
@@ -57,12 +57,12 @@ class FileIO extends FileIOInterface{
             <piecesOutMap2>{game.piecesOutList(2)}</piecesOutMap2>
             <piecesOutMap3>{game.piecesOutList(3)}</piecesOutMap3>
             <mesh>
-                <mesh-String>{game.mesh10.field1.toString()}</mesh-String>
-                <playeramount>{game.mesh10.Player}</playeramount>
-                <house-array>{game.mesh10.house1.Arr.mkString("")}</house-array>
-                <finish-array>{game.mesh10.finish1.Arr.mkString("")}</finish-array>
-                <piecepos>{game.mesh10.piecepos.map(_.mkString).mkString("!")}</piecepos>
-                <stepsdone>{game.mesh10.stepsdone.map(_.mkString).mkString("!")}</stepsdone>
+                <mesh-String>{game.mesh.field1.toString()}</mesh-String>
+                <playeramount>{game.mesh.Player}</playeramount>
+                <house-array>{game.mesh.house1.Arr.mkString("")}</house-array>
+                <finish-array>{game.mesh.finish1.Arr.mkString("")}</finish-array>
+                <piecepos>{game.mesh.piecepos.map(_.mkString).mkString("!")}</piecepos>
+                <stepsdone>{game.mesh.stepsdone.map(_.mkString).mkString("!")}</stepsdone>
             </mesh>
         </game>
     }
