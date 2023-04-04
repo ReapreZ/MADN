@@ -8,6 +8,7 @@ import com.google.inject.name.{Named, Names}
 import model.diceComponent.diceBase.DiceStrategy
 import model.diceComponent.diceBase.Dice
 import model.PlayerComponent.PlayerBase.Player
+import model.FieldFactory._
 
 //PLAYER MODEL EINBAUEN
 //TYPISIERUNG VON MAPS ÄNDERN 2LISTEN UND COLLECTABLE
@@ -61,21 +62,27 @@ case class Game(playerturn:Int,mesh:Mesh,piecesOutList: List[Int] = List(0, 0, 0
 		chosePieceToMove(rolledDice, chosenPiece)
 	}
 	def changeList(list: List[Int], stelle: Int, amount: Int): List[Int] = {list.updated(stelle, list(stelle) + amount) }
-	def undoMove(rolledDice: Int, playerturn: Int, piece: Int): Game = {
+
+	def undoMove(rolledDice: Int, playerturn: Int, piece: Int): Try[Game] = {
 		val currentPlayer = decrement(playerturn)
 		val currentPiece = decrement(piece)
-		mesh.field1.Arr(mesh.piecepos(currentPlayer)(currentPiece)) = ('_')
-		updateField(rolledDice, currentPlayer, currentPiece)
-		mesh.stepsdone(currentPlayer)(currentPiece) += rolledDice
-		mesh.piecepos(currentPlayer)(currentPiece) += rolledDice
-		copy()
+		for {
+			_ <- updateFieldArr(currentPlayer, currentPiece)
+			_ <- updateField(rolledDice, currentPlayer, currentPiece)
+			_ <- updateSteps(rolledDice, currentPlayer, currentPiece)
+			_ <- updatePiecePos(rolledDice, currentPlayer, currentPiece)
+		} yield copy()
 	}
-	private def updateField(rolledDice: Int, currentPlayer: Int, currentPiece: Int): Unit = {
-		getTurnC(playerturn) match {
-			case Success(v) => mesh.field1.Arr((mesh.piecepos(currentPlayer)(currentPiece) + rolledDice)) = v
-			case Failure(e) => println(e.getMessage)
+	private def updateFieldArr(currentPlayer: Int, currentPiece: Int): Try[Unit] = { Try { mesh.field1.Arr(mesh.piecepos(currentPlayer)(currentPiece)) = ('_')} }
+	private def updateField(rolledDice: Int, currentPlayer: Int, currentPiece: Int): Try[Unit] = {
+		for {
+			v <- getTurnC(playerturn)
+		} yield {
+			mesh.field1.Arr(mesh.piecepos(currentPlayer)(currentPiece) + rolledDice) = v
 		}
 	}
+	private def updateSteps(rolledDice: Int, currentPlayer: Int, currentPiece: Int): Try[Unit] = { Try { mesh.stepsdone(currentPlayer)(currentPiece) += rolledDice } }
+	private def updatePiecePos(rolledDice: Int, currentPlayer: Int, currentPiece: Int): Try[Unit] = { Try { mesh.piecepos(currentPlayer)(currentPiece) += rolledDice } }
 	def getTurnC(playerturn: Int): Try[Char] = {
 		for {
 			c <- playerturn match {
@@ -90,11 +97,11 @@ case class Game(playerturn:Int,mesh:Mesh,piecesOutList: List[Int] = List(0, 0, 0
 	def movePiece(rolledDice: Int, piece: Int): Game = {
 		val currentPlayer = decrement(playerturn)
 		val currentPiece = decrement(piece)
-		mesh.field1.Arr(mesh.piecepos(currentPlayer)(currentPiece)) = ('_')
 		val game = isFieldOccupied(rolledDice, piece)
+		updateFieldArr(currentPlayer, currentPiece)
 		updateField(game, rolledDice, currentPlayer, currentPiece)
-		game.mesh.stepsdone(currentPlayer)(currentPiece) += rolledDice
-		game.mesh.piecepos(currentPlayer)(currentPiece) += rolledDice
+		game.updateSteps(rolledDice, currentPlayer, currentPiece)
+		game.updatePiecePos(rolledDice, currentPlayer, currentPiece)
 		game.copy()
 	}
 	private def updateField(game: Game, rolledDice: Int, currentPlayer: Int, currentPiece: Int): Unit = {

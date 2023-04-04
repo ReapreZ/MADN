@@ -12,7 +12,7 @@ trait GameInterface {
 
     def move(rolledDice:Int): Game
     def getTurnC(playerturn: Int): Try[Char]
-    def undoMove(rolledDice: Int, playerturnt: Int, piece: Int): Game
+    def undoMove(rolledDice: Int, playerturnt: Int, piece: Int): Try[Game]
     def movePiece(rolledDice: Int, piece: Int) : Game
     def movePieceOut(): Game
     //def changePlayerTurn(playerturnT: Int): Game
