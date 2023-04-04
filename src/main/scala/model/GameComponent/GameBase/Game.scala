@@ -84,7 +84,6 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutList: List[Int] = List(0, 0,
 				chosePieceToMove(rolledDice, chosenPiece)
 		}
 	}
-
 	// Hilfsmethode, die ein Element in einer Liste an einer bestimmten Position ändert
 	def changeList(list: List[Int], stelle: Int, amount: Int): List[Int] = {
 		list.updated(stelle, list(stelle) + amount)
