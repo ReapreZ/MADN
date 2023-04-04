@@ -329,7 +329,7 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 		}
 	}
 	def updateField() : Unit = {
-		fieldLabel.text = controller.game.mesh.field1.toString
+		fieldLabel.text = controller.game.mesh.field1.toString()
 		controller.game.piecesOutList(0) match {
 			case 0 =>
 				circle(0).visible = false

@@ -80,11 +80,11 @@ class FileIO extends FileIOInterface {
     def changeArr(arr:Array[Char], playeramount:Int): Array[Char] = {
         var temp = 1
         val max = playeramount* 4 + (playeramount*2)
-        var newArr = new Array[Char](max)
+        val newArr = new Array[Char](max)
         while(arr(temp) != '"' && (temp - 1) != max)
             newArr(temp - 1) = arr(temp)
             temp = temp + 1
-        return newArr
+        newArr
     }
     def changeMeshArr(arr:Array[Char]): Array[Char] = {
         val newArr = new Array[Char](40)

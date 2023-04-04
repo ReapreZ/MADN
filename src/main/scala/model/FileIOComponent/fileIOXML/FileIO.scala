@@ -30,7 +30,7 @@ class FileIO extends FileIOInterface{
         val stepsdone = (file \\ "game" \\ "mesh" \\ "stepsdone").text.toString.toCharArray
         val stepsdone2 = fillArr(stepsdone, playeramount)
         //stepsdone2 foreach { row => row foreach print; println }
-        var mesh:Mesh = new Mesh(playeramount)
+        val mesh: Mesh = new Mesh(playeramount)
         mesh.field1.Arr = fieldArr
         mesh.house1.Arr = houseArr
         mesh.finish1.Arr = finishArr
@@ -81,19 +81,19 @@ class FileIO extends FileIOInterface{
                     temp3 = temp3 + 1
                 temp2 = temp2 + 1
             temp = temp + 1
-        return arr
+        arr
     }
     def changeArr(arr:Array[Char], playeramount:Int): Array[Char] = {
         var temp = 1
         val max = playeramount* 4 + (playeramount*2)
-        var newArr = new Array[Char](max)
+        val newArr = new Array[Char](max)
         while(arr(temp) != '"' && (temp - 1) != max)
             newArr(temp - 1) = arr(temp)
             temp = temp + 1
         return newArr
     }
     def changeMeshArr(arr:Array[Char]): Array[Char] = {
-        var newArr = new Array[Char](40)
+        val newArr = new Array[Char](40)
         var temp = 1
         while(arr(temp) != '"' && (temp - 1) != 40)
             newArr(temp - 1) = arr(temp)

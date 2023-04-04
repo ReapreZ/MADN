@@ -55,7 +55,8 @@ case class Game(playerturn:Int,mesh:Mesh,piecesOutList: List[Int] = List(0, 0, 0
 	private def resetTimesPlayerRolled(): List[Int] = { timesPlayerRolledList.updated(decrement(playerturn), 0) }
 	private def handleMultiplePiecesOut(rolledDice: Int): Game = {
 		println("Which Piece should move?")
-		val chosenPiece = if (pieceChooser == 0) readLine().toInt else pieceChooser
+		val chosenPiece = if (pieceChooser == 0) readLine().toInt
+		else pieceChooser
 		pieceChooser = 0
 		chosePieceToMove(rolledDice, chosenPiece)
 	}
@@ -76,26 +77,33 @@ case class Game(playerturn:Int,mesh:Mesh,piecesOutList: List[Int] = List(0, 0, 0
 		}
 	}
 	def getTurnC(playerturn: Int): Try[Char] = {
-		playerturn match {
-			case 1 => Success('A')
-			case 2 => Success('B')
-			case 3 => Success('C')
-			case 4 => Success('D')
-			case _ => Failure(new NoSuchMethodException("Something went wrong"))
-		}
+		for {
+			c <- playerturn match {
+				case 1 => Success('A')
+				case 2 => Success('B')
+				case 3 => Success('C')
+				case 4 => Success('D')
+				case _ => Failure(new NoSuchMethodException("Something went wrong"))
+			}
+		} yield c
 	}
-	def movePiece(rolledDice:Int,piece:Int) : Game = {
-		mesh.field1.Arr(mesh.piecepos(decrement(playerturn))(decrement(piece))) = ('_')
+	def movePiece(rolledDice: Int, piece: Int): Game = {
+		val currentPlayer = decrement(playerturn)
+		val currentPiece = decrement(piece)
+		mesh.field1.Arr(mesh.piecepos(currentPlayer)(currentPiece)) = ('_')
 		val game = isFieldOccupied(rolledDice, piece)
-		getTurnC(playerturn) match {
-			case Success(v) => game.mesh.field1.Arr((mesh.piecepos(decrement(playerturn))(decrement(piece))) + rolledDice) = v
-			case Failure(e) => println(e.getMessage)
-		}
-		game.mesh.stepsdone(decrement(playerturn))(decrement(piece)) += rolledDice
-		game.mesh.piecepos(decrement(playerturn))(decrement(piece)) += rolledDice
+		updateField(game, rolledDice, currentPlayer, currentPiece)
+		game.mesh.stepsdone(currentPlayer)(currentPiece) += rolledDice
+		game.mesh.piecepos(currentPlayer)(currentPiece) += rolledDice
 		game.copy()
 	}
-	private def piecesOutLessThanFour(player:Int, nextPlayerField:Int, playerCharacter:Char, nextPlayerHouse:Int) : Game = {
+	private def updateField(game: Game, rolledDice: Int, currentPlayer: Int, currentPiece: Int): Unit = {
+		getTurnC(playerturn) match {
+			case Success(v) => game.mesh.field1.Arr((mesh.piecepos(currentPlayer)(currentPiece)) + rolledDice) = v
+			case Failure(e) => println(e.getMessage)
+		}
+	}
+	def piecesOutLessThanFour(player:Int, nextPlayerField:Int, playerCharacter:Char, nextPlayerHouse:Int) : Game = {
 		if (piecesOutList(player) <= 4) {
 			mesh.stepsdone(player)(piecesOutList(player)) = 0
 			mesh.piecepos(player)(piecesOutList(player)) = nextPlayerField
@@ -138,29 +146,23 @@ case class Game(playerturn:Int,mesh:Mesh,piecesOutList: List[Int] = List(0, 0, 0
 			else checkForField(counter:Int, increment(counter2), newPos)
 		copy()
 	}
-	def determineNewPos(rolledDice: Int) = (piece: Int) => { mesh.piecepos(decrement(playerturn))(decrement(piece)) + rolledDice }
-	def setHouseInMesh(houseChar: Char, housePosition: Int,piecePosition: Int) : Unit = { mesh.house1.Arr(decrement(piecesOutList(piecePosition)) + housePosition) = houseChar
-	}
+	def determineNewPos(rolledDice: Int): Int => Int = (piece: Int) => { mesh.piecepos(decrement(playerturn))(decrement(piece)) + rolledDice }
+	def setHouseInMesh(houseChar: Char, housePosition: Int,piecePosition: Int) : Unit = { mesh.house1.Arr(decrement(piecesOutList(piecePosition)) + housePosition) = houseChar }
 	def put(game: Game): Game = { game.copy() }
 	def startgame: Try[Game] = {
 		println("Amount of Players:")
-		val input = readLine()
-		if(input.toInt < 1 && input.toInt > 4) then Failure(NotImplementedError("Too Many/Few Player"))
-		else
-			val playeramount = input.toInt
-			println("Press 'r' to roll the dice")
-			Success(copy(playerturn = 1,mesh = Mesh(playeramount)))
+		for {
+			input <- Try(readLine().toInt)
+			_ <- Try(require(input >= 1 && input <= 4, "Invalid number of players: must be between 1 and 4."))
+			_ <- Try(println("Press 'r' to roll the dice"))
+			game <- Try(copy(playerturn = 1, mesh = Mesh(input)))
+		} yield game
 	}
 	def rollAgain(): Game = { copy(timesPlayerRolledList = changeList(timesPlayerRolledList,decrement(playerturn), 1)) }
-	def moveChosenPiece(chosenPiece: Int): Game = {
-		if(piecesOutList(decrement(playerturn)) == chosenPiece) movePiece(6, chosenPiece)
-		else movePieceOut()
-	}
+	def moveChosenPiece(chosenPiece: Int): Game = { if(piecesOutList(decrement(playerturn)) == chosenPiece) movePiece(6, chosenPiece) else movePieceOut() }
 	def chosePieceToMove(rolledDice: Int, chosenPiece: Int): Game = {
 		val newGame = movePiece(rolledDice, chosenPiece)
-		if (newGame.playerturn == mesh.Player)
-			newGame.copy(playerturn = 1)
-		else
-			newGame.copy(playerturn = newGame.increment(newGame.playerturn))
+		if (newGame.playerturn == mesh.Player) newGame.copy(playerturn = 1)
+		else newGame.copy(playerturn = newGame.increment(newGame.playerturn))
 	}
 }
