@@ -13,11 +13,11 @@ class FileIO extends FileIOInterface{
   
     override def load: GameInterface = {
         val file = scala.xml.XML.loadFile("game.xml")
-        val piecesOutMap0 = (file \\ "game" \\ "piecesOutMap0").text.toString.toInt
-        val piecesOutMap1 = (file \\ "game" \\ "piecesOutMap1").text.toString.toInt
-        val piecesOutMap2 = (file \\ "game" \\ "piecesOutMap2").text.toString.toInt
-        val piecesOutMap3 = (file \\ "game" \\ "piecesOutMap3").text.toString.toInt
-        var piecesOutMap4:Map[Int,Int]=Map(0 -> piecesOutMap0, 1 -> piecesOutMap1, 2 -> piecesOutMap2, 3 -> piecesOutMap3)
+//        val piecesOutMap0 = (file \\ "game" \\ "piecesOutMap0").text.toString.toInt
+//        val piecesOutMap1 = (file \\ "game" \\ "piecesOutMap1").text.toString.toInt
+//        val piecesOutMap2 = (file \\ "game" \\ "piecesOutMap2").text.toString.toInt
+//        val piecesOutMap3 = (file \\ "game" \\ "piecesOutMap3").text.toString.toInt
+        val piecesOutList:List[Int]=List(0,0,0,0)
         val playerturn = (file \\ "game" \\ "playerturn").text.toString.toInt
         val fieldArr = (file \\ "game" \\ "mesh" \\ "mesh-String").text.toString.toCharArray
         val playeramount = (file \\ "game" \\ "mesh" \\ "playeramount").text.toString.toInt
@@ -34,7 +34,7 @@ class FileIO extends FileIOInterface{
         mesh10.field1.Arr = fieldArr
         mesh10.house1.Arr = houseArr
         mesh10.finish1.Arr = finishArr
-        var game: GameInterface = new Game(playerturn, mesh10, piecesOutMap4)
+        val game: GameInterface = new Game(playerturn, mesh10, piecesOutList)
         game.mesh10.piecepos = piecepos2
         game.mesh10.stepsdone = stepsdone2
         game
@@ -52,10 +52,10 @@ class FileIO extends FileIOInterface{
     def gameToXML(game: GameInterface) = {
         <game>
             <playerturn>{game.playerturn}</playerturn>
-            <piecesOutMap0>{game.piecesOutMap(0)}</piecesOutMap0>
-            <piecesOutMap1>{game.piecesOutMap(1)}</piecesOutMap1>
-            <piecesOutMap2>{game.piecesOutMap(2)}</piecesOutMap2>
-            <piecesOutMap3>{game.piecesOutMap(3)}</piecesOutMap3>
+            <piecesOutMap0>{game.piecesOutList(0)}</piecesOutMap0>
+            <piecesOutMap1>{game.piecesOutList(1)}</piecesOutMap1>
+            <piecesOutMap2>{game.piecesOutList(2)}</piecesOutMap2>
+            <piecesOutMap3>{game.piecesOutList(3)}</piecesOutMap3>
             <mesh>
                 <mesh-String>{game.mesh10.field1.toString()}</mesh-String>
                 <playeramount>{game.mesh10.Player}</playeramount>
@@ -68,7 +68,7 @@ class FileIO extends FileIOInterface{
     }
 
     def fillArr(values:Array[Char], playeramount: Int): Array[Array[Int]] = {
-        var arr = Array.ofDim[Int](playeramount, 4)
+        val arr = Array.ofDim[Int](playeramount, 4)
         var temp = 0
         var temp2 = 0
         var temp3 = 0

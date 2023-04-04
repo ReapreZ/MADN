@@ -18,10 +18,10 @@ import model.PlayerComponent.PlayerBase.Player
 //ALLES FUNKTIONALER GESTALTEN
 //ABGABE 2 TWO CHECK EINFÜHREN
 
-case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0),
-								timesPlayerRolled:Map[Int,Int]=Map(0 -> 0, 1 -> 0, 2 -> 0, 3 -> 0)) extends GameInterface {
-	var pieceChooser: Int = -1
-	val activePieces = List.fill(4)(Player)
+case class Game(playerturn:Int,mesh10:Mesh,piecesOutList: List[Int] = List(0, 0, 0, 0),
+								timesPlayerRolledList: List[Int] = List(0, 0, 0, 0)) extends GameInterface {
+	var pieceChooser: Int = 0
+	//val activePieces = List.fill(4)(Player)
 
 	private def decrement1(num1: Int, num2: Int): Int = num1 - num2
 	private val decrement: Int => Int = decrement1(_: Int, 1)
@@ -29,33 +29,65 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 	private val increment: Int => Int = increment1(_: Int, 1)
 	def move(rolledDice: Int): Game = { if(rolledDice != 6) rolledDiceIsNotSix(rolledDice) else rolledDiceIsSix() }
 	private def rolledDiceIsSix(): Game = {
-		if (piecesOutMap(decrement(playerturn)) == 0) return movePieceOut()
+		if (piecesOutList(decrement(playerturn)) == 0) return movePieceOut()
 		else
 			println("Which Piece should move or get out?")
-		if (pieceChooser == -1) moveChosenPiece(readLine().toInt)
-		else moveChosenPiece(getPiece().toInt)
+		if (pieceChooser == 0) moveChosenPiece(readLine().toInt)
+		else moveChosenPiece(pieceChooser)
 	}
+
+//	private def rolledDiceIsNotSix(rolledDice: Int): Game = {
+//		val currentPlayer = decrement(playerturn)
+//		val piecesOut = piecesOutMap(currentPlayer)
+//		val timesRolled = timesPlayerRolled(currentPlayer)
+//		if (piecesOut == 1) {
+//			val game = movePiece(rolledDice, 1)
+//			if (playerturn == mesh10.Player) game.copy(playerturn = 1)
+//			else game.copy(playerturn = increment(playerturn))
+//		} else if (piecesOut == 0 && timesRolled != 2) {
+//			rollAgain()
+//		} else if (piecesOut == 0 && timesRolled == 2) {
+//			if (playerturn == mesh10.Player)
+//				copy(playerturn = 1, timesPlayerRolled = changeMap(currentPlayer, 0))
+//			else
+//				copy(playerturn = increment(playerturn), timesPlayerRolled = changeMap(currentPlayer, 0))
+//		} else {
+//			println("Which Piece should move?")
+//			val chosenPiece = if (pieceChooser == -1) readLine().toInt else getPiece().toInt
+//			chosePieceToMove(rolledDice, chosenPiece)
+//		}
+//	}
 
 	private def rolledDiceIsNotSix(rolledDice: Int): Game = {
 		val currentPlayer = decrement(playerturn)
-		val piecesOut = piecesOutMap(currentPlayer)
-		val timesRolled = timesPlayerRolled(currentPlayer)
-		if (piecesOut == 1) {
-			val game = movePiece(rolledDice, 1)
-			if (playerturn == mesh10.Player) game.copy(playerturn = 1)
-			else game.copy(playerturn = increment(playerturn))
-		} else if (piecesOut == 0 && timesRolled != 2) {
-			rollAgain()
-		} else if (piecesOut == 0 && timesRolled == 2) {
-			if (playerturn == mesh10.Player)
-				copy(playerturn = 1, timesPlayerRolled = changeMap(currentPlayer, 0))
-			else
-				copy(playerturn = increment(playerturn), timesPlayerRolled = changeMap(currentPlayer, 0))
-		} else {
-			println("Which Piece should move?")
-			val chosenPiece = if (pieceChooser == -1) readLine().toInt else getPiece().toInt
-			chosePieceToMove(rolledDice, chosenPiece)
+		val piecesOut = piecesOutList(currentPlayer)
+		val timesRolled = timesPlayerRolledList(currentPlayer)
+
+		piecesOut match {
+			case 1 =>
+				val game = movePiece(rolledDice, 1)
+				if (playerturn == mesh10.Player) game.copy(playerturn = 1)
+				else game.copy(playerturn = increment(playerturn))
+
+			case 0 if timesRolled != 2 => rollAgain()
+
+			case 0 if timesRolled == 2 =>
+				if (playerturn == mesh10.Player)
+					copy(playerturn = 1, timesPlayerRolledList = changeList(timesPlayerRolledList,currentPlayer, 0))
+				else
+					copy(playerturn = increment(playerturn), timesPlayerRolledList = changeList(timesPlayerRolledList,currentPlayer, 0))
+
+			case _ =>
+				println("Which Piece should move?")
+				val chosenPiece = if (pieceChooser == 0) readLine().toInt else pieceChooser
+				pieceChooser = 0
+				chosePieceToMove(rolledDice, chosenPiece)
 		}
+	}
+
+	// Hilfsmethode, die ein Element in einer Liste an einer bestimmten Position ändert
+	def changeList(list: List[Int], stelle: Int, amount: Int): List[Int] = {
+		list.updated(stelle, list(stelle) + amount)
 	}
 
 	def undoMove(rolledDice: Int,playerturn: Int,piece: Int): Game = {
@@ -94,12 +126,12 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 		game.copy()
 	}
 	private def piecesOutLessThanFour(player:Int, nextPlayerField:Int, playerCharacter:Char, nextPlayerHouse:Int) : Game = {
-		if (piecesOutMap(player) <= 4) {
-			mesh10.stepsdone(player)(piecesOutMap(player)) = 0
-			mesh10.piecepos(player)(piecesOutMap(player)) = nextPlayerField
+		if (piecesOutList(player) <= 4) {
+			mesh10.stepsdone(player)(piecesOutList(player)) = 0
+			mesh10.piecepos(player)(piecesOutList(player)) = nextPlayerField
 			mesh10.field1.Arr(nextPlayerField) = playerCharacter
-			mesh10.house1.Arr(nextPlayerHouse + piecesOutMap(player)) = 'H'
-			copy(piecesOutMap = changeMap(player, 1))
+			mesh10.house1.Arr(nextPlayerHouse + piecesOutList(player)) = 'H'
+			copy(piecesOutList = changeList(piecesOutList,player, 1))
 		} else {
 			move(6)
 		}
@@ -131,22 +163,21 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 					case 2 => setHouseInMesh('C', 12, counter)
 					case 3 => setHouseInMesh('D', 18, counter)
 				}
-				return copy(piecesOutMap = changeMap(counter, -1))
+				return copy(piecesOutList = changeList(piecesOutList,counter, -1))
 			else if (mesh10.piecepos(counter)(counter2) == newPos && decrement(playerturn) == counter)
 				print("You cant kick out your own Piece\n")
 			else checkForField(counter:Int, increment(counter2), newPos)
 		copy()
 	}
 	def determineNewPos(rolledDice: Int) = (piece: Int) => { mesh10.piecepos(decrement(playerturn))(decrement(piece)) + rolledDice }
-	def setHouseInMesh(houseChar: Char, housePosition: Int,piecePosition: Int) : Unit = { mesh10.house1.Arr(decrement(piecesOutMap(piecePosition)) + housePosition) = houseChar
+	def setHouseInMesh(houseChar: Char, housePosition: Int,piecePosition: Int) : Unit = { mesh10.house1.Arr(decrement(piecesOutList(piecePosition)) + housePosition) = houseChar
 	}
-	def changeMap(stelle:Int, amount:Int): Map[Int,Int] = {
-		val changedMap: scala.collection.mutable.Map[Int,Int] = scala.collection.mutable.Map(piecesOutMap.toSeq: _*)
-		changedMap(stelle) = piecesOutMap(stelle) + amount
-		changedMap.toMap
-	}
+//	def changeMap(stelle:Int, amount:Int): Map[Int,Int] = {
+//		val changedMap: scala.collection.mutable.Map[Int,Int] = scala.collection.mutable.Map(piecesOutList:_*)
+//		changedMap(stelle) = piecesOutList(stelle) + amount
+//		changedMap.toMap
+//	}
 	def put(game: Game): Game = { game.copy() }
-	def getPiece(): String = { if(pieceChooser == 0) getPiece(); pieceChooser.toString }
 	def startgame: Try[Game] = {
 		println("Amount of Players:")
 		val input = readLine()
@@ -156,20 +187,16 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutMap:Map[Int,Int]=Map(0 -> 0,
 			println("Press 'r' to roll the dice")
 			Success(copy(playerturn = 1,mesh10 = Mesh(playeramount)))
 	}
-	def rollAgain(): Game = { copy(timesPlayerRolled = changeMap(decrement(playerturn), increment(timesPlayerRolled(decrement(playerturn))))) }
+	def rollAgain(): Game = { copy(timesPlayerRolledList = changeList(timesPlayerRolledList,decrement(playerturn), increment(timesPlayerRolledList(decrement(playerturn))))) }
 	def moveChosenPiece(chosenPiece: Int): Game = {
-		if (chosenPiece <= 4)
-			piecesOutMap.get(decrement(playerturn)) match {
-				case Some(chosenPiece) => movePieceOut()
-				case None => move(6)
-			}
-		else move(6)
+		if(piecesOutList(decrement(playerturn)) == chosenPiece) movePiece(6, chosenPiece)
+		else movePieceOut()
 	}
 	def chosePieceToMove(rolledDice: Int, chosenPiece: Int): Game = {
-		movePiece(rolledDice, chosenPiece)
-		if (playerturn == mesh10.Player)
-			copy(playerturn = 1)
+		val newGame = movePiece(rolledDice, chosenPiece)
+		if (newGame.playerturn == mesh10.Player)
+			newGame.copy(playerturn = 1)
 		else
-			copy(increment(playerturn))
+			newGame.copy(playerturn = newGame.increment(newGame.playerturn))
 	}
 }

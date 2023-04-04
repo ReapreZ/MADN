@@ -15,11 +15,11 @@ class FileIO extends FileIOInterface {
     override def load: GameInterface = {
         val source: String = Source.fromFile("game.json").getLines.mkString
         val json: JsValue = Json.parse(source)
-        val piecesOutMap0 = (json \ "game" \ "piecesOutMap0").get.toString.toInt
-        val piecesOutMap1 = (json \ "game" \ "piecesOutMap1").get.toString.toInt
-        val piecesOutMap2 = (json \ "game" \ "piecesOutMap2").get.toString.toInt
-        val piecesOutMap3 = (json \ "game" \ "piecesOutMap3").get.toString.toInt
-        var piecesOutMap4:Map[Int,Int]=Map(0 -> piecesOutMap0, 1 -> piecesOutMap1, 2 -> piecesOutMap2, 3 -> piecesOutMap3)
+//        val piecesOutMap0 = (json \ "game" \ "piecesOutMap0").get.toString.toInt
+//        val piecesOutMap1 = (json \ "game" \ "piecesOutMap1").get.toString.toInt
+//        val piecesOutMap2 = (json \ "game" \ "piecesOutMap2").get.toString.toInt
+//        val piecesOutMap3 = (json \ "game" \ "piecesOutMap3").get.toString.toInt
+        val piecesOutList:List[Int]=List(0,0,0,0)
         val playerturn = (json \ "game" \ "playerturn").get.toString.toInt
         val fieldArr = (json \ "game" \ "mesh" \ "mesh-String").get.toString.toCharArray
         val playeramount = (json \ "game" \ "mesh" \ "playeramount").get.toString.toInt
@@ -29,11 +29,11 @@ class FileIO extends FileIOInterface {
         val piecepos2 = fillArr(piecepos, playeramount)
         val stepsdone = (json \ "game" \ "mesh" \ "stepsdone").get.toString.toCharArray
         val stepsdone2 = fillArr(stepsdone, playeramount)
-        var mesh10:Mesh = new Mesh(playeramount)
+        val mesh10:Mesh = new Mesh(playeramount)
         mesh10.field1.Arr = changeMeshArr(fieldArr)
         mesh10.house1.Arr = changeArr(houseArr, playeramount)
         mesh10.finish1.Arr = changeArr(finishArr, playeramount)
-        var game: GameInterface = new Game(playerturn, mesh10, piecesOutMap4)
+        val game: GameInterface = new Game(playerturn, mesh10, piecesOutList)
         game.mesh10.piecepos = piecepos2
         game.mesh10.stepsdone = stepsdone2
         game
@@ -50,10 +50,10 @@ class FileIO extends FileIOInterface {
         Json.obj(
             "game" -> Json.obj(
                 "playerturn" -> JsNumber(game.playerturn),
-                "piecesOutMap0" -> JsNumber(game.piecesOutMap(0)),
-                "piecesOutMap1" -> JsNumber(game.piecesOutMap(1)),
-                "piecesOutMap2" -> JsNumber(game.piecesOutMap(2)),
-                "piecesOutMap3" -> JsNumber(game.piecesOutMap(3)),
+                "piecesOutMap0" -> JsNumber(game.piecesOutList(0)),
+                "piecesOutMap1" -> JsNumber(game.piecesOutList(1)),
+                "piecesOutMap2" -> JsNumber(game.piecesOutList(2)),
+                "piecesOutMap3" -> JsNumber(game.piecesOutList(3)),
                 "mesh" -> Json.obj(
                     "mesh-String" -> game.mesh10.field1.toString(),
                     "playeramount" -> JsNumber(game.mesh10.Player),
