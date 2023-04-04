@@ -42,16 +42,16 @@ case class Game(playerturn:Int,mesh10:Mesh,piecesOutList: List[Int] = List(0, 0,
 		piecesOut match {
 			case 1 => handleOnePieceOut(rolledDice)
 			case 0 if timesRolled != 2 => rollAgain()
-			case 0 if timesRolled == 2 => handleNoPiecesOut(currentPlayer)
+			case 0 if timesRolled == 2 => handleNoPiecesOut()
 			case _ => handleMultiplePiecesOut(rolledDice)
 		}
 	}
 	private def handleOnePieceOut(rolledDice: Int): Game = { updatePlayerTurn(movePiece(rolledDice, 1)) }
 	private def updatePlayerTurn(game: Game): Game = { if (playerturn == mesh10.Player) game.copy(playerturn = 1) else game.copy(playerturn = increment(playerturn)) }
-	private def resetTimesPlayerRolled(): List[Int] = { timesPlayerRolledList.updated(playerturn, 0) }
-	private def handleNoPiecesOut(currentPlayer: Int): Game = { if (playerturn == mesh10.Player) resetPlayerTurn() else incrementPlayerTurn(currentPlayer) }
+	private def handleNoPiecesOut(): Game = { if (playerturn == mesh10.Player) resetPlayerTurn() else incrementPlayerTurn() }
 	private def resetPlayerTurn(): Game = copy(playerturn = 1, timesPlayerRolledList = resetTimesPlayerRolled())
-	private def incrementPlayerTurn(currentPlayer: Int): Game = copy(playerturn = increment(playerturn), timesPlayerRolledList = resetTimesPlayerRolled())
+	private def incrementPlayerTurn(): Game = copy(playerturn = increment(playerturn), timesPlayerRolledList = resetTimesPlayerRolled())
+	private def resetTimesPlayerRolled(): List[Int] = { timesPlayerRolledList.updated(decrement(playerturn), 0) }
 	private def handleMultiplePiecesOut(rolledDice: Int): Game = {
 		println("Which Piece should move?")
 		val chosenPiece = if (pieceChooser == 0) readLine().toInt else pieceChooser
