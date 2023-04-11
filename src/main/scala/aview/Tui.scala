@@ -1,14 +1,13 @@
 package aview
 
-import model.meshComponent.meshBase.Mesh
-import model.diceComponent.diceBase.Dice
+import model.meshcomponent.meshbase.Mesh
 import scala.io.StdIn.readLine
-import model.diceComponent.diceBase.DiceStrategy
 import controller.Controller
 import controller.ControllerInterface
 import util.Observer
 import scala.util.{Try,Success,Failure}
 import model.Move
+import model.dicecomponent.dicebase.Dice
 
 class Tui(controller: ControllerInterface) extends Observer:
 

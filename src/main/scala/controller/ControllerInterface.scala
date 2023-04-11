@@ -1,8 +1,8 @@
 package controller
 
 import scala.swing.Publisher
-import model.gameComponent.gameBase.Game
-import model.gameComponent.GameInterface
+import model.gamecomponent.gamebase.Game
+import model.gamecomponent.GameInterface
 import model.Move
 import scala.util.Try
 import util.Observable

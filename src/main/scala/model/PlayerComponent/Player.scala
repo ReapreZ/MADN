@@ -1,4 +1,4 @@
-package model.PlayerComponent
+package model.playercomponent
 
 case class Player(playerTurn: Int,
                   piecesOutMap: List[Int] = List(0, 0, 0, 0),

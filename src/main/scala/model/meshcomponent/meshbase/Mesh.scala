@@ -1,6 +1,7 @@
-package model.meshComponent.meshBase
+package model.meshcomponent.meshbase
+
 import scala.collection.mutable.ListBuffer
-import model.meshComponent.MeshInterface
+import model.meshcomponent.MeshInterface
 import model.FieldFactory
 import scala.io.StdIn.readLine
 import scala.util.{Try,Success,Failure}

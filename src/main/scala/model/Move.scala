@@ -1,5 +1,5 @@
 package model
 
-import model.gameComponent.gameBase.Game
+import model.gamecomponent.gamebase.Game
 
 case class Move(rolledDice: Int, playerturnT:Int, piece:Int)

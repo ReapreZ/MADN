@@ -1,6 +1,6 @@
-package model.meshComponent
+package model.meshcomponent
 
-import model.meshComponent.meshBase._
+import model.meshcomponent.meshbase._
 import scala.util.Try
 
 trait MeshInterface {

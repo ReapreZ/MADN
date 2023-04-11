@@ -1,9 +1,9 @@
 package MADN
 
-import model.meshComponent.meshBase.Mesh
-import model.gameComponent.gameBase.Game
+import model.meshcomponent.meshbase.Mesh
+import model.gamecomponent.gamebase.Game
 import aview._
-import aview.Gui.GuiSwing
+import aview.gui.GuiSwing
 import scala.util.{Try,Success,Failure}
 import com.google.inject.Guice
 import controller.ControllerInterface

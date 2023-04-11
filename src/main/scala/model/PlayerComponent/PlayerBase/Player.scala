@@ -1,4 +1,4 @@
-package model.PlayerComponent.PlayerBase
+package model.playercomponent.PlayerBase
 
 case class Player() {
   var activePieces : Int = 0

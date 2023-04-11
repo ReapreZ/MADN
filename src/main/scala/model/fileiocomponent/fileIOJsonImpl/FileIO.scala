@@ -2,11 +2,11 @@ package model.fileIOComponent.fileIOJsonImpl
 
 import scala.io.Source
 import model.fileIOComponent.FileIOInterface
-import model.gameComponent.GameInterface
+import model.gamecomponent.GameInterface
 import play.api.libs.json._
-import model.gameComponent.gameBase.Game
-import model.meshComponent.MeshInterface
-import model.meshComponent.meshBase.Mesh
+import model.gamecomponent.gamebase.Game
+import model.meshcomponent.MeshInterface
+import model.meshcomponent.meshbase.Mesh
 import model.FieldFactory
 
 

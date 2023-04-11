@@ -1,10 +1,10 @@
-package model.gameComponent
-import model.meshComponent.meshBase.Mesh
-import model.gameComponent.gameBase._
+package model.gamecomponent
+import model.meshcomponent.meshbase.Mesh
+import model.gamecomponent.gamebase._
 import scala.util.{Try,Success,Failure}
 import model.fileIOComponent.fileIOJsonImpl.FileIO
 import model.fileIOComponent.FileIOInterface
-import model.PlayerComponent.Player
+import model.playercomponent.Player
 
 trait GameInterface {
     

@@ -1,9 +1,8 @@
 package controller
 
-import model.gameComponent.gameBase.Game
-import model.gameComponent.GameInterface
-import model.meshComponent.meshBase._
-import model.diceComponent.diceBase.Dice
+import model.gamecomponent.gamebase.Game
+import model.gamecomponent.GameInterface
+import model.meshcomponent.meshbase._
 import util.Observable
 import util.UndoManager
 import util.Command

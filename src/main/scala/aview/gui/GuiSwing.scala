@@ -1,4 +1,4 @@
-package aview.Gui
+package aview.gui
 
 import util._
 import scala.swing._
@@ -12,10 +12,10 @@ import java.io.File
 import scala.swing.event._
 import scala.io.StdIn.readLine
 import controller.Controller
-import model.diceComponent.diceBase.Dice
-import model.meshComponent.meshBase.Mesh
-import model.gameComponent.gameBase.Game
-import model.gameComponent.GameInterface
+import model.meshcomponent.meshbase.Mesh
+import model.gamecomponent.gamebase.Game
+import model.gamecomponent.GameInterface
+import model.dicecomponent.dicebase.Dice
 import scala.language.postfixOps
 import controller.ControllerInterface
 
@@ -23,7 +23,7 @@ class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 
 	controller.add(this)
 	var oldDice: Int = 0
-	var mesh: Mesh = new Mesh(0)
+	var mesh: Mesh = Mesh(0)
 	val dice = new Dice
 
 	//DECREMENT & INCREMENT COUNT

@@ -2,9 +2,9 @@ package controller
 
 import controller._
 import util.Command
-import model.meshComponent.meshBase.Mesh
-import model.gameComponent.gameBase.Game
-import model.gameComponent.GameInterface
+import model.meshcomponent.meshbase.Mesh
+import model.gamecomponent.gamebase.Game
+import model.gamecomponent.GameInterface
 import model.Move
 
 

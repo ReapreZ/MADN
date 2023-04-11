@@ -1,6 +1,6 @@
 package MADN
 
-import model.MeshComponent.MeshBase.Mesh
+import model.meshcomponent.meshbase.Mesh
 import Controller._
 import util.Observer
 import scala.language.reflectiveCalls

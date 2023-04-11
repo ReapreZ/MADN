@@ -1,9 +1,9 @@
 package model
 
-import model.meshComponent.meshBase._
+import model.meshcomponent.meshbase._
 
 trait FieldFactory {
-    
+
     var Arr = ("").toArray
     val eol = sys.props("line.separator")
 

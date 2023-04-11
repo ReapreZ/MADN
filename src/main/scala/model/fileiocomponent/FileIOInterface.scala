@@ -1,6 +1,6 @@
 package model.fileIOComponent
 
-import model.gameComponent.GameInterface
+import model.gamecomponent.GameInterface
 
 trait FileIOInterface {
   

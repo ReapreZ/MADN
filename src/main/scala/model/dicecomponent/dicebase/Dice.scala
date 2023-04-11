@@ -1,4 +1,5 @@
-package model.diceComponent.diceBase
+package model.dicecomponent.dicebase
+
 import scala.util.{Try,Success,Failure}
 final case class Dice() extends DiceStrategy{
     override def diceRandom(num: Int=5): Int = (1 + scala.util.Random.nextInt(num))

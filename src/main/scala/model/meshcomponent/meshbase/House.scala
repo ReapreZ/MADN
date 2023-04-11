@@ -1,4 +1,5 @@
-package model.meshComponent.meshBase
+package model.meshcomponent.meshbase
+
 import model.FieldFactory
 
 case class House(Player: Int) extends FieldFactory {
