@@ -1,12 +1,10 @@
 package MADN
 
-import model.meshComponent.meshBase.Mesh
-import model.gameComponent.gameBase.Game
-import aview._
-import aview.Gui.GuiSwing
-import scala.util.{Try,Success,Failure}
+
+import scala.util.{Failure, Success, Try}
 import com.google.inject.Guice
-import controller.ControllerInterface
+import gui.GuiSwing
+
 object MADN {
     def main(args: Array[String]): Unit = {
         val injector = Guice.createInjector(new MADNModule)

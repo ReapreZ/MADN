@@ -3,7 +3,6 @@ package model
 import org.scalatest._
 import matchers.should.Matchers
 import wordspec.AnyWordSpec
-import model.MeshComponent.MeshBase.Mesh
 
 class MeshSpec() extends AnyWordSpec with Matchers {
     "A Mesh" when {

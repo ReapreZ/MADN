@@ -2,7 +2,6 @@ package model
 import org.scalatest._
 import matchers.should.Matchers
 import wordspec.AnyWordSpec
-import model.FieldComponent.FieldBase.Field
 
 class FieldSpec extends AnyWordSpec with Matchers {
   "A Field" when {

@@ -1,7 +1,6 @@
 package model
-import model.diceComponent.diceBase.Dice
 
-import org.scalatest._
+import org.scalatest.*
 import matchers.should.Matchers
 import wordspec.AnyWordSpec
 

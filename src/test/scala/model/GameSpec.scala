@@ -2,8 +2,6 @@ package model
 
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
-import model.MeshComponent.MeshBase.Mesh
-import model.GameComponent.GameBase.Game
 
 class GameSpec extends AnyWordSpec with Matchers {
   

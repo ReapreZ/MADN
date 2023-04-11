@@ -3,7 +3,6 @@ package model
 import org.scalatest._
 import matchers.should.Matchers
 import wordspec.AnyWordSpec
-import model.FinishComponent.FinishBase.Finish
 
 class FinishSpec() extends AnyWordSpec with Matchers {
     "A Finish" when {
