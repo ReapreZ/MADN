@@ -14,7 +14,7 @@ class Tui(controller: ControllerInterface) extends Observer:
 
     controller.add(this)
     
-    override def update = println(controller.game.mesh10.mesh())
+    override def update = println(controller.game.mesh.mesh())
     val dice1 = new Dice
     def inputLoop(): Unit = {
         val output = readLine()

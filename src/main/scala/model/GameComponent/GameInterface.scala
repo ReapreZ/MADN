@@ -4,12 +4,11 @@ import model.gameComponent.gameBase._
 import scala.util.{Try,Success,Failure}
 import model.fileIOComponent.fileIOJsonImpl.FileIO
 import model.fileIOComponent.FileIOInterface
+import model.PlayerComponent.Player
 
 trait GameInterface {
     
     var pieceChooser: Int
-
-    
 
     def move(rolledDice:Int): Game
     def getTurnC(playerturn: Int): Try[Char]
@@ -17,12 +16,13 @@ trait GameInterface {
     def movePiece(rolledDice: Int, piece: Int) : Game
     def movePieceOut(): Game
     //def changePlayerTurn(playerturnT: Int): Game
-    def changeMap(stelle: Int, amount: Int): Map[Int,Int]
+    //def changeMap(stelle: Int, amount: Int): Map[Int,Int]
+    def changeList(list: List[Int], index: Int, value: Int): List[Int]
     def put(game: Game): Game
-    def getPiece(): String
     def isFieldOccupied(rolledDice: Int, piece:Int): Game
+
     val playerturn: Int
-    val mesh10: Mesh
-    val piecesOutMap: Map[Int,Int]
+    val mesh: Mesh
+    val piecesOutList: List[Int]
     def startgame: Try[Game]
 }
