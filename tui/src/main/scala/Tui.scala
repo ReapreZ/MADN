@@ -9,6 +9,9 @@ import controller.ControllerInterface
 import util.Observer
 import scala.util.{Try,Success,Failure}
 import model.Move
+import akka.http.scaladsl.Http
+import akka.http.scaladsl.model.*
+import akka.http.scaladsl.server.Directives.*
 
 class Tui(controller: ControllerInterface) extends Observer:
 
@@ -35,7 +38,19 @@ class Tui(controller: ControllerInterface) extends Observer:
             case "q" => None
             case "undo" => controller.doAndPublish(controller.undo);None
             case "redo" => controller.doAndPublish(controller.redo);None
+            case "insertGame" => controller.insertGame();None
             //case "save" => file.save(controller.game);None
             case _ => None
         }
+    }
+
+    val tuiRoute = get {
+        concat(
+            path("mesh") {
+                complete(controller.game.mesh.mesh().toString())
+            },
+            path("processInput"/ Remaining) { (input: String) =>
+                complete(processInputLine(input).toString)
+            }
+        )
     }

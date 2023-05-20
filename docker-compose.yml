@@ -1,0 +1,83 @@
+version: "2"
+name: "madn"
+services:
+  model:
+    container_name: "model"
+    image: model:latest
+    ports:
+      - "8080:8080"
+  tui:
+    container_name: "tui"
+    image: tui:latest
+    ports:
+      - "8081:8081"
+    depends_on:
+      - model
+      - util
+      - controller
+      #healthcheck
+  gui:
+    container_name: "gui"
+    image: gui:latest
+    ports:
+      - "8082:8082"
+  controller:
+    container_name: "controller"
+    image: controller:latest
+    ports:
+      - "8083:8083"
+    depends_on:
+      - model
+      - util
+      - io
+  util:
+    container_name: "util"
+    image: util:latest
+    ports:
+      - "8084:8084"
+    depends_on:
+      - model
+  rest:
+    container_name: "rest"
+    image: rest:latest
+    ports:
+      - "8085:8085"
+    depends_on:
+      - model
+      - controller
+      - util
+      - tui
+  io:
+    container_name: "io"
+    image: io:latest
+    ports:
+      - "8087:8087"
+    depends_on:
+      - model
+  root:
+    container_name: "root"
+    image: root:latest
+    ports:
+      - "8089:8089"
+    depends_on:
+      - model
+      - tui
+      - gui
+      - controller
+      - util
+      - rest
+  db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+    ports:
+      - '5432:5432'
+    volumes:
+      - db:/var/lib/postgresql11/data
+      - ./db/init-scripts.sql:/docker-entrypoint-initdb.d/scripts.sql
+
+volumes:
+  db:
+    driver: local

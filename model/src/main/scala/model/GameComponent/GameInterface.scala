@@ -11,6 +11,7 @@ trait GameInterface {
     var pieceChooser: Int
 
     def move(rolledDice:Int): Game
+    def updatePlayerTurn(game: Game): Game
     def getTurnC(playerturn: Int): Try[Char]
     def undoMove(rolledDice: Int, playerturnt: Int, piece: Int): Game
     def movePiece(rolledDice: Int, piece: Int) : Game
@@ -25,4 +26,9 @@ trait GameInterface {
     val mesh: Mesh
     val piecesOutList: List[Int]
     def startgame: Try[Game]
+    def toString: String
+    def getPlayerturn: Int
+    def getMesh: Mesh
+    def getPiecesOutList: List[Int]
+    def getTimesPlayerRolledList(): List[Int]
 }

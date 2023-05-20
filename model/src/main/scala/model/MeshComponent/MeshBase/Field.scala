@@ -4,6 +4,7 @@ import model.FieldFactory
 final case class Field(Player: Int) extends FieldFactory {
     //override val Arr = (("x" + ("_" * Cell * Player)) * Player).toArray
     //Arr = ("x" + ("_" * 9)).toArray
+    var Arr = ("").toArray
     var Arr2 = " ".toArray
     Player match {
         case 0 => Arr2 = " ".toArray

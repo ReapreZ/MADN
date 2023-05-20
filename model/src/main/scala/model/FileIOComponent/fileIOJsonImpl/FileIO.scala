@@ -8,7 +8,8 @@ import model.gameComponent.gameBase.Game
 import model.meshComponent.MeshInterface
 import model.meshComponent.meshBase.Mesh
 import model.FieldFactory
-
+import akka.http.scaladsl.model.*
+import akka.http.scaladsl.server.Directives.* 
 
 class FileIO extends FileIOInterface {
 
@@ -42,7 +43,7 @@ class FileIO extends FileIOInterface {
         pw.close
     }
 
-    def gameToJson(game: GameInterface) = {
+    def gameToJson(game: GameInterface): JsValue = {
         Json.obj(
             "game" -> Json.obj(
                 "playerturn" -> JsNumber(game.playerturn),
@@ -93,5 +94,11 @@ class FileIO extends FileIOInterface {
             newArr(temp - 1) = arr(temp)
             temp = temp + 1
         newArr
+    }
+
+    val fileIoRoute = get {
+            path("fileio") {
+                complete(HttpEntity(ContentTypes.`application/json`, gameToJson(load).toString))
+            }
     }
 }

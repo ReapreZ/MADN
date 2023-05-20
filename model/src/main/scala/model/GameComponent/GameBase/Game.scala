@@ -1,4 +1,5 @@
 package model.gameComponent.gameBase
+
 import model.meshComponent.meshBase.Mesh
 import model.gameComponent.GameInterface
 import scala.io.StdIn.readLine
@@ -48,7 +49,7 @@ case class Game(playerturn:Int,mesh:Mesh,piecesOutList: List[Int] = List(0, 0, 0
 		}
 	}
 	private def handleOnePieceOut(rolledDice: Int): Game = { updatePlayerTurn(movePiece(rolledDice, 1)) }
-	private def updatePlayerTurn(game: Game): Game = { if (playerturn == mesh.Player) game.copy(playerturn = 1) else game.copy(playerturn = increment(playerturn)) }
+	def updatePlayerTurn(game: Game): Game = { if (playerturn == mesh.Player) game.copy(playerturn = 1) else game.copy(playerturn = increment(playerturn)) }
 	private def handleNoPiecesOut(): Game = { if (playerturn == mesh.Player) resetPlayerTurn() else incrementPlayerTurn() }
 	private def resetPlayerTurn(): Game = copy(playerturn = 1, timesPlayerRolledList = resetTimesPlayerRolled())
 	private def incrementPlayerTurn(): Game = copy(playerturn = increment(playerturn), timesPlayerRolledList = resetTimesPlayerRolled())
@@ -143,7 +144,7 @@ case class Game(playerturn:Int,mesh:Mesh,piecesOutList: List[Int] = List(0, 0, 0
 				return copy(piecesOutList = changeList(piecesOutList,counter, -1))
 			else if (mesh.piecepos(counter)(counter2) == newPos && decrement(playerturn) == counter)
 				print("You cant kick out your own Piece\n")
-			else checkForField(counter:Int, increment(counter2), newPos)
+			else checkForField(counter, increment(counter2), newPos)
 		copy()
 	}
 	def determineNewPos(rolledDice: Int): Int => Int = (piece: Int) => { mesh.piecepos(decrement(playerturn))(decrement(piece)) + rolledDice }
@@ -165,4 +166,8 @@ case class Game(playerturn:Int,mesh:Mesh,piecesOutList: List[Int] = List(0, 0, 0
 		if (newGame.playerturn == mesh.Player) newGame.copy(playerturn = 1)
 		else newGame.copy(playerturn = newGame.increment(newGame.playerturn))
 	}
+	def getPlayerturn = playerturn
+	def getMesh = mesh
+	def getPiecesOutList = piecesOutList
+	def getTimesPlayerRolledList() = timesPlayerRolledList
 }

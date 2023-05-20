@@ -1,4 +1,4 @@
-package model.fileIOComponent.fileIOXML
+/*package model.fileIOComponent.fileIOXML
 
 import scala.io.Source
 import model.fileIOComponent.FileIOInterface
@@ -8,6 +8,7 @@ import model.gameComponent.gameBase.Game
 import model.meshComponent.MeshInterface
 import model.meshComponent.meshBase.Mesh
 import model.FieldFactory
+import play.api.libs.json._
 
 class FileIO extends FileIOInterface{
   
@@ -100,4 +101,8 @@ class FileIO extends FileIOInterface{
             temp = temp + 1
         return newArr
     }
-}
+    def gameToJson(game: GameInterface) : JsValue =
+        val source: String = Source.fromFile("game.json").getLines.mkString
+        val json: JsValue = Json.parse(source)
+        json
+}*/

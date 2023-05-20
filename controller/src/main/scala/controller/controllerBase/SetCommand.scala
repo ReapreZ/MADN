@@ -1,11 +1,9 @@
 package controller
 
-import controller._
-import util.Command
-import model.meshComponent.meshBase.Mesh
-import model.gameComponent.gameBase.Game
 import model.gameComponent.GameInterface
 import model.Move
+import util.Command
+
 
 
 class SetCommand(move:Move) extends Command[GameInterface]:

@@ -6,6 +6,7 @@ import model.gameComponent.GameInterface
 import model.Move
 import scala.util.Try
 import util.Observable
+import scala.concurrent.Future
 
 trait ControllerInterface extends Observable{
 
@@ -20,4 +21,5 @@ trait ControllerInterface extends Observable{
     def game: GameInterface
     def save: GameInterface
     def load: GameInterface
+    def insertGame(): Future[Int]
 }

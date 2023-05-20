@@ -16,6 +16,8 @@ final case class Mesh @Inject() (@Named("DefaultMesh") Player: Int) extends Mesh
     
     def mesh():String = field1.toString() + house1.toString() + finish1.toString()
 
+    override def fromString(mesh: String) : Unit = { field1.toString() + house1.toString() + finish1.toString()
+    }
     def fillArr(playeramount: Int, houseamount: Int): Array[Array[Int]] = {
         def fill(arr: Array[Array[Int]], i: Int, j: Int): Unit = {
             if (i < playeramount) {

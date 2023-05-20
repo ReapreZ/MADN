@@ -1,24 +1,32 @@
 package controller
 
+import model.diceComponent._
 import model.gameComponent.gameBase.Game
 import model.gameComponent.GameInterface
 import model.meshComponent.meshBase._
-import model.diceComponent.diceBase.Dice
+import model.Games
+import io.GameDaoComponent.GamesTable
 import util.Observable
 import util.UndoManager
 import util.Command
+import scala.concurrent.Future
 import controller.SetCommand
-import GameStatus._
 import model.Move
 import scala.util.{Try,Success,Failure}
 import com.google.inject.name.{Named, Names}
 import com.google.inject.{Guice, Inject}
-import model.fileIOComponent.fileIOJsonImpl.FileIO
 import model.fileIOComponent._
-import model.fileIOComponent.FileIOInterface
+
+import com.typesafe.config.ConfigFactory
+import slick.jdbc.PostgresProfile.api._
+object Connection {
+  val db = Database.forConfig("postgres", ConfigFactory.load())
+}
 
 
 class Controller @Inject()(@Named("DefaultGameType")var game: GameInterface) extends ControllerInterface {
+    val gamesClass = Games(0,0,"","","")
+    val games:TableQuery[GamesTable] = new TableQuery(new GamesTable(_))
     val undoManager = new UndoManager[GameInterface]
     val file:FileIOInterface = new fileIOJsonImpl.FileIO
     val meshtry = game.startgame
@@ -40,5 +48,12 @@ class Controller @Inject()(@Named("DefaultGameType")var game: GameInterface) ext
             case Success(v) => println("It is Player " + v + "'s turn\n")
             case Failure(e) => println(e.getMessage)
         }
+    }
+    def insertGame(): Future[Int] = {
+        val gameToGames = gamesClass.createGame(game)
+        val insertQuery = games += (gameToGames.getId, gameToGames.getPlayerturn, gameToGames.getMesh, gameToGames.getPiecesOutList, gameToGames.getTimesPlayerRolledList)
+        val query = sql"SELECT * FROM GamesTable".as[(Int, Int, String, String, String)]
+        //val insertQuery = games += (games.getId, games.getPlayerturn, games.getPiecesOutList, games.getTimesPlayerRolledList)
+        Connection.db.run(query)
     }
 }
