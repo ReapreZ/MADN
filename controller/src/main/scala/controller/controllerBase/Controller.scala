@@ -20,11 +20,13 @@ import model.fileIOComponent._
 
 import com.typesafe.config.ConfigFactory
 import slick.jdbc.PostgresProfile.api._
+import io.GameDaoInterface
 
 
 
 class Controller @Inject()(@Named("DefaultGameType")var game: GameInterface) extends ControllerInterface {
     val gamesClass = Games(0,0,"","","")
+    val GameDAO : GameDaoInterface = new GameDaoSlickImpl
     val undoManager = new UndoManager[GameInterface]
     val file:FileIOInterface = new fileIOJsonImpl.FileIO
     val meshtry = game.startgame
@@ -48,10 +50,10 @@ class Controller @Inject()(@Named("DefaultGameType")var game: GameInterface) ext
         }
     }
     def insertInDB(): Unit = {
-        GameDaoSlickImpl.delete
+        GameDAO.delete
         val gameDBItems = gamesClass.createGame(game)
-        GameDaoSlickImpl.update(gameDBItems.getId, gameDBItems.getPlayerturn, gameDBItems.getMesh, gameDBItems.getPiecesOutList, gameDBItems.getTimesPlayerRolledList)
+        GameDAO.update(gameDBItems.getId, gameDBItems.getPlayerturn, gameDBItems.getMesh, gameDBItems.getPiecesOutList, gameDBItems.getTimesPlayerRolledList)
         Thread.sleep(1000)
     }
-    def readFromDB(): Unit = { GameDaoSlickImpl.read }
+    def readFromDB(): Unit = { GameDAO.read }
 }
