@@ -21,5 +21,6 @@ trait ControllerInterface extends Observable{
     def game: GameInterface
     def save: GameInterface
     def load: GameInterface
-    def insertGame(): Future[Int]
+    def insertInDB(): Unit
+    def readFromDB(): Unit
 }

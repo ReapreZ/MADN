@@ -1,5 +1,5 @@
 version: "2"
-name: "madn"
+#name: "madn"
 services:
   model:
     container_name: "model"
@@ -68,16 +68,12 @@ services:
       - rest
   db:
     image: postgres
-    restart: always
+    restart: "no"
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=admin
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_IP: localhost
+      POSTGRES_PORT: 5432
     ports:
-      - '5432:5432'
-    volumes:
-      - db:/var/lib/postgresql11/data
-      - ./db/init-scripts.sql:/docker-entrypoint-initdb.d/scripts.sql
-
-volumes:
-  db:
-    driver: local
+      - "5432:5432"

@@ -6,6 +6,7 @@ import model.gameComponent.GameInterface
 import model.meshComponent.meshBase._
 import model.Games
 import io.GameDaoComponent.GamesTable
+import io.GameDaoComponent.GameDaoSlickImpl
 import util.Observable
 import util.UndoManager
 import util.Command
@@ -19,14 +20,11 @@ import model.fileIOComponent._
 
 import com.typesafe.config.ConfigFactory
 import slick.jdbc.PostgresProfile.api._
-object Connection {
-  val db = Database.forConfig("postgres", ConfigFactory.load())
-}
+
 
 
 class Controller @Inject()(@Named("DefaultGameType")var game: GameInterface) extends ControllerInterface {
     val gamesClass = Games(0,0,"","","")
-    val games:TableQuery[GamesTable] = new TableQuery(new GamesTable(_))
     val undoManager = new UndoManager[GameInterface]
     val file:FileIOInterface = new fileIOJsonImpl.FileIO
     val meshtry = game.startgame
@@ -49,11 +47,11 @@ class Controller @Inject()(@Named("DefaultGameType")var game: GameInterface) ext
             case Failure(e) => println(e.getMessage)
         }
     }
-    def insertGame(): Future[Int] = {
-        val gameToGames = gamesClass.createGame(game)
-        val insertQuery = games += (gameToGames.getId, gameToGames.getPlayerturn, gameToGames.getMesh, gameToGames.getPiecesOutList, gameToGames.getTimesPlayerRolledList)
-        val query = sql"SELECT * FROM GamesTable".as[(Int, Int, String, String, String)]
-        //val insertQuery = games += (games.getId, games.getPlayerturn, games.getPiecesOutList, games.getTimesPlayerRolledList)
-        Connection.db.run(query)
+    def insertInDB(): Unit = {
+        GameDaoSlickImpl.delete
+        val gameDBItems = gamesClass.createGame(game)
+        GameDaoSlickImpl.update(gameDBItems.getId, gameDBItems.getPlayerturn, gameDBItems.getMesh, gameDBItems.getPiecesOutList, gameDBItems.getTimesPlayerRolledList)
+        Thread.sleep(1000)
     }
+    def readFromDB(): Unit = { GameDaoSlickImpl.read }
 }

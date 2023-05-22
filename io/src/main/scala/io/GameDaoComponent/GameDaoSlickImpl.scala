@@ -1,64 +1,76 @@
 package io.GameDaoComponent
 
-import slick.jdbc.JdbcProfile
-import scala.concurrent.ExecutionContext
+import slick.jdbc.PostgresProfile.api.*
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.util.{Try,Success,Failure}
-import play.api.libs.json._
-import model.Games
-import model.meshComponent.meshBase._
+import scala.util.{Failure, Success, Try}
+import scala.concurrent.{Await, Future}
+import slick.lifted.Tag
+import scala.concurrent.duration.{Duration, DurationInt}
 import io.GameDaoInterface
 import io.GameDaoComponent.GamesTable
+import scala.io.StdIn
+import slick.jdbc.JdbcBackend.Database
 import slick.lifted.TableQuery
+import java.sql.{Connection, DriverManager, ResultSet}
 
-class GameDaoSlickImpl(val profile: JdbcProfile)(implicit val executionContext: ExecutionContext) extends GameDaoInterface {
-  import slick.jdbc.PostgresProfile.api._
+object GameDaoSlickImpl{
 
-  private val db = Database.forConfig("slick.db")
+  val connectIP = sys.env.getOrElse("POSTGRES_IP", "localhost").toString
+  val connectPort = sys.env.getOrElse("POSTGRES_PORT", 5432).toString.toInt
+  val database_user = sys.env.getOrElse("POSTGRES_USER", "postgres").toString
+  val database_pw = sys.env.getOrElse("POSTGRES_PASSWORD", "postgres").toString
+  val database_name = sys.env.getOrElse("POSTGRES_DB", "postgres").toString
 
-  //val games: TableQuery[GamesTable] = new TableQuery(new GamesTable(_))
+  val database =
+    Database.forURL(
+      url = "jdbc:postgresql://" + connectIP + ":" + connectPort + "/" + database_name + "?serverTimezone=UTC",
+      user = database_user,
+      password = database_pw,
+      driver = "org.postgresql.Driver")
 
+  val gamesTable = TableQuery(new GamesTable(_))
+  
+  def create: Unit = {
+    val running = Future(Await.result(database.run(DBIO.seq(
+      gamesTable.schema.createIfNotExists,
+    )), Duration.Inf))
+    running.onComplete{
+      case Success(_) => println("Connection successful")
+      case Failure(e) => println(e.getMessage())
+    }
+  }
+  def read: Unit = {
+    //classOf[org.postgresql.Driver]
+    val conn = DriverManager.getConnection("jdbc:postgresql://" + connectIP + ":" + connectPort + "/" + database_name + "?user=postgres&password=postgres")
+    try {
+      val stm = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY)
 
+      val rs = stm.executeQuery("SELECT * FROM \"GamesTable\"")
+
+      while(rs.next) {
+        println(rs.getString("piecesOutList"))
+        println(rs.getString("mesh"))
+      }
+    } finally {
+      conn.close()
+  }
+  }
+
+  def update(id: Int, playerturn: Int, mesh: String, piecesOut: String, timesPlayerRolled: String): Unit = {
+    val insertAction = gamesTable returning gamesTable.map(_.id)
+      += (id, playerturn, mesh, piecesOut, timesPlayerRolled)
+      database.run(insertAction)
+      println("Update successful")
+  }
+
+  def delete: Unit = {
+    val deleteAction = gamesTable.delete
+    val resultFuture = database.run(deleteAction)
+
+    resultFuture.onComplete {
+      case Success(numRowsDeleted) => println(s"Deleted $numRowsDeleted rows from table.")
+      case Failure(e) => println(e.getMessage())
+    }
+  }
 }
-
-  /*private lazy val games = TableQuery[GamesTable]
-
-  override def getById(id: Int): Future[Option[Games]] = {
-    sql"""
-    select id, playerturn, mesh, piecesOutList, timesPlayerRolledList
-    from games
-    where id = ${id}
-    """.as[Games].headOption
-  }
-
-  override def getAll: Future[List[Games]] = {
-    sql"""
-    select id, playerturn, mesh, piecesOutList, timesPlayerRolledList
-    from games
-    """.as[Games]
-  }
-
-  override def create(game: Games): Future[Games] = {
-    sqlu"""
-    insert into games(id, playerturn, mesh, piecesOutList, timesPlayerRolledList)
-    values (${GameDAOSlickImpl.id}, ${game.playerturn}, ${game.mesh}, ${game.piecesOutList}, ${game.timesPlayerRolledList})
-    """.andThen(DBIOAction.successful(()))
-  }
-
-  override def update(game: Games): Future[Option[Games]] = {
-    db.run(sqlu"""
-    update games
-    set playerturn = ${game.playerturn},
-      mesh = ${game.mesh},
-      piecesOutList = ${game.piecesOutList},
-      timesPlayerRolledList = ${game.timesPlayerRolledList}
-    where id = ${game.id}
-    """.void)
-  }
-
-  override def delete(id: Int): Future[Boolean] = {
-    db.run(sqlu"""
-    delete from games
-    where id = ${game.id}
-    """.void)
-  }*/
