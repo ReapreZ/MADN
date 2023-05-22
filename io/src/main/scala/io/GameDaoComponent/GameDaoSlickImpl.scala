@@ -14,7 +14,7 @@ import slick.jdbc.JdbcBackend.Database
 import slick.lifted.TableQuery
 import java.sql.{Connection, DriverManager, ResultSet}
 
-object GameDaoSlickImpl{
+class GameDaoSlickImpl extends GameDaoInterface{
 
   val connectIP = sys.env.getOrElse("POSTGRES_IP", "localhost").toString
   val connectPort = sys.env.getOrElse("POSTGRES_PORT", 5432).toString.toInt
