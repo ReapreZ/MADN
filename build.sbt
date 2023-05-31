@@ -21,6 +21,7 @@ lazy val commonSettings = Seq(
       .cross(CrossVersion.for3Use2_13),
     libraryDependencies += "org.postgresql" % "postgresql" % "42.3.4",
     libraryDependencies += "org.postgresql" % "postgresql" % "9.4-1206-jdbc42",
+    libraryDependencies += ("org.mongodb.scala" %% "mongo-scala-driver" % "4.9.0").cross(CrossVersion.for3Use2_13),
     jacocoReportSettings := JacocoReportSettings(
     "Jacoco Coverage Report",
     None,

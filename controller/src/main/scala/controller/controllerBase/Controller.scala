@@ -7,6 +7,7 @@ import model.meshComponent.meshBase._
 import model.Games
 import io.GameDaoComponent.GamesTable
 import io.GameDaoComponent.GameDaoSlickImpl
+//import io.GameDaoComponent.GameDAOMongoImpl
 import util.Observable
 import util.UndoManager
 import util.Command
@@ -26,7 +27,7 @@ import io.GameDaoInterface
 
 class Controller @Inject()(@Named("DefaultGameType")var game: GameInterface) extends ControllerInterface {
     val gamesClass = Games(0,0,"","","")
-    val GameDAO : GameDaoInterface = new GameDaoSlickImpl
+    val gameDAO = new GameDaoSlickImpl
     val undoManager = new UndoManager[GameInterface]
     val file:FileIOInterface = new fileIOJsonImpl.FileIO
     val meshtry = game.startgame
@@ -50,10 +51,12 @@ class Controller @Inject()(@Named("DefaultGameType")var game: GameInterface) ext
         }
     }
     def insertInDB(): Unit = {
-        GameDAO.delete
         val gameDBItems = gamesClass.createGame(game)
-        GameDAO.update(gameDBItems.getId, gameDBItems.getPlayerturn, gameDBItems.getMesh, gameDBItems.getPiecesOutList, gameDBItems.getTimesPlayerRolledList)
-        Thread.sleep(1000)
+        gameDAO.delete
+        Thread.sleep(2000)
+        gameDAO.create
+        Thread.sleep(2000)
+        gameDAO.update(gameDBItems.getId, gameDBItems.getPlayerturn, gameDBItems.getMesh, gameDBItems.getPiecesOutList, gameDBItems.getTimesPlayerRolledList)
     }
-    def readFromDB(): Unit = { GameDAO.read }
+    def readFromDB(): Unit = { gameDAO.read }
 }
