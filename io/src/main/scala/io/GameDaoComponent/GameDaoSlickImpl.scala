@@ -40,16 +40,18 @@ class GameDaoSlickImpl extends GameDaoInterface{
       case Failure(e) => println(e.getMessage())
     }
   }
-  def read: Unit = {
+  def read: Future[String] = Future {
     val conn = DriverManager.getConnection("jdbc:postgresql://" + connectIP + ":" + connectPort + "/" + database_name + "?user=postgres&password=postgres")
+    val sb = new StringBuilder("")
     try {
       val stm = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY)
 
       val rs = stm.executeQuery("SELECT * FROM \"GamesTable\"")
 
       while(rs.next) {
-        println(rs.getString("mesh"))
+        sb++= rs.getString("mesh")
       }
+      sb.toString()
     } finally {
       conn.close()
   }

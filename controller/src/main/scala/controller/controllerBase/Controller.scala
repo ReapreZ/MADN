@@ -7,7 +7,8 @@ import model.meshComponent.meshBase._
 import model.Games
 import io.GameDaoComponent.GamesTable
 import io.GameDaoComponent.GameDaoSlickImpl
-//import io.GameDaoComponent.GameDAOMongoImpl
+import io.GameDaoComponent.GameDAOMongoImpl
+import concurrent.ExecutionContext.Implicits.global
 import util.Observable
 import util.UndoManager
 import util.Command
@@ -52,11 +53,22 @@ class Controller @Inject()(@Named("DefaultGameType")var game: GameInterface) ext
     }
     def insertInDB(): Unit = {
         val gameDBItems = gamesClass.createGame(game)
+        val id = gameDBItems.getId
+        val playerturn = gameDBItems.getPlayerturn
+        val mesh = gameDBItems.getMesh
+        val piecesOut = gameDBItems.getPiecesOutList
+        val timesPlayerRolled = gameDBItems.getTimesPlayerRolledList
         gameDAO.delete
         Thread.sleep(2000)
         gameDAO.create
         Thread.sleep(2000)
-        gameDAO.update(gameDBItems.getId, gameDBItems.getPlayerturn, gameDBItems.getMesh, gameDBItems.getPiecesOutList, gameDBItems.getTimesPlayerRolledList)
+        gameDAO.update(id, playerturn, mesh, piecesOut, timesPlayerRolled)
     }
-    def readFromDB(): Unit = { gameDAO.read }
+    def readFromDB(): Unit = {
+        val dbData = gameDAO.read
+        dbData.onComplete {
+            case Success(t) => println(t.toString)
+            case Failure(e) => println("An error has occured" + e.getMessage)
+        } 
+    }
 }

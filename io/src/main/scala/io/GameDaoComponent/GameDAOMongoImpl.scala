@@ -21,9 +21,10 @@ class GameDAOMongoImpl extends GameDaoInterface {
     observerInsertion(gameCollection.insertOne(document))
   }
 
-  def read:Unit = {
+  def read:Future[String] = Future {
     val document: Document = Await.result(gameCollection.find(equal("_id", 1)).first().head(), Duration.Inf)
-    println(document("mesh").asString().getValue.toString)
+
+    document("mesh").asString().getValue.toString
   }
 
   def update(id: Int, playerturn: Int, mesh: String, piecesOut: String, timesPlayerRolled: String): Unit = {

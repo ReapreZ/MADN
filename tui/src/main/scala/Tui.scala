@@ -46,9 +46,10 @@ class Tui(controller: ControllerInterface) extends Observer:
     }
 
     val tuiRoute = get {
+        val mesh: String = controller.game.mesh.mesh()
         concat(
             path("mesh") {
-                complete(controller.game.mesh.mesh().toString())
+                complete(mesh)
             },
             path("processInput"/ Remaining) { (input: String) =>
                 complete(processInputLine(input).toString)
