@@ -10,14 +10,6 @@ import model.diceComponent.diceBase.DiceStrategy
 import model.diceComponent.diceBase.Dice
 import model.PlayerComponent.PlayerBase.Player
 
-//PLAYER MODEL EINBAUEN
-//TYPISIERUNG VON MAPS ÄNDERN 2LISTEN UND COLLECTABLE
-// PIECECHOOSER TYPISIERUNG (OPTION)
-// IF ELSE AUSBAUEN -> MONADEN VERBINDEN
-// GETPLAYERTURN ÄNDERN
-// WHILES AUSBAUEN
-//ALLES FUNKTIONALER GESTALTEN
-//ABGABE 2 TWO CHECK EINFÜHREN
 
 case class Game(playerturn:Int,mesh:Mesh,piecesOutList: List[Int] = List(0, 0, 0, 0),
 								timesPlayerRolledList: List[Int] = List(0, 0, 0, 0)) extends GameInterface {

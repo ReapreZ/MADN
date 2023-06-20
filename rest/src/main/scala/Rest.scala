@@ -53,10 +53,5 @@ class Rest(controller: ControllerInterface) extends Observer {
                 }
             )
         }
-    /*val controllerUpdateRoute = put {
-        path("playerturn" / IntNumber) { (playerturn: Int) =>
-            complete(controller.game = controller.game.updatePlayerTurn)
-        }
-    }*/
     val bindingFuture = Http().newServerAt("localhost", 8080).bind(concat(controllerRoute, tui.tuiRoute, fileio.fileIoRoute, dice.diceRoute))
 }
