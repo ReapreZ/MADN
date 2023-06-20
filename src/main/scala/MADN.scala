@@ -20,8 +20,8 @@ def main: Unit = {
     val controller = injector.getInstance(classOf[ControllerInterface])
     val rest = new Rest(controller)
     val tui = new Tui(controller)
-    //val gui = new GuiSwing(controller)
+    val gui = new GuiSwing(controller)
     tui.inputLoop()
-    //gui.closeOperation()
+    gui.closeOperation()
 }
 //docker run --rm -it -e DISPLAY=172.20.156.25:0.0 madn
