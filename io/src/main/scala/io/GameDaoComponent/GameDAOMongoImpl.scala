@@ -1,9 +1,9 @@
 package io.GameDaoComponent
 
 import io.GameDaoInterface
-import org.mongodb.scala.*
+import org.mongodb.scala._
 import org.mongodb.scala.model.Updates.set
-import org.mongodb.scala.model.Filters.*
+import org.mongodb.scala.model.Filters._
 import org.mongodb.scala.result.{DeleteResult, InsertOneResult, UpdateResult}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Await, Future}

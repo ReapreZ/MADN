@@ -1,6 +1,6 @@
 package io.GameDaoComponent
 
-import slick.jdbc.PostgresProfile.api.*
+import slick.jdbc.PostgresProfile.api._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success, Try}
@@ -58,10 +58,10 @@ class GameDaoSlickImpl extends GameDaoInterface{
   }
 
   def update(id: Int, playerturn: Int, mesh: String, piecesOut: String, timesPlayerRolled: String): Unit = {
-    val insertAction = gamesTable returning gamesTable.map(_.id)
+    /*val insertAction = gamesTable returning gamesTable.map(_.id)
       += (id, playerturn, mesh, piecesOut, timesPlayerRolled)
       database.run(insertAction)
-      println("Update successful")
+      println("Update successful")*/
   }
 
   def delete: Unit = {

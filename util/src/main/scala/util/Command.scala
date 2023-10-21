@@ -1,21 +1,21 @@
 package util
 
 
-trait Command[T]:
+trait Command[T] {
   def noStep(t: T): T
   def doStep(t: T): T
   def undoStep(t: T): T
   def redoStep(t: T): T
+}
 
-class UndoManager[T]:
+class UndoManager[T] {
   private var undoStack: List[Command[T]] = Nil
   private var redoStack: List[Command[T]] = Nil
 
-
-  def doStep(t: T, command: Command[T]): T =
+  def doStep(t: T, command: Command[T]): T = {
     undoStack = command :: undoStack
     command.doStep(t)
-    
+  }
   def undoStep(t: T): T =
     undoStack match {
       case Nil => t
@@ -36,7 +36,7 @@ class UndoManager[T]:
         result
       }
     }
-
+  }
 
 
 

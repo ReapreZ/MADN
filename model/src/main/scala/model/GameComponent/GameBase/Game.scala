@@ -9,15 +9,16 @@ import com.google.inject.name.{Named, Names}
 import model.diceComponent.diceBase.DiceStrategy
 import model.diceComponent.diceBase.Dice
 import model.PlayerComponent.PlayerBase.Player
+import io.burt.jmespath.antlr.v4.runtime.InputMismatchException
 
 
 case class Game(playerturn:Int,mesh:Mesh,piecesOutList: List[Int] = List(0, 0, 0, 0),
 								timesPlayerRolledList: List[Int] = List(0, 0, 0, 0)) extends GameInterface {
 	var pieceChooser: Int = 0
-	private def decrement1(num1: Int, num2: Int): Int = num1 - num2
-	private val decrement: Int => Int = decrement1(_: Int, 1)
-	private def increment1(num1: Int, num2: Int): Int = num1 + num2
-	private val increment: Int => Int = increment1(_: Int, 1)
+	private def decrement1(num1: Int, num2: Int): Int = { num1 - num2 }
+	private val decrement: Int => Int = { decrement1(_: Int, 1) }
+	private def increment1(num1: Int, num2: Int): Int = { num1 + num2 }
+	private val increment: Int => Int = { increment1(_: Int, 1) }
 	def move(rolledDice: Int): Game = { if(rolledDice != 6) rolledDiceIsNotSix(rolledDice) else rolledDiceIsSix() }
 	private def rolledDiceIsSix(): Game = {
 		piecesOutList(decrement(playerturn)) match {
@@ -117,14 +118,15 @@ case class Game(playerturn:Int,mesh:Mesh,piecesOutList: List[Int] = List(0, 0, 0
 	}
 	def isFieldOccupied(rolledDice: Int, piece:Int): Game = { checkForPlayer(0,0, determineNewPos(rolledDice)(piece)) }
 	def checkForPlayer(counter: Int, counter2: Int, newPos: Int): Game = {
-		if(counter != mesh.Player)
+		if(counter != mesh.Player) {
 			checkForField(counter, counter2, newPos)
 			checkForPlayer(increment(counter), counter2, newPos)
+		}
 		copy()
 	}
 	def checkForField(counter: Int, counter2: Int, newPos: Int): Game = {
-		if(counter2 != 4)
-			if (mesh.piecepos(counter)(counter2) == newPos && decrement(playerturn) != counter)
+		if (counter2 != 4) {
+			if (mesh.piecepos(counter)(counter2) == newPos && decrement(playerturn) != counter) {
 				mesh.piecepos(counter)(counter2) = -1
 				mesh.stepsdone(counter)(counter2) = -1
 				counter match {
@@ -134,10 +136,11 @@ case class Game(playerturn:Int,mesh:Mesh,piecesOutList: List[Int] = List(0, 0, 0
 					case 3 => setHouseInMesh('D', 18, counter)
 				}
 				return copy(piecesOutList = changeList(piecesOutList,counter, -1))
-			else if (mesh.piecepos(counter)(counter2) == newPos && decrement(playerturn) == counter)
+			} else if (mesh.piecepos(counter)(counter2) == newPos && decrement(playerturn) == counter) {
 				print("You cant kick out your own Piece\n")
-			else checkForField(counter, increment(counter2), newPos)
-		copy()
+			} else { checkForField(counter, increment(counter2), newPos) }
+		}
+		return copy()
 	}
 	def determineNewPos(rolledDice: Int): Int => Int = (piece: Int) => { mesh.piecepos(decrement(playerturn))(decrement(piece)) + rolledDice }
 	def setHouseInMesh(houseChar: Char, housePosition: Int,piecePosition: Int) : Unit = { mesh.house1.Arr(decrement(piecesOutList(piecePosition)) + housePosition) = houseChar }
@@ -158,8 +161,8 @@ case class Game(playerturn:Int,mesh:Mesh,piecesOutList: List[Int] = List(0, 0, 0
 		if (newGame.playerturn == mesh.Player) newGame.copy(playerturn = 1)
 		else newGame.copy(playerturn = newGame.increment(newGame.playerturn))
 	}
-	def getPlayerturn = playerturn
-	def getMesh = mesh
-	def getPiecesOutList = piecesOutList
-	def getTimesPlayerRolledList() = timesPlayerRolledList
+	def getPlayerturn =  {playerturn }
+	def getMesh = { mesh }
+	def getPiecesOutList = { piecesOutList }
+	def getTimesPlayerRolledList() = { timesPlayerRolledList }
 }

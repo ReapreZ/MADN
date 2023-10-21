@@ -1,4 +1,4 @@
-package controller
+/*package controller
 
 enum GameStatus {
     case IDLE
@@ -24,4 +24,4 @@ enum GameStatus {
         COULD_NOT_SAVE -> "The game could not be saved\n",
         FINISHED -> "The Game is over\n"
     )
-}
+}*/

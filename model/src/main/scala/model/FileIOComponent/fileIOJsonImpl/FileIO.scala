@@ -8,8 +8,8 @@ import model.gameComponent.gameBase.Game
 import model.meshComponent.MeshInterface
 import model.meshComponent.meshBase.Mesh
 import model.FieldFactory
-import akka.http.scaladsl.model.*
-import akka.http.scaladsl.server.Directives.* 
+import akka.http.scaladsl.model._
+import akka.http.scaladsl.server.Directives._
 
 class FileIO extends FileIOInterface {
 

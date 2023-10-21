@@ -40,7 +40,7 @@ class Controller @Inject()(@Named("DefaultGameType")var game: GameInterface) ext
     def doAndPublish(doThis: => GameInterface) = { game = doThis; notifyObservers }
     def move1(rolledDice:Int): GameInterface = { game = put(Move(rolledDice, game.playerturn, 1)); printPlayerTurn(); game }
     def getTurnC1(playerturn: Int) : Try[Char] = { game.getTurnC(playerturn) }
-    def put(move:Move): GameInterface = undoManager.doStep(game, SetCommand(move))
+    def put(move:Move): GameInterface = undoManager.doStep(game, new SetCommand(move))
     def undo: GameInterface = { game = undoManager.undoStep(game); game }
     def redo: GameInterface = { game = undoManager.redoStep(game) ; game }
     def save: GameInterface = { file.save(game); game }

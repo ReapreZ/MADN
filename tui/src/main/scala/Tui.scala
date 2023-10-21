@@ -10,22 +10,23 @@ import util.Observer
 import scala.util.{Try,Success,Failure}
 import model.Move
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.model.*
-import akka.http.scaladsl.server.Directives.*
+import akka.http.scaladsl.model._
+import akka.http.scaladsl.server.Directives._
 
-class Tui(controller: ControllerInterface) extends Observer:
+class Tui(controller: ControllerInterface) extends Observer {
 
     controller.add(this)
     
     //override def update = println(controller.game.mesh.mesh())
     override def update: Unit = {}
-    val dice1 = new Dice
+    val dice1 =  {new Dice }
     def inputLoop(): Unit = {
         val output = readLine()
         if (output == "q") return
-        processInputLine(output) match
-            case None   => 
+        processInputLine(output) match {
+            case None   => ()
             case Some(rolledDice) => controller.doAndPublish(controller.move1,rolledDice)
+        }
         println(controller.game.mesh.mesh())
         inputLoop()
     }
@@ -58,3 +59,5 @@ class Tui(controller: ControllerInterface) extends Observer:
             }
         )
     }
+    
+}

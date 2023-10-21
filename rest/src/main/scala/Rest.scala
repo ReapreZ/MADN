@@ -8,8 +8,8 @@ import aview.Tui
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.actor.typed.scaladsl.Behaviors
-import akka.http.scaladsl.model.* 
-import akka.http.scaladsl.server.Directives.*
+import akka.http.scaladsl.model._
+import akka.http.scaladsl.server.Directives._
 import model.fileIOComponent.fileIOJsonImpl.FileIO
 import model.diceComponent.diceBase.Dice
 

@@ -1,11 +1,11 @@
 package model.FileIOComponent
 
-import akka.http.scaladsl.model.*
-import akka.http.scaladsl.server.Directives.* 
+import akka.http.scaladsl.model._
+import akka.http.scaladsl.server.Directives._ 
 import model.fileIOComponent.fileIOJsonImpl.FileIO
 import model.fileIOComponent.FileIOInterface
-import akka.http.scaladsl.model.*
-import akka.http.scaladsl.server.Directives.* 
+import akka.http.scaladsl.model._
+import akka.http.scaladsl.server.Directives._ 
 
 
 class fileIOService {
