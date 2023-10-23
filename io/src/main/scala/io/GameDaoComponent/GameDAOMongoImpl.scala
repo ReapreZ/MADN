@@ -1,6 +1,6 @@
-package io.GameDaoComponent
+package de.htwg.madn.io.GameDaoComponent
 
-import io.GameDaoInterface
+import de.htwg.madn.io.GameDaoInterface
 import org.mongodb.scala._
 import org.mongodb.scala.model.Updates.set
 import org.mongodb.scala.model.Filters._

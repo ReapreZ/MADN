@@ -1,11 +1,11 @@
-package controller
+package de.htwg.madn.controller
 
+import de.htwg.madn.model.gameComponent.gameBase.Game
+import de.htwg.madn.model.gameComponent.GameInterface
+import de.htwg.madn.model.Move
+import de.htwg.madn.util.Observable
 import scala.swing.Publisher
-import model.gameComponent.gameBase.Game
-import model.gameComponent.GameInterface
-import model.Move
 import scala.util.Try
-import util.Observable
 import scala.concurrent.Future
 
 trait ControllerInterface extends Observable{

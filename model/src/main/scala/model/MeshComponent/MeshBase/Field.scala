@@ -1,5 +1,6 @@
-package model.meshComponent.meshBase
-import model.FieldFactory
+package de.htwg.madn.model.meshComponent.meshBase
+
+import de.htwg.madn.model.FieldFactory
 
 final case class Field(Player: Int) extends FieldFactory {
     //override val Arr = (("x" + ("_" * Cell * Player)) * Player).toArray

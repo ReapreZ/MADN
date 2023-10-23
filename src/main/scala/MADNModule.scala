@@ -1,15 +1,15 @@
-package MADN
+package de.htwg.madn.MADN
 
+import de.htwg.madn.controller.ControllerInterface
+import de.htwg.madn.controller.controllerBase.Controller
+import de.htwg.madn.model.meshComponent.meshBase.Mesh
+import de.htwg.madn.model.gameComponent.GameInterface
+import de.htwg.madn.model.gameComponent.gameBase.Game
+import de.htwg.madn.model.meshComponent.MeshInterface
 import com.google.inject.name.Names
 import com.google.inject.{AbstractModule, Guice, Inject}
 import com.google.inject.TypeLiteral
-import controller.ControllerInterface
-import controller.Controller
-import model.meshComponent.meshBase.Mesh
-import model.gameComponent.GameInterface
 import net.codingwell.scalaguice.ScalaModule
-import model.gameComponent.gameBase.Game
-import model.meshComponent.MeshInterface
 
 class MADNModule extends AbstractModule {
 

@@ -1,6 +1,13 @@
-package aview.Gui
+package de.htwg.madn.gui
 
-import util._
+import de.htwg.madn.util._
+import de.htwg.madn.controller.controllerBase.Controller
+import de.htwg.madn.controller.ControllerInterface
+import de.htwg.madn.model.diceComponent.diceBase.Dice
+import de.htwg.madn.model.meshComponent.meshBase.Mesh
+import de.htwg.madn.model.gameComponent.gameBase.Game
+import de.htwg.madn.model.gameComponent.GameInterface
+import scala.language.postfixOps
 import scala.swing._
 import javax.swing.{JPanel, JScrollPane, SwingUtilities, ImageIcon, JMenuItem}
 import java.awt.{BorderLayout, Image, Toolkit, Font}
@@ -11,13 +18,6 @@ import scala.util.{Try, Success, Failure}
 import java.io.File
 import scala.swing.event._
 import scala.io.StdIn.readLine
-import controller.Controller
-import model.diceComponent.diceBase.Dice
-import model.meshComponent.meshBase.Mesh
-import model.gameComponent.gameBase.Game
-import model.gameComponent.GameInterface
-import scala.language.postfixOps
-import controller.ControllerInterface
 
 class GuiSwing(controller: ControllerInterface) extends MainFrame with Observer{
 

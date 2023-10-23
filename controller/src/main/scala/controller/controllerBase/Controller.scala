@@ -1,30 +1,28 @@
-package controller
+package de.htwg.madn.controller.controllerBase
 
-import model.diceComponent._
-import model.gameComponent.gameBase.Game
-import model.gameComponent.GameInterface
-import model.meshComponent.meshBase._
-import model.Games
-import io.GameDaoComponent.GamesTable
-import io.GameDaoComponent.GameDaoSlickImpl
-import io.GameDaoComponent.GameDAOMongoImpl
+import de.htwg.madn.controller.ControllerInterface
+import de.htwg.madn.model.diceComponent._
+import de.htwg.madn.model.gameComponent.gameBase.Game
+import de.htwg.madn.model.gameComponent.GameInterface
+import de.htwg.madn.model.meshComponent.meshBase._
+import de.htwg.madn.model.Games
+import de.htwg.madn.io.GameDaoComponent.GamesTable
+import de.htwg.madn.io.GameDaoComponent.GameDaoSlickImpl
+import de.htwg.madn.io.GameDaoComponent.GameDAOMongoImpl
+import de.htwg.madn.controller.controllerBase.SetCommand
+import de.htwg.madn.model.Move
+import de.htwg.madn.util.Observable
+import de.htwg.madn.util.UndoManager
+import de.htwg.madn.util.Command
+import de.htwg.madn.model.fileIOComponent._
+import de.htwg.madn.io.GameDaoInterface
 import concurrent.ExecutionContext.Implicits.global
-import util.Observable
-import util.UndoManager
-import util.Command
 import scala.concurrent.Future
-import controller.SetCommand
-import model.Move
 import scala.util.{Try,Success,Failure}
 import com.google.inject.name.{Named, Names}
 import com.google.inject.{Guice, Inject}
-import model.fileIOComponent._
-
 import com.typesafe.config.ConfigFactory
 import slick.jdbc.PostgresProfile.api._
-import io.GameDaoInterface
-
-
 
 class Controller @Inject()(@Named("DefaultGameType")var game: GameInterface) extends ControllerInterface {
     val gamesClass = Games(0,0,"","","")

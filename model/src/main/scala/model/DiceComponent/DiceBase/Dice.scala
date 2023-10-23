@@ -1,4 +1,5 @@
-package model.diceComponent.diceBase
+package de.htwg.madn.model.diceComponent.diceBase
+
 import scala.util.{Try,Success,Failure}
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model._

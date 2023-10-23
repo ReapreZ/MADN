@@ -1,6 +1,6 @@
-package model.fileIOComponent
+package de.htwg.madn.model.fileIOComponent
 
-import model.gameComponent.GameInterface
+import de.htwg.madn.model.gameComponent.GameInterface
 import play.api.libs.json._
 
 trait FileIOInterface {

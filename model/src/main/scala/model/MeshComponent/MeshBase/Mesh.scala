@@ -1,7 +1,8 @@
-package model.meshComponent.meshBase
+package de.htwg.madn.model.meshComponent.meshBase
+
+import de.htwg.madn.model.meshComponent.MeshInterface
+import de.htwg.madn.model.FieldFactory
 import scala.collection.mutable.ListBuffer
-import model.meshComponent.MeshInterface
-import model.FieldFactory
 import scala.io.StdIn.readLine
 import scala.util.{Try,Success,Failure}
 import com.google.inject.name.{Named, Names}

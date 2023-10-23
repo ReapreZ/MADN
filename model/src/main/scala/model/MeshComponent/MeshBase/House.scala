@@ -1,5 +1,6 @@
-package model.meshComponent.meshBase
-import model.FieldFactory
+package de.htwg.madn.model.meshComponent.meshBase
+
+import de.htwg.madn.model.FieldFactory
 
 case class House(Player: Int) extends FieldFactory {
     val houses = List("A","B","C","D")

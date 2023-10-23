@@ -1,5 +1,4 @@
-package io.GameDaoComponent
-
+package de.htwg.madn.io.GameDaoComponent
 
 import slick.jdbc.JdbcProfile
 import scala.concurrent.Future

@@ -1,14 +1,14 @@
-package aview
+package de.htwg.madn.tui
 
-import model.meshComponent.meshBase.Mesh
-import model.diceComponent.diceBase.Dice
+import de.htwg.madn.model.meshComponent.meshBase.Mesh
+import de.htwg.madn.model.diceComponent.diceBase.Dice
+import de.htwg.madn.model.Move
+import de.htwg.madn.model.diceComponent.diceBase.DiceStrategy
+import de.htwg.madn.controller.controllerBase.Controller
+import de.htwg.madn.controller.ControllerInterface
+import de.htwg.madn.util.Observer
 import scala.io.StdIn.readLine
-import model.diceComponent.diceBase.DiceStrategy
-import controller.Controller
-import controller.ControllerInterface
-import util.Observer
 import scala.util.{Try,Success,Failure}
-import model.Move
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Directives._

@@ -1,10 +1,11 @@
-package model.gameComponent
-import model.meshComponent.meshBase.Mesh
-import model.gameComponent.gameBase._
+package de.htwg.madn.model.gameComponent
+
+import de.htwg.madn.model.meshComponent.meshBase.Mesh
+import de.htwg.madn.model.gameComponent.gameBase._
+import de.htwg.madn.model.fileIOComponent.fileIOJsonImpl.FileIO
+import de.htwg.madn.model.fileIOComponent.FileIOInterface
+import de.htwg.madn.model.PlayerComponent.Player
 import scala.util.{Try,Success,Failure}
-import model.fileIOComponent.fileIOJsonImpl.FileIO
-import model.fileIOComponent.FileIOInterface
-import model.PlayerComponent.Player
 
 trait GameInterface {
     

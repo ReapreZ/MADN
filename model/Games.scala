@@ -1,6 +1,6 @@
-package model
+package de.htwg.madn.model
 
-import model.gameComponent.GameInterface
+import de.htwg.madn.model.gameComponent.GameInterface
 
 final case class Games(id: Int, playerturn: Int,mesh: String, piecesOutList: String, timesPlayerRolledList: String) {
 

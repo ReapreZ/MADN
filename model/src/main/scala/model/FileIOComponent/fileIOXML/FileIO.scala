@@ -1,14 +1,14 @@
-/*package model.fileIOComponent.fileIOXML
+/*package de.htwg.madn.model.fileIOComponent.fileIOXML
 
-import scala.io.Source
-import model.fileIOComponent.FileIOInterface
-import model.gameComponent.GameInterface
+import de.htwg.madn.model.fileIOComponent.FileIOInterface
+import de.htwg.madn.model.gameComponent.GameInterface
+import de.htwg.madn.model.gameComponent.gameBase.Game
+import de.htwg.madn.model.meshComponent.MeshInterface
+import de.htwg.madn.model.meshComponent.meshBase.Mesh
+import de.htwg.madn.model.FieldFactory
 import scala.xml.{NodeSeq, PrettyPrinter}
-import model.gameComponent.gameBase.Game
-import model.meshComponent.MeshInterface
-import model.meshComponent.meshBase.Mesh
-import model.FieldFactory
 import play.api.libs.json._
+import scala.io.Source
 
 class FileIO extends FileIOInterface{
   

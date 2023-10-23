@@ -1,6 +1,6 @@
-package io
+package de.htwg.madn.io
 
-import model.gameComponent.GameInterface
+import de.htwg.madn.model.gameComponent.GameInterface
 import scala.concurrent.Future
 
 trait GameDaoInterface {

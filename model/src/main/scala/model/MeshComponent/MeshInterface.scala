@@ -1,6 +1,6 @@
-package model.meshComponent
+package de.htwg.madn.model.meshComponent
 
-import model.meshComponent.meshBase._
+import de.htwg.madn.model.meshComponent.meshBase._
 import scala.util.Try
 
 trait MeshInterface {

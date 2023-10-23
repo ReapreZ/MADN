@@ -1,14 +1,14 @@
-package model.gameComponent.gameBase
+package de.htwg.madn.model.gameComponent.gameBase
 
-import model.meshComponent.meshBase.Mesh
-import model.gameComponent.GameInterface
+import de.htwg.madn.model.meshComponent.meshBase.Mesh
+import de.htwg.madn.model.gameComponent.GameInterface
+import de.htwg.madn.model.diceComponent.diceBase.DiceStrategy
+import de.htwg.madn.model.diceComponent.diceBase.Dice
+import de.htwg.madn.model.PlayerComponent.PlayerBase.Player
 import scala.io.StdIn.readLine
 import scala.util.{Try,Success,Failure}
 import com.google.inject.{Guice, Inject}
 import com.google.inject.name.{Named, Names}
-import model.diceComponent.diceBase.DiceStrategy
-import model.diceComponent.diceBase.Dice
-import model.PlayerComponent.PlayerBase.Player
 import io.burt.jmespath.antlr.v4.runtime.InputMismatchException
 
 

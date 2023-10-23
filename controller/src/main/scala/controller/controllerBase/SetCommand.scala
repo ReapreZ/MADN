@@ -1,8 +1,8 @@
-package controller
+package de.htwg.madn.controller.controllerBase
 
-import model.gameComponent.GameInterface
-import model.Move
-import util.Command
+import de.htwg.madn.model.gameComponent.GameInterface
+import de.htwg.madn.model.Move
+import de.htwg.madn.util.Command
 
 
 

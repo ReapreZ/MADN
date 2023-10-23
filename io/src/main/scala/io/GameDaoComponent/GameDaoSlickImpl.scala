@@ -1,5 +1,7 @@
-package io.GameDaoComponent
+package de.htwg.madn.io.GameDaoComponent
 
+import de.htwg.madn.io.GameDaoInterface
+import de.htwg.madn.io.GameDaoComponent.GamesTable
 import slick.jdbc.PostgresProfile.api._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -7,8 +9,6 @@ import scala.util.{Failure, Success, Try}
 import scala.concurrent.{Await, Future}
 import slick.lifted.Tag
 import scala.concurrent.duration.{Duration, DurationInt}
-import io.GameDaoInterface
-import io.GameDaoComponent.GamesTable
 import scala.io.StdIn
 import slick.jdbc.JdbcBackend.Database
 import slick.lifted.TableQuery

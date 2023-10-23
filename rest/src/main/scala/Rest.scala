@@ -1,17 +1,16 @@
-package rest
+package de.htwg.madn.rest
 
-import controller.ControllerInterface
-import util.Observer
+import de.htwg.madn.controller.ControllerInterface
+import de.htwg.madn.tui.Tui
+import de.htwg.madn.model.fileIOComponent.fileIOJsonImpl.FileIO
+import de.htwg.madn.model.diceComponent.diceBase.Dice
+import de.htwg.madn.util.Observer
 import scala.concurrent.ExecutionContext
-import aview.Tui
-
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Directives._
-import model.fileIOComponent.fileIOJsonImpl.FileIO
-import model.diceComponent.diceBase.Dice
 
 
 class Rest(controller: ControllerInterface) extends Observer {

@@ -1,4 +1,4 @@
-package model.PlayerComponent.PlayerBase
+package de.htwg.madn.model.PlayerComponent.PlayerBase
 
 case class Player() {
   var activePieces : Int = 0

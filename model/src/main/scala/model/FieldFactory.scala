@@ -1,6 +1,6 @@
-package model
+package de.htwg.madn.model
 
-import model.meshComponent.meshBase._
+import de.htwg.madn.model.meshComponent.meshBase._
 
 trait FieldFactory {
     

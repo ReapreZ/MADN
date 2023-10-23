@@ -1,5 +1,6 @@
-package model.diceComponent.diceBase
-import model.diceComponent.diceBase.Dice
+package de.htwg.madn.model.diceComponent.diceBase
+
+import de.htwg.madn.model.diceComponent.diceBase.Dice
 import scala.util.{Try,Success,Failure}
 
 

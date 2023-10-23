@@ -1,15 +1,15 @@
-package model.fileIOComponent.fileIOJsonImpl
+package de.htwg.madn.model.fileIOComponent.fileIOJsonImpl
 
-import scala.io.Source
-import model.fileIOComponent.FileIOInterface
-import model.gameComponent.GameInterface
-import play.api.libs.json._
-import model.gameComponent.gameBase.Game
-import model.meshComponent.MeshInterface
-import model.meshComponent.meshBase.Mesh
-import model.FieldFactory
+import de.htwg.madn.model.fileIOComponent.FileIOInterface
+import de.htwg.madn.model.gameComponent.GameInterface
+import de.htwg.madn.model.gameComponent.gameBase.Game
+import de.htwg.madn.model.meshComponent.MeshInterface
+import de.htwg.madn.model.meshComponent.meshBase.Mesh
+import de.htwg.madn.model.FieldFactory
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Directives._
+import play.api.libs.json._
+import scala.io.Source
 
 class FileIO extends FileIOInterface {
 

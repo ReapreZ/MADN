@@ -1,4 +1,4 @@
-/*package controller
+/*package de.htwg.madn.controller
 
 enum GameStatus {
     case IDLE
