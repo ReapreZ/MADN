@@ -1,4 +1,4 @@
-package model
+package de.htwg.madn.model
 import model.diceComponent.diceBase.Dice
 
 import org.scalatest._

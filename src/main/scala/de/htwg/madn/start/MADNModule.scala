@@ -1,4 +1,4 @@
-package de.htwg.madn.MADN
+package de.htwg.madn.start
 
 import de.htwg.madn.controller.ControllerInterface
 import de.htwg.madn.controller.controllerBase.Controller

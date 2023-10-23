@@ -1,4 +1,4 @@
-package de.htwg.madn.MADN
+package de.htwg.madn.start
 
 import de.htwg.madn.model.meshComponent.meshBase.Mesh
 import de.htwg.madn.model.gameComponent.gameBase.Game

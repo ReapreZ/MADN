@@ -1,4 +1,4 @@
-package aview
+package de.htwg.madn.aview
 
 
 import org.scalatest._

@@ -1,4 +1,4 @@
-package model
+package de.htwg.madn.model
 
 import org.scalatest._
 import matchers.should.Matchers
