@@ -16,12 +16,18 @@ import de.htwg.madn.model.fileIOComponent.FileIOInterface
 import scala.util.{Try, Success, Failure}
 import com.google.inject.name.{Named, Names}
 import com.google.inject.{Guice, Inject}
+import play.api.libs.json._
+import play.api.libs.json.Reads._
+import play.api.libs.functional.syntax._
+import de.htwg.madn.model.DataComponent.DataToJson
+import de.htwg.madn.model.DataComponent.Data
 
 class Controller @Inject() (@Named("DefaultGameType") var game: GameInterface)
     extends ControllerInterface {
   val undoManager = new UndoManager[GameInterface]
   val file: FileIOInterface = new fileIOJsonImpl.FileIO
   val meshtry = game.startgame
+  val data: DataToJson = new DataToJson
   meshtry match {
     case Success(v) => game = v
     case Failure(e) => print(e.getMessage)
@@ -47,5 +53,10 @@ class Controller @Inject() (@Named("DefaultGameType") var game: GameInterface)
       case Success(v) => println("It is Player " + v + "'s turn\n")
       case Failure(e) => println(e.getMessage)
     }
+  }
+
+  def getPlayerTurnAsJson(): JsValue = {
+    data.playerturn = 10
+    return data.getPlayerTurnAsJson
   }
 }
