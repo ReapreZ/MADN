@@ -9,10 +9,12 @@ import de.htwg.madn.util.Observer
 import de.htwg.madn.model.Move
 import scala.io.StdIn.readLine
 import scala.util.{Try,Success,Failure}
+import de.htwg.madn.model.DataComponent.DataToJson
 
 class Tui(controller: ControllerInterface) extends Observer{
 
     controller.add(this)
+    val data: DataToJson = new DataToJson()
     
     override def update = { println(controller.game.mesh.mesh()) }
     val dice1 = new Dice
@@ -26,6 +28,11 @@ class Tui(controller: ControllerInterface) extends Observer{
         inputLoop()
     }
     def processInputLine(input: String): Option[Int] = {
+        data.playeramount = 4
+        val a = data.getPlayerAmountAsJson
+        data.setPlayerTurnFromJson(a)
+        val playertuuurn = data.getPlayerTurnAsJson
+        print(data.toJsonString(playertuuurn) + "<----- \n")
         input match {
             case "r" =>
                 println("Which Dice? 1 = RandomDice 2 = MagicDice")
