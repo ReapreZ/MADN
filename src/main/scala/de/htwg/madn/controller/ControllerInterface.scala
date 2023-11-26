@@ -6,6 +6,11 @@ import de.htwg.madn.model.Move
 import de.htwg.madn.util.Observable
 import scala.swing.Publisher
 import scala.util.Try
+import play.api.libs.json._
+import play.api.libs.json.Reads._
+import play.api.libs.functional.syntax._
+import de.htwg.madn.model.DataComponent.DataToJson
+import de.htwg.madn.model.DataComponent.Data
 
 trait ControllerInterface extends Observable{
 
@@ -20,4 +25,5 @@ trait ControllerInterface extends Observable{
     def game: GameInterface
     def save: GameInterface
     def load: GameInterface
+    def getPlayerTurnAsJson: JsValue
 }
