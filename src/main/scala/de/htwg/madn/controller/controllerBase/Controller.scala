@@ -55,7 +55,7 @@ class Controller @Inject() (@Named("DefaultGameType") var game: GameInterface)
     }
   }
 
-  def getPlayerTurnAsJson(): JsValue = {
+  def getPlayerTurnAsJson: JsValue = {
     data.playerturn = 10
     return data.getPlayerTurnAsJson
   }
